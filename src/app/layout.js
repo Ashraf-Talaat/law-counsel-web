@@ -7,6 +7,7 @@ import Hero from "@/_components/layout/hero";
 import LatestNews from "@/_components/layout/latestNews";
 import About from "@/_components/layout/aboutus";
 import Specializations from "@/_components/layout/home_specializations";
+
 const cairo = Cairo({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
@@ -23,7 +24,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <body
+
         className={`${cairo.className}  text-base-content font-sans `}
+
       >
         <Navbar/>
         <Hero />
