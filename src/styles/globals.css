@@ -1,24 +1,26 @@
 @import "tailwindcss";
+/* @plugin "daisyui"; */
 
-@plugin "daisyui";
-
-
-.bgBtn{
-    background-color: #C9B38C;
+.subTxt {
+  color: #687693;
 }
+.goldTxt {
+  color: #c9b38c;
+}
+.bgBtn {
+  background-color: #c9b38c;
+}
+.bgPrimary {
+  background-color: #262b3e;
+}
+.bgSecondary {
+  background-color: #1c202e;
+}
+.bgLayout {
+  background-color: #eeeeee;
+
 .bgBtnHover{
     background-color: #b69d75;
 }
-.subTxt{
-    background-color: #687693;
-}
-.bgPrimary{
-    background-color: #262B3E;
-}
-.bgSecondary{
-    background-color: #1C202E;
-}
-.bgLayout{
-background-color: #EEEEEE;
-}
+
 
