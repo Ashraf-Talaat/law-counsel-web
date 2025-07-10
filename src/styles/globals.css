@@ -1,13 +1,6 @@
 @import "tailwindcss";
 /* @plugin "daisyui"; */
 
-h1,
-h2,
-h3,
-p {
-  @apply font-sans;
-}
-
 .subTxt {
   color: #687693;
 }
@@ -25,4 +18,9 @@ p {
 }
 .bgLayout {
   background-color: #eeeeee;
+
+.bgBtnHover{
+    background-color: #b69d75;
 }
+
+
