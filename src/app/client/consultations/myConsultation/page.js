@@ -1,0 +1,69 @@
+import Image from "next/image";
+import React from "react";
+
+//Icons
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+
+export default function page() {
+  return (
+    <>
+      <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
+        <div className="flex justify-around gap-6">
+          {/*list of lawyers*/}
+          <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
+            <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
+            <ul className="space-y-4">
+              {[1, 2, 3].map((id) => (
+                <li
+                  key={id}
+                  className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
+                >
+                  <Image
+                    src="/images/lawyer.jpg"
+                    alt="محامي"
+                    className="w-10 h-10 rounded-full "
+                    width={40}
+                    height={40}
+                  />
+
+                  <div className="">
+                    <p className="font-semibold ">اسم المحامي</p>
+                    <p className="text-sm subTxt ">عنوان الاستشارة</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* chat */}
+          <div className="w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
+            <div>
+              <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
+              <div className="space-y-3">
+                <div className=" bg-gray-200 p-3 rounded-md w-fit ms-auto">
+                  مرحبًا، عندي استشارة قانونية بخصوص...
+                </div>
+                <div className="text-left bg-blue-200 p-3 rounded-md w-fit">
+                  تفضل، احكيلي التفاصيل
+                </div>
+              </div>
+            </div>
+            
+            {/* كتابة رسالة */}
+            <div className="mt-6 flex">
+              <input
+                type="text"
+                placeholder="اكتب رسالتك هنا"
+                className="w-full border p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-[#c9b38c] "
+                style={{ borderColor: "#c9b38c" }}
+              />
+              <button className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2">
+                <PaperAirplaneIcon className="w-9 h-9" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

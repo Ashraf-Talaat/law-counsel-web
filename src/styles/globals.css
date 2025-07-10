@@ -1,26 +1,28 @@
 @import "tailwindcss";
+/* @plugin "daisyui"; */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+h1,
+h2,
+h3,
+p {
+  @apply font-sans;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.subTxt {
+  color: #687693;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.goldTxt {
+  color: #c9b38c;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.bgBtn {
+  background-color: #c9b38c;
+}
+.bgPrimary {
+  background-color: #262b3e;
+}
+.bgSecondary {
+  background-color: #1c202e;
+}
+.bgLayout {
+  background-color: #eeeeee;
 }
