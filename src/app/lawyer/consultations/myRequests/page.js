@@ -1,7 +1,7 @@
 import React from "react";
 //Icons
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 export default function page() {
   return (
@@ -20,14 +20,15 @@ export default function page() {
               <p className="text-gray-700 mb-3">
                 محتوى الطلب: أنا عايز استشارة بخصوص
               </p>
-              <p className="font-semibold">اسم المحامي: زغلول</p>
+              <p className="font-semibold ">اسم العميل</p>
+
               <div className="flex justify-end gap-4">
                 <button
                   type="button"
-                  className="flex items-center gap-2 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+                  className="flex items-center gap-2 text-green-600 hover:text-white border border-green-700 hover:bg-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
                 >
-                  <PencilIcon className="w-5 h-5" />
-                  تعديل
+                  <CheckCircleIcon className="w-6 h-6 " />
+                  قبول
                 </button>
 
                 <button

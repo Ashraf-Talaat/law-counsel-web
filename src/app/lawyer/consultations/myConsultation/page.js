@@ -11,7 +11,7 @@ export default function page() {
         <div className="flex justify-around gap-6">
           {/*list of lawyers*/}
           <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
-            <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
+            <h2 className="text-xl font-bold mb-4 goldTxt">العملاء</h2>
             <ul className="space-y-4">
               {[1, 2, 3].map((id) => (
                 <li
@@ -27,7 +27,7 @@ export default function page() {
                   />
 
                   <div>
-                    <p className="font-semibold mb-1">اسم المحامي: مسعوود</p>
+                    <p className="font-semibold mb-1">اسم العميل</p>
                     <p className="text-sm subTxt ">عنوان الاستشارة</p>
                   </div>
                 </li>
