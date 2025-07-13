@@ -1,21 +1,14 @@
-
-
-import "../styles/globals.css";
+import "@/styles/globals.css";
 
 import { Cairo } from "next/font/google";
-import Navbar from "@/_components/layout/navbar"
-import Hero from "@/_components/layout/hero";
-import LatestNews from "@/_components/layout/latestNews";
-import About from "@/_components/layout/aboutus";
-import Specializations from "@/_components/layout/home_specializations";
-
+import Navbar from "@/_components/layout/navbar";
+import MainNav from "@/_components/layout/navbar/mainNav";
+import Footer from "@/_components/layout/footer/page";
 
 const cairo = Cairo({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
 });
-
-
 
 export const metadata = {
   title: "Law Counsel",
@@ -25,22 +18,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
-
-      <body
-
-        className={`${cairo.className}  text-base-content font-sans `}
-
-      >
-        <Navbar/>
-        <Hero />
-        <div className="w-[85%] mx-auto "> 
-        <LatestNews />
-        <Specializations />
-        <About />
-         </div>
-        
+    <html lang="ar" dir="rtl" data-theme="light">
+      <body className={`${cairo.className}  text-base-content font-sans `}>
+        <Navbar />
+        <MainNav />
         {children}
+        <Footer />
       </body>
     </html>
   );
