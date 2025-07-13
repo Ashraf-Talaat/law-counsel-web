@@ -63,10 +63,10 @@ export default function mainNav() {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link href="#" className="btn bgBtn me-1.5 hover:!bg-[#b69d75]">
+          <Link href="." className="btn bgBtn me-1.5 hover:!bg-[#b69d75]">
             انشاء حساب
           </Link>
-          <Link href="#" className="btn ">
+          <Link href="/login" className="btn ">
             تسجيل دخول
           </Link>
         </div>

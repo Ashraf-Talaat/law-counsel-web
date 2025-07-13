@@ -8,6 +8,13 @@ import Hero from "@/_components/layout/hero";
 import LatestNews from "@/_components/layout/latestNews";
 import About from "@/_components/layout/aboutus";
 import Specializations from "@/_components/layout/home_specializations";
+import Login from "./login/page";
+import LawyerRegisterForm from "./register/lawyer/page";
+import ClientRegisterForm from "./register/user/page";
+import LawyerProfile from "./profile/lawyer/layout";
+import ClientLayout from "./client/consultations/layout";
+import ArticlesProfile from "./profile/lawyer/myArticles/page";
+
 
 
 const cairo = Cairo({
@@ -25,21 +32,26 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" data-theme="light">
 
       <body
 
         className={`${cairo.className}  text-base-content font-sans `}
 
       >
-        <Navbar/>
-        <Hero />
+        {/* <Navbar /> */}
+        {/* <Hero />
         <div className="w-[85%] mx-auto "> 
         <LatestNews />
         <Specializations />
         <About />
-         </div>
-        
+         </div> */}
+        {/* <Login /> */}
+        {/* <LawyerRegisterForm />  */}
+        {/* <ClientRegisterForm /> */}
+        {/* <LawyerProfile /> */}
+        {/* <ClientLayout /> */}
+
         {children}
       </body>
     </html>
