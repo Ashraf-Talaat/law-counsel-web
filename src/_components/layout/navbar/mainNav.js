@@ -7,6 +7,9 @@ export default function mainNav() {
     <div className="text-center">
       {/* <div className="navbar w-[85%] absolute top-0 left-[5%] bg-transparent text-white z-50"> */}
       <div className="navbar w-full ">
+
+//       <div className="navbar bg-base-100 shadow-lg px-32">
+        {/* Start Navbar */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

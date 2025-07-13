@@ -6,10 +6,9 @@ import React from "react";
 export default function SubNav() {
   const pathname = usePathname();
   return (
-    <div className="bgLayout p-4 text-right mb-4">
+    <>
       {/* Start sub-navbar */}
-      <div className="navbar bg-base-100 shadow-lg p-3 flex justify-around">
-
+      <div className="navbar bg-base-100 shadow-md p-3 flex justify-around w-[85%] mx-auto rounded-md mb-2">
         <Link
           href={"/client/consultations/myConsultation"}
           key={"myConsultation"}
@@ -22,7 +21,7 @@ export default function SubNav() {
           استشارتي
         </Link>
 
-                <Link
+        <Link
           href={"/client/consultations/myRequests"}
           key="myRequests"
           className={`px-16 py-2.5 rounded-t-md mx-2 text-black font-semibold ${
@@ -35,6 +34,6 @@ export default function SubNav() {
         </Link>
       </div>
       {/* End sub-navbar */}
-    </div>
+    </>
   );
 }
