@@ -3,8 +3,9 @@ import Image from "next/image";
 
 export default function index() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 my-28">
-      <div className="relative flex items-center justify-center w-full lg:w-1/2">
+    <div className=" bg-gray-100 p-10 rounded-lg shadow-lg my-20">
+    <div className="grid grid-cols-1 lg:grid-cols-3 rounded-lg  bg-white p-10 ">
+      <div className="relative ">
       <div className="hero-overlay bg-[#C9B38C] w-[300px] h-[330px]"></div>
         <Image
           src="/images/lawer-pic.png"
@@ -15,7 +16,7 @@ export default function index() {
         />
         
       </div>
-      <div>
+      <div className="col-span-2">
         <h4 className="text-[#C9B38C] font-semibold text-1xl my-5">من نحن</h4>
         <h4 className="font-semibold text-2xl my-3">
           مرحبا بكم في LOW COUNSEL
@@ -29,10 +30,11 @@ export default function index() {
           الأفراد والشركات بمحامين أصحاب خبرة، ونسعى لتقديم تجربة قانونية مبنية
           على الثقة، الشفافية، والاحترافية.
         </p>
-        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
+        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2 text-white">
           قراءة المزيد
         </button>
       </div>
+    </div>
     </div>
   );
 }

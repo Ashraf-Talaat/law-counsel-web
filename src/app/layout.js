@@ -1,7 +1,11 @@
-import "@/styles/globals.css";
+"use client";
+import { usePathname } from "next/navigation";
+import "../styles/globals.css";
 
 import { Cairo } from "next/font/google";
 import Navbar from "@/_components/layout/navbar";
+import Home from "@/_components/layout/home";
+
 import MainNav from "@/_components/layout/navbar/mainNav";
 import Footer from "@/_components/layout/footer/page";
 
@@ -10,6 +14,7 @@ const cairo = Cairo({
   weight: ["400", "500", "700"],
 });
 
+
 export const metadata = {
   title: "Law Counsel",
   description:
@@ -17,10 +22,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // const pathname = usePathname();
+  // const hideLayout = pathname === "/home";
   return (
     <html lang="ar" dir="rtl" data-theme="light">
       <body className={`${cairo.className}  text-base-content font-sans `}>
         <Navbar />
+        {/* <Home/> */}
+        {/* {!hideLayout && <Navbar />} */}
         <MainNav />
         {children}
         <Footer />

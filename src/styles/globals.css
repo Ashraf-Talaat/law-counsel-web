@@ -32,6 +32,8 @@
 *::-webkit-scrollbar-track {
   background-color: #f0f0f0; 
 }
+}
+
 
 *::-webkit-scrollbar-thumb {
   background-color: #c9b38c !important; 
