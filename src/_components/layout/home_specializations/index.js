@@ -56,7 +56,7 @@ export default function index() {
         </div>
         <div className=" p-4 my-2">
           <Image
-            src="/images/Permanent.png"
+            src="/images/Permanent-Job.png"
             alt="legal specialization"
             width={50}
             height={50}

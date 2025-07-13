@@ -1,10 +1,14 @@
 import React from "react";
 import MainNav from "../navbar/mainNav.js";
+import HomeFeatures from "@/_components/layout/homeFeatures";
 export default function index() {
   return (
-    <div>
-      <div className="hero relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center">
-        <MainNav />
+    <div className="">
+      <div className="hero  w-full relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center">
+      <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
+<MainNav />
+      </div>
+        
         <div className="hero-overlay bg-[url('/images/Rectangle.png')]"></div>
 
         <div className="hero-content flex justify-start items-end text-right text-white z-10 w-full">
@@ -24,7 +28,9 @@ export default function index() {
             
           </div>
         </div>
+        
       </div>
+      <HomeFeatures />
     </div>
   );
 }

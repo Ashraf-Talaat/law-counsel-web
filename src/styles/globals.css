@@ -1,5 +1,5 @@
 @import "tailwindcss";
-/* @plugin "daisyui"; */
+@plugin "daisyui";
 
 .subTxt {
   color: #687693;
@@ -22,5 +22,4 @@
 .bgBtnHover{
     background-color: #b69d75;
 }
-
-
+}
