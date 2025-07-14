@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -40,13 +41,13 @@ export default function Login() {
             </form>
             <div className="flex justify-center mt-2">
               <p className="mr-4 text-2xl text-gray-700">
-                ليس لديك حساب ؟  
-                <a
-                  href="#"
+                ليس لديك حساب ؟
+                <Link
+                  href="/register/user"
                   className="text-[#1C202E] hover:underline font-bold mr-3"
                 >
-                  أنشئ حساب 
-                </a>
+                  أنشئ حساب
+                </Link>
               </p>
             </div>
           </div>

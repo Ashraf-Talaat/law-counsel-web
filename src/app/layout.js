@@ -4,7 +4,7 @@ import "../styles/globals.css";
 
 import { Cairo } from "next/font/google";
 
-import Navbar from "@/_components/layout/navbar"
+import Navbar from "@/_components/layout/navbar";
 import Hero from "@/_components/layout/hero";
 import LatestNews from "@/_components/layout/latestNews";
 import About from "@/_components/layout/aboutus";
@@ -16,8 +16,6 @@ import LawyerProfile from "./profile/lawyer/layout";
 import ClientLayout from "./client/consultations/layout";
 import ArticlesProfile from "./profile/lawyer/myArticles/page";
 
-
-
 import Home from "@/_components/layout/home";
 
 import MainNav from "@/_components/layout/navbar/mainNav";
@@ -27,7 +25,6 @@ const cairo = Cairo({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
 });
-
 
 // export const metadata = {
 //   title: "Law Counsel",
@@ -40,10 +37,9 @@ export default function RootLayout({ children }) {
   // const hideLayout = pathname === "/home";
   return (
     <html lang="ar" dir="rtl" data-theme="light">
-
       <body className={`${cairo.className}  text-base-content font-sans `}>
         <Navbar />
-        {/* <Home/> */}
+        <Home />
         {/* {!hideLayout && <Navbar />} */}
         {/* <MainNav /> */}
         {children}

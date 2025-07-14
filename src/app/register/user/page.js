@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 export default function ClientRegisterForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -54,9 +55,12 @@ export default function ClientRegisterForm() {
           <div className="flex justify-center">
             <p className="mt-4 text-2xl text-gray-700">
               لديك حساب بالفعل ؟
-              <a href="#" className="text-[#1C202E] hover:underline font-bold ">
+              <Link
+                href="/login"
+                className="text-[#1C202E] hover:underline font-bold "
+              >
                 سجل دخول
-              </a>
+              </Link>
             </p>
           </div>
         </form>

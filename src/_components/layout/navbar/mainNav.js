@@ -31,17 +31,17 @@ export default function mainNav() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link href="#">الرئيسية</Link>
+                <Link href="/home">الرئيسية</Link>
               </li>
               <li>
-                <Link href="#">من نحن</Link>
+                <Link href="/home/aboutUs">من نحن</Link>
               </li>
               <li>
                 <Link href="#">تواصل معنا</Link>
               </li>
             </ul>
           </div>
-          <Link href="#" className="">
+          <Link href="/home" className="">
             <Image
               src="/images/logo-dark.png"
               alt="logo"
@@ -53,21 +53,24 @@ export default function mainNav() {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link href="#">الرئيسية</Link>
+              <Link href="/home">الرئيسية</Link>
             </li>
             <li>
-              <Link href="#">من نحن</Link>
+              <Link href="/home/aboutUs">من نحن</Link>
             </li>
             <li>
-              <Link href="#">تواصل معنا</Link>
+              <Link href="/home/#aboutUs">تواصل معنا</Link>
             </li>
           </ul>
         </div>
         <div className="navbar-end">
-          <Link href="#" className="btn bgBtn me-1.5 hover:!bg-[#b69d75]">
+          <Link
+            href="/register/user"
+            className="btn bgBtn me-1.5 hover:!bg-[#b69d75]"
+          >
             انشاء حساب
           </Link>
-          <Link href="#" className="btn ">
+          <Link href="/login" className="btn ">
             تسجيل دخول
           </Link>
         </div>

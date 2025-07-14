@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function index() {
@@ -98,9 +99,11 @@ export default function index() {
         </div>
       </div>
       <div className="text-[#C9B38C] p-4 col-span-full">
-        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
-         مزيد من التخصصات
-        </button>
+        <Link href="/client/allSpecializations">
+          <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
+            مزيد من التخصصات
+          </button>
+        </Link>
       </div>
     </div>
   );

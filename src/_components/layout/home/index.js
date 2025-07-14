@@ -4,9 +4,9 @@ import LatestNews from "@/_components/layout/latestNews";
 import About from "@/_components/layout/aboutus";
 import Specializations from "@/_components/layout/home_specializations";
 import TopRated from "@/_components/layout/topRated";
-import ContactUs from "@/_components/layout/contactUs"; 
-import RegisPopup from "@/_components/layout/regisPopup"; 
-// 
+import ContactUs from "@/_components/layout/contactUs";
+import RegisPopup from "@/_components/layout/regisPopup";
+//
 export default function index() {
   return (
     <div>
@@ -16,8 +16,8 @@ export default function index() {
         <LatestNews />
         <Specializations />
         <About />
-        <ContactUs/>
-        <RegisPopup/>
+        <ContactUs />
+        <RegisPopup />
         {/* <BookAppointment /> */}
       </div>
     </div>

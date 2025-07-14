@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function index() {
@@ -16,9 +17,11 @@ export default function index() {
           معلومات موثوقة ومبسطة لمساعدتك على فهم حقوقك والتعامل مع القضايا
           القانونية بثقة.
         </p>
-        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
-          قراءة المزيد
-        </button>
+        <Link href="/client/userArticle">
+          <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
+            قراءة المزيد
+          </button>
+        </Link>
       </div>
       <div className="relative">
         <Image

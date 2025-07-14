@@ -1,6 +1,7 @@
 import React from "react";
 //icons
 import { ScaleIcon, UserIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 export default function index() {
   return (
@@ -15,9 +16,11 @@ export default function index() {
             تقييمات العملاء، وابدأ في بناء سمعتك المهنية
           </p>
 
-          <button className="bgBtn text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-700 transition duration-300">
-            سجّل كمحامٍ{" "}
-          </button>
+          <Link href="register/lawyer">
+            <button className="bgBtn text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-700 transition duration-300">
+              سجّل كمحامٍ{" "}
+            </button>
+          </Link>
         </div>
         <div className="max-w-4xl w-full h-96 bg-white p-6 shadow-lg ">
           <UserIcon className="w-17 h-17 bgPrimary goldTxt p-1.5 border-4 rounded-full" />
@@ -27,10 +30,11 @@ export default function index() {
             قضيتك؟ اسأل الشات بوت وهيساعدك تحدد نوع المشكلة القانونية قبل ما
             تختار المحامي المناسب.{" "}
           </p>
-
-          <button className="bgPrimary goldTxt px-4 py-2 rounded-lg mt-4 hover:bg-[#b69d75] transition duration-300">
-            سجّل كعميل{" "}
-          </button>
+          <Link href="register/user">
+            <button className="bgPrimary goldTxt px-4 py-2 rounded-lg mt-4 hover:bg-[#b69d75] transition duration-300">
+              سجّل كعميل{" "}
+            </button>
+          </Link>
         </div>
       </div>
     </>

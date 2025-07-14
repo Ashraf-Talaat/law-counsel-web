@@ -5,10 +5,10 @@ export default function index() {
   return (
     <div className="">
       <div className="hero  w-full relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center">
-      <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
-<MainNav />
-      </div>
-        
+        <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
+          <MainNav />
+        </div>
+
         <div className="hero-overlay bg-[url('/images/Rectangle.png')]"></div>
 
         <div className="hero-content flex justify-start items-end text-right text-white z-10 w-full">
@@ -25,10 +25,8 @@ export default function index() {
             <button className="px-4 mx-1.5 py-1.5 rounded bgBtn">
               ابدأ استشارتك
             </button>
-            
           </div>
         </div>
-        
       </div>
       <HomeFeatures />
     </div>
