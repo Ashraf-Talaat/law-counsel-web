@@ -16,7 +16,9 @@ export default function index() {
           معلومات موثوقة ومبسطة لمساعدتك على فهم حقوقك والتعامل مع القضايا
           القانونية بثقة.
         </p>
-        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">قراءة المزيد</button>
+        <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
+          قراءة المزيد
+        </button>
       </div>
       <div className="relative">
         <Image
