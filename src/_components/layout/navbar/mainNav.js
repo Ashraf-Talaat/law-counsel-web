@@ -5,10 +5,7 @@ import Link from "next/link";
 export default function mainNav() {
   return (
     <div className="text-center">
-      {/* <div className="navbar w-[85%] absolute top-0 left-[5%] bg-transparent text-white z-50"> */}
       <div className="navbar w-full ">
-
-//       <div className="navbar bg-base-100 shadow-lg px-32">
         {/* Start Navbar */}
         <div className="navbar-start">
           <div className="dropdown">
@@ -67,10 +64,10 @@ export default function mainNav() {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link href="." className="btn bgBtn me-1.5 hover:!bg-[#b69d75]">
+          <Link href="#" className="btn bgBtn me-1.5 hover:!bg-[#b69d75]">
             انشاء حساب
           </Link>
-          <Link href="/login" className="btn ">
+          <Link href="#" className="btn ">
             تسجيل دخول
           </Link>
         </div>

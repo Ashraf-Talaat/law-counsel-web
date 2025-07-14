@@ -29,11 +29,11 @@ const cairo = Cairo({
 });
 
 
-export const metadata = {
-  title: "Law Counsel",
-  description:
-    "منصة قانونية بتجمع محامين في كل التخصصات، تقدر من خلالها تلاقي المحامي المناسب لقضيتك، تحجز استشارة بسهولة، وكمان تتابع كل جديد في القانون. ولو مش عارف تبدأ منين؟ اسأل الشات بوت وهيساعدك تعرف نوع قضيتك وتوجهك للصح.",
-};
+// export const metadata = {
+//   title: "Law Counsel",
+//   description:
+//     "منصة قانونية بتجمع محامين في كل التخصصات، تقدر من خلالها تلاقي المحامي المناسب لقضيتك، تحجز استشارة بسهولة، وكمان تتابع كل جديد في القانون. ولو مش عارف تبدأ منين؟ اسأل الشات بوت وهيساعدك تعرف نوع قضيتك وتوجهك للصح.",
+// };
 
 export default function RootLayout({ children }) {
   // const pathname = usePathname();
@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         {/* <Home/> */}
         {/* {!hideLayout && <Navbar />} */}
-        <MainNav />
+        {/* <MainNav /> */}
         {children}
         <Footer />
       </body>
