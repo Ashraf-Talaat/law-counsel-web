@@ -29,28 +29,8 @@ export default function page() {
               مقالاتنا مصممة لتكون سهلة الفهم وتقدم معلومات موثوقة من قبل
               المحامين المتخصصين.
             </p>
-            <div className="flex justify-between align-middle">
-              <a
-                href="#"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bgBtn rounded-lg hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
-              >
-                قراءة المزيد
-                <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
+            <div className="flex justify-end align-middle">
+
 
               <div className="flex gap-8 mt-4 subTxt">
                 {/* Like Icon */}

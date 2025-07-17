@@ -64,7 +64,7 @@ export default function index() {
             </button>
           </form>
 
-          <div className="w-full max-w-md flex justify-center items-center">
+          <div className="w-full max-w-md hidden md:flex justify-center items-center">
             <Image
               src="/images/contactUsImg.png"
               alt="img of contact us"
