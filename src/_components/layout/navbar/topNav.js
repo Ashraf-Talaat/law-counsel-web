@@ -3,40 +3,34 @@ import React from "react";
 
 export default function index() {
   return (
-    <div className="bgSecondary  ">
-      <div className="w-[90%] mx-auto  flex items-center justify-between py-1.5">
-        <div className="flex items-center gap-4">
+    <div className="bgSecondary">
+      <div className="w-[90%] mx-auto flex items-center justify-between py-1">
+        {/* Social icons */}
+        <div className="flex items-center gap-2">
           <Image
             src="/images/Facebook.png"
             alt="facebook icon"
-            width={25}
-            height={25}
-            className=""
+            width={20}
+            height={20}
           />
           <Image
             src="/images/Instagram.png"
             alt="instagram icon"
-            width={25}
-            height={25}
-            className=""
+            width={20}
+            height={20}
           />
-          <Image
-            src="/images/X.png"
-            alt="x icon"
-            width={25}
-            height={25}
-            className=""
-          />
+          <Image src="/images/X.png" alt="x icon" width={20} height={20} />
         </div>
-        <div className="flex items-center gap-4">
-          
-          <div className="flex items-center gap-2">
-            <p className="text-white">(+20) 1013761845</p>
+
+        {/* Contact info */}
+        <div className="flex items-center gap-4 text-white text-xs">
+          <div className="flex items-center gap-1">
+            <p>(+20) 1013761845</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
               fill="#C9B38C"
-              className="size-4"
+              viewBox="0 0 24 24"
+              className="w-3 h-3"
             >
               <path
                 fillRule="evenodd"
@@ -49,22 +43,19 @@ export default function index() {
                 clipRule="evenodd"
               />
             </svg>
-
-            
           </div>
-          <div className="flex items-center gap-2">
-            <p className="text-white">lawconsel@gmail.com</p>
+
+          <div className="flex items-center gap-1">
+            <p>lawconsel@gmail.com</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
               fill="#C9B38C"
-              className="size-4"
+              viewBox="0 0 24 24"
+              className="w-3 h-3"
             >
               <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
               <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
             </svg>
-
-            
           </div>
         </div>
       </div>

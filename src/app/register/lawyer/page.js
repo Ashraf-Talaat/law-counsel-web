@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+
 import { auth, db } from "../../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
@@ -101,10 +102,13 @@ export default function LawyerRegisterForm() {
     }
   };
 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 mb-20">
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
         <form onSubmit={handleSubmit} className="space-y-4 text-right w-full">
+
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             إنشاء حساب جديد
           </h2>
@@ -122,6 +126,9 @@ export default function LawyerRegisterForm() {
             }}
             onBlur={() => validateField("name", lawyerInputs.name)}
             placeholder="الاسم الكامل"
+            value={userData.fullName}
+            name="fullName"
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.name && (
@@ -135,6 +142,9 @@ export default function LawyerRegisterForm() {
             }}
             onBlur={() => validateField("email", lawyerInputs.email)}
             placeholder="البريد الإلكتروني"
+            name="email"
+            value={userData.email}
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.email && (
@@ -151,6 +161,9 @@ export default function LawyerRegisterForm() {
             }}
             onBlur={() => validateField("password", lawyerInputs.password)}
             placeholder="كلمة المرور"
+            name="password"
+            value={userData.password}
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.password && (
@@ -169,6 +182,9 @@ export default function LawyerRegisterForm() {
               validateField("confirmPassword", lawyerInputs.confirmPassword)
             }
             placeholder="تأكيد كلمة المرور"
+            name="confirmPassword"
+            value={userData.confirmPassword}
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.confirmPassword && (
@@ -186,6 +202,9 @@ export default function LawyerRegisterForm() {
               });
             }}
             placeholder="رقم الهاتف"
+            name="phone"
+            value={userData.phone}
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.phoneNumber && (
@@ -193,6 +212,7 @@ export default function LawyerRegisterForm() {
           )}
           <input
             type="date"
+
             value={lawyerInputs.dateOfBirth}
             onChange={(event) => {
               setLawyerInputs({
@@ -200,6 +220,11 @@ export default function LawyerRegisterForm() {
                 dateOfBirth: event.target.value,
               });
             }}
+
+            name="birthdate"
+            
+            placeholder="تاريخ الميلاد"
+
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.dateOfBirth && (
@@ -212,8 +237,12 @@ export default function LawyerRegisterForm() {
               setLawyerInputs({ ...lawyerInputs, city: event.target.value });
             }}
             placeholder="المدينة"
+            name="city"
+            value={userData.city}
+            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
+
           {errors.city && (
             <p className="text-red-500 text-sm mt-1">{errors.city}</p>
           )}
@@ -240,6 +269,7 @@ export default function LawyerRegisterForm() {
               <option value="قانون الأحوال الشخصية">
                 قانون الأحوال الشخصية
               </option>
+
             </select>
 
             <button
@@ -267,6 +297,7 @@ export default function LawyerRegisterForm() {
               </label>
               <input
                 type="file"
+
                 name="lawyerCard"
                 accept="image/*"
                 onChange={(event) =>
@@ -274,6 +305,7 @@ export default function LawyerRegisterForm() {
                     ...lawyerInputs,
                     lawyerCard: event.target.files[0],
                   })
+
                 }
                 className=" w-3xs px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 bg-gray-100 cursor-pointer"
               />
@@ -285,6 +317,7 @@ export default function LawyerRegisterForm() {
               </label>
               <input
                 type="file"
+
                 name="nationalId"
                 accept="image/*"
                 onChange={(event) =>
@@ -293,6 +326,7 @@ export default function LawyerRegisterForm() {
                     nationalId: event.target.files[0],
                   })
                 }
+
                 className="block w-3xs px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 bg-gray-100 cursor-pointer"
               />
             </div>

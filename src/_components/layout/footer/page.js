@@ -9,7 +9,10 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <>
-      <footer className="footer sm:footer-horizontal bgSecondary items-center p-1 flex justify-around">
+      <footer
+        id="footer"
+        className="footer sm:footer-horizontal bgSecondary items-center p-1 flex justify-around"
+      >
         <form>
           <fieldset className="w-full">
             <div className="join">
@@ -33,19 +36,19 @@ export default function Footer() {
           className="object-cover rounded-full"
         />
 
-        <nav className="grid-flow-col gap-10 md:place-self-center md:justify-self-end">
+        <nav className="grid-flow-col items-center gap-4 md:place-self-center md:justify-self-end">
           <a>
-            <FaPhoneAlt className="w-6 h-6 goldTxt" />
+            <FaPhoneAlt className="w-4 h-6 goldTxt" />
           </a>
           <a>
-            <FaXTwitter className="w-6 h-6 goldTxt" />
+            <FaXTwitter className="w-4 h-6 goldTxt" />
           </a>
 
           <a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               className="fill-current goldTxt"
             >
@@ -55,8 +58,8 @@ export default function Footer() {
           <a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               className="fill-current goldTxt"
             >
