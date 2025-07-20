@@ -8,9 +8,9 @@ export default function page() {
   return (
     <>
       <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
-        <div className="flex justify-around gap-6">
+        <div className="flex flex-col lg:flex-row justify-around gap-6">
           {/*list of lawyers*/}
-          <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
+          <div className="w-full md:w-1/2 sm:w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
             <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
             <ul className="space-y-4">
               {[1, 2, 3].map((id) => (
@@ -36,7 +36,7 @@ export default function page() {
           </div>
 
           {/* chat */}
-          <div className="w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
+          <div className="w-full md:w-1/2 sm:w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
             <div>
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
               <div className="space-y-3">
