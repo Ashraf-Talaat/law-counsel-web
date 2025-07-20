@@ -88,15 +88,17 @@ export default function page() {
                 {/* ////////////////////////////////////////////////// */}
 
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-                  <label
-                    className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
-                    htmlFor="create-post-modal"
-                  >
-                    طلب استشارة
-                    {/* <button className="btn bg-[#262b3e] hover:bg-[#1c202e] text-white mt-4">
+                  <button>
+                    <label
+                      className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                      htmlFor="create-post-modal"
+                    >
+                      طلب استشارة
+                      {/* <button className="btn bg-[#262b3e] hover:bg-[#1c202e] text-white mt-4">
                       طلب استشارة
                     </button> */}
-                  </label>
+                    </label>
+                  </button>
 
                   <input
                     type="checkbox"
