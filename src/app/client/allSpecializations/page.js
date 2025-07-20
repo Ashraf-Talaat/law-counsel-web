@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import HeroOther from "@/_components/layout/hero-other";
 import Image from "next/image";
 import CategoryBtn from "@/_components/common/categoryBtn";
@@ -10,7 +11,28 @@ import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
-export default function page() {
+//Firebase
+import { createRequest } from "@/logic/consultations/client/createRequest";
+
+export default function Page() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async () => {
+    const newRequest = {
+      title: { title },
+      description: { description },
+      clientId: "wCgQtUIRIRWuNZIQgV8XWMhXalp1", //from auth
+      lawyerId: "3dvloPPDupUbFjhnrKIT",
+    };
+
+    try {
+      const res = await createRequest(newRequest);
+      console.log("Request created: ", res);
+    } catch (error) {
+      console.error("Error creating request: ", error);
+    }
+  };
   return (
     <div>
       <HeroOther
@@ -88,17 +110,12 @@ export default function page() {
                 {/* ////////////////////////////////////////////////// */}
 
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-                  <button>
-                    <label
-                      className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
-                      htmlFor="create-post-modal"
-                    >
-                      طلب استشارة
-                      {/* <button className="btn bg-[#262b3e] hover:bg-[#1c202e] text-white mt-4">
-                      طلب استشارة
-                    </button> */}
-                    </label>
-                  </button>
+                  <label
+                    className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                    htmlFor="create-post-modal"
+                  >
+                    طلب استشارة
+                  </label>
 
                   <input
                     type="checkbox"
@@ -110,18 +127,29 @@ export default function page() {
                       <h3 className="font-bold text-lg"> طلب الاستشارة</h3>
                       <div className="py-4">
                         <input
+                          value={title}
+                          onChange={(e) => {
+                            setTitle(e.target.value);
+                          }}
                           type="text"
                           placeholder="عنوان الاستشارة"
                           className="input input-bordered w-full mb-3 "
                         />
                         <textarea
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                          }}
                           className="textarea textarea-bordered w-full mb-3 outline-none"
                           placeholder="محتوى الاستشارة"
                         ></textarea>
                       </div>
 
                       <div className="modal-action gap-8">
-                        <button className="btn bgBtn text-white px-6">
+                        <button
+                          onClick={handleSubmit}
+                          className="btn bgBtn text-white px-6"
+                        >
                           ارسال
                         </button>
                         <label htmlFor="create-post-modal" className="btn">
