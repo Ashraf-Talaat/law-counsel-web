@@ -1,12 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/home",
-        destination: "/",
-      },
-    ];
+  images: {
+    domains: ["ik.imagekit.io"],
   },
 };
 
