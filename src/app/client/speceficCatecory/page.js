@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import HeroOther from "@/_components/layout/hero-other";
 import Image from "next/image";
@@ -27,6 +28,14 @@ export default function Page() {
 
     fetchLawyers();
   }, []);
+  
+  
+  
+  
+  
+  
+  
+
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
 
@@ -45,9 +54,11 @@ export default function Page() {
       console.error("Error creating request: ", error);
     }
   };
+
   const filterLawers = lawyers.filter((lawer) =>
     lawyer.name?.toLowerCase().includes(searchValue.toLowerCase())
   );
+
   return (
     <div className="bg-[#EEEEEE]">
       <HeroOther
@@ -89,11 +100,9 @@ export default function Page() {
               </div>
 
               <div className=" flex justify-between ">
-                {/* <button className="btn bg-[#262b3e] hover:bg-[#1c202e] text-white mt-1">
-                  طلب استشارة
-                </button> */}
-                {/* ////////////////////////////////////////////////////////////////////////////// */}
+                {/* //////////////////////////////////////////////////////////////////////////// */}
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
+
                   <button>
                     <label
                       className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
@@ -102,6 +111,7 @@ export default function Page() {
                       طلب استشارة
                     </label>
                   </button>
+
                   <input
                     type="checkbox"
                     id="create-post-modal"

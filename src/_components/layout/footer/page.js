@@ -9,7 +9,10 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <>
-      <footer className="footer sm:footer-horizontal bgSecondary items-center p-1 flex justify-around">
+      <footer
+        id="footer"
+        className="footer sm:footer-horizontal bgSecondary items-center p-1 flex justify-around"
+      >
         <form>
           <fieldset className="w-full">
             <div className="join">
