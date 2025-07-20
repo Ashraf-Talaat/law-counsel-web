@@ -31,7 +31,7 @@ export default function index() {
             تجربة قانونية مبنية على الثقة، الشفافية، والاحترافية.
           </p>
 
-          <Link href="/home/aboutUs">
+          <Link href="/aboutUs">
             <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2 text-white">
               قراءة المزيد
             </button>

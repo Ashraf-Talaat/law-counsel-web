@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 
 //Firebase
-import { storage } from "@/firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+// import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import createArticale from "@/logic/articles/createArticle";
 
 export default function CreateArticlePage() {
@@ -23,7 +23,7 @@ export default function CreateArticlePage() {
     //upload img
     try {
       let imageUrl = "";
-      if (imageFile) {  
+      if (imageFile) {
         const imageRef = ref(
           storage,
           `articles/${Date.now()}_${imageFile.name}`

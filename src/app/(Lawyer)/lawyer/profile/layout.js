@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import ProfileNav from './../../../_components/layout/profileNav/index';
-import { ProfileSubNav } from './../../../_components/layout/profileNav/profileSubNav/index';
+import ProfileNav from '@/_components/layout/profileNav/index';
+import { ProfileSubNav } from '@/_components/layout/profileNav/profileSubNav/index';
 
 export default function LawyerProfile({ children }) {
   return (

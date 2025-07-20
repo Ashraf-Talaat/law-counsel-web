@@ -7,8 +7,8 @@ export function ProfileSubNav() {
   const pathname = usePathname();
 
   const links = [
-    { label: "بياناتي الشخصية", href: "/profile/lawyer/myInfo" },
-    { label: "مقالاتي", href: "/profile/lawyer/myArticles" },
+    { label: "بياناتي الشخصية", href: "myInfo" },
+    { label: "مقالاتي", href: "articles" },
   ];
 
   return (

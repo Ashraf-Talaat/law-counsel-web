@@ -2,10 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { auth, db } from "../../../firebase/firebase";
+import { auth, db } from "@/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
-
+import * as Yup from "yup";
 export default function ClientRegisterForm() {
   const [clientInputs, setClientInputs] = useState({
     name: "",

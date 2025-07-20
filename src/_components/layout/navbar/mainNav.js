@@ -31,17 +31,17 @@ export default function mainNav() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link href="/home">الرئيسية</Link>
+                <Link href="/">الرئيسية</Link>
               </li>
               <li>
-                <Link href="/home/aboutUs">من نحن</Link>
+                <Link href="/aboutUs">من نحن</Link>
               </li>
               <li>
                 <Link href="#">تواصل معنا</Link>
               </li>
             </ul>
           </div>
-          <Link href="/home" className="">
+          <Link href="/" className="">
             <Image
               src="/images/logo-dark.png"
               alt="logo"
@@ -53,13 +53,13 @@ export default function mainNav() {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link href="/home">الرئيسية</Link>
+              <Link href="/">الرئيسية</Link>
             </li>
             <li>
-              <Link href="/home/aboutUs">من نحن</Link>
+              <Link href="/aboutUs">من نحن</Link>
             </li>
             <li>
-              <Link href="/home/#aboutUs">تواصل معنا</Link>
+              <Link href="/#aboutUs">تواصل معنا</Link>
             </li>
           </ul>
         </div>

@@ -7,7 +7,8 @@ export default async function createArticale({ content, imgUrl, lawyerId }) {
       content,
       imgUrl,
       lawyerId,
-      createAt: serverTimestamp(),
+      createdAt: new Date().toISOString(),
+
     });
 
     console.log("DocRef: ", docRef);

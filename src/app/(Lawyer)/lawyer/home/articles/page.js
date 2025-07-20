@@ -8,7 +8,7 @@ import {
   HandThumbUpIcon,
   ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/24/outline";
-import CreateArticlePage from "../../create/page";
+import CreateArticlePage from "@/app/(Lawyer)/lawyer/create/page";
 
 export default function HomeArticles() {
   const [articles, setArticles] = useState([]);

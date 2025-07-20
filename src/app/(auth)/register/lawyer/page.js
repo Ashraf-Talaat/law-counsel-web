@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { auth, db } from "../../../firebase/firebase";
+import { auth, db } from "@/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import * as Yup from "yup";
@@ -126,7 +126,7 @@ export default function LawyerRegisterForm() {
             }}
             onBlur={() => validateField("name", lawyerInputs.name)}
             placeholder="الاسم الكامل"
-            value={userData.fullName}
+            value={lawyerInputs.fullName}
             name="fullName"
             onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
@@ -143,7 +143,7 @@ export default function LawyerRegisterForm() {
             onBlur={() => validateField("email", lawyerInputs.email)}
             placeholder="البريد الإلكتروني"
             name="email"
-            value={userData.email}
+            value={lawyerInputs.email}
             onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
@@ -162,7 +162,7 @@ export default function LawyerRegisterForm() {
             onBlur={() => validateField("password", lawyerInputs.password)}
             placeholder="كلمة المرور"
             name="password"
-            value={userData.password}
+            value={lawyerInputs.password}
             onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
@@ -183,7 +183,7 @@ export default function LawyerRegisterForm() {
             }
             placeholder="تأكيد كلمة المرور"
             name="confirmPassword"
-            value={userData.confirmPassword}
+            value={lawyerInputs.confirmPassword}
             onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
