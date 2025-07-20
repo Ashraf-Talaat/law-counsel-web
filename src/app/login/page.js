@@ -1,8 +1,32 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { auth } from "../../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter(); 
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      console.log("تم تسجيل الدخول:", user);
+      alert("تم تسجيل الدخول بنجاح");
+      router.push("/profile/lawyer");
+    } catch (error) {
+      console.error("خطأ أثناء تسجيل الدخول:", error.message);
+      alert("فشل تسجيل الدخول: " + error.message);
+    }
+  };
+
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -15,11 +39,13 @@ export default function Login() {
             <p className="text-2xl text-[#1C202E] mb-6 font-bold ">
               أدخل البيانات التالية لتتمكن من الدخول إلي حسابك
             </p>
-            <form className="space-y-8 ">
+            <form className="space-y-8" onSubmit={handleLogin}>
               <div>
                 <input
                   type="email"
                   placeholder=" البريد الإلكتروني :"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C9B38C]"
                 />
               </div>
@@ -27,13 +53,15 @@ export default function Login() {
                 <input
                   type="password"
                   placeholder=" كلمة المرور :"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C9B38C]"
                 />
               </div>
               <div className="flex justify-center ">
                 <button
                   type="submit"
-                  className="w-md bg-[#C9B38C] hover:bg-[#b69d75] text-white py-2 rounded-md transition "
+                  className="w-md bg-[#C9B38C] hover:bg-[#b69d75] text-white py-2 rounded-md transition"
                 >
                   تسجيل دخول
                 </button>
