@@ -4,11 +4,17 @@ import {
   HandThumbUpIcon,
   ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/24/outline";
+import  HeroOther  from '@/_components/layout/hero-other';
 
 export default function page() {
   return (
     <>
       {/* start post */}
+       <HeroOther
+        title="احدث مقالاتي"
+        description="  كتشف أحدث المقالات القانونية التي تبسط لك المفاهيم وتساعدك تفهم حقوقك بشكل أوضح"
+        showInput={false}
+       ></HeroOther>
       <div className="flex justify-center p-6 bgLayout">
         <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow-lg">
           <Image
