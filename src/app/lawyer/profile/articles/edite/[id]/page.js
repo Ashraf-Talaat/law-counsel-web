@@ -8,7 +8,6 @@ import { updateArticle } from "@/logic/articles/updateArticle";
 export default function EditArticlePage() {
   const { id } = useParams();
   const router = useRouter();
-  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -16,7 +15,6 @@ export default function EditArticlePage() {
       const docRef = doc(db, "articles", id);
       const snapshot = await getDoc(docRef);
       const data = snapshot.data();
-      setTitle(data.title);
       setContent(data.content);
     };
 
@@ -25,7 +23,7 @@ export default function EditArticlePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await updateArticle(id, { title, content });
+    const res = await updateArticle(id, { content });
     if (res.success) {
       alert("تم تحديث المقال");
       router.push("/lawyer/profile/articles");
@@ -38,15 +36,6 @@ export default function EditArticlePage() {
     <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow mt-10">
       <h2 className="text-xl font-bold mb-4">تعديل المقال</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="عنوان المقال"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="input input-bordered w-full mb-4"
-          required
-        />
-
         <textarea
           placeholder="محتوى المقال"
           value={content}

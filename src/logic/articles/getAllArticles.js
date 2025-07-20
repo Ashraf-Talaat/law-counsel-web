@@ -11,7 +11,7 @@ export default async function getAllArticles() {
       ...doc.data(),
     }));
 
-    return { success: true, data: articles };
+    return articles;
   } catch (error) {
     console.error("Error fetching articles:", error);
     return { success: false, error };
