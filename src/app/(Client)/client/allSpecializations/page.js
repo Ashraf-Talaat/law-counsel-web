@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeroOther from "@/_components/layout/hero-other";
 import Image from "next/image";
 import CategoryBtn from "@/_components/common/categoryBtn";
@@ -10,11 +10,39 @@ import { ScaleIcon } from "@heroicons/react/24/outline";
 import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
-
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
 //Firebase
 import { createRequest } from "@/logic/consultations/client/createRequest";
 
 export default function Page() {
+  // store all lawers
+  const [lawyers, setLawyers] = useState([]);
+
+  // fetch data to get all lawers from firebase
+  useEffect(() => {
+    const fetchLawyers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "lawyers")); 
+        const lawyersData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setLawyers(lawyersData);
+      } catch (error) {
+        console.error("Error fetching lawyers: ", error);
+      }
+    };
+
+    fetchLawyers();
+  }, []);
+
+  //handle filterd data
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = lawyers.filter(
+    (lawyer) => lawyer.name?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  // handle submit consultaions
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -39,6 +67,7 @@ export default function Page() {
         title="اختار المحامي المناسب لك "
         description="ابحث بسهولة عن المحامي المناسب لمشكلتك، تصفح التقييمات، وشاهد الملف الشخصي لكل محامٍ قبل بدء التواصل."
         showInput={true}
+        onSearchChange={setSearchValue}
       />
       <div className="w-[85%] mx-auto my-20 flex items-center justify-center flex-wrap">
         <CategoryBtn
@@ -75,18 +104,24 @@ export default function Page() {
         />
       </div>
       <div className="w-[85%] mx-auto my-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {[1, 2, 3, 4].map((_, idx) => (
-          <div key={idx} className="relative mx-auto">
+        {filteredData.map((lawyer) => (
+          <div key={lawyer.id} className="relative mx-auto">
             <Image
-              src="/images/lawer-pic.png"
-              alt="topRated"
+              src={
+                lawyer.profileImageUrl?.startsWith("http")
+                  ? lawyer.profileImageUrl
+                  : "/images/lawer-pic.png"
+              }
+              alt={lawyer.name}
               width={300}
               height={0}
-              className=""
+              className=" object-cover h-full rounded"
             />
             <div className="w-[90%] p-3 rounded-xl  mx-4 bg-white absolute top-45 flex justify-between">
               <div>
-                <h3 className="text-lg font-semibold mb-2">أحمد محمد</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
+                </h3>
                 <p className="text-sm mb-2">محامي طلاق</p>
                 <p className="text-sm">
                   السعر :<span className="font-bold">500</span> جنية
