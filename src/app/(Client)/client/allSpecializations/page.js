@@ -14,6 +14,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 //Firebase
 import { createRequest } from "@/logic/consultations/client/createRequest";
+import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 
 export default function Page() {
   // store all lawers
@@ -21,27 +22,27 @@ export default function Page() {
 
   // fetch data to get all lawers from firebase
   useEffect(() => {
-    const fetchLawyers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "lawyers")); 
-        const lawyersData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLawyers(lawyersData);
-      } catch (error) {
-        console.error("Error fetching lawyers: ", error);
-      }
+    const allLawyers = async () => {
+      const data = await fetchLawyers();
+      setLawyers(data);
     };
 
-    fetchLawyers();
+    allLawyers();
   }, []);
 
   //handle filterd data
   const [searchValue, setSearchValue] = useState("");
-  const filteredData = lawyers.filter(
-    (lawyer) => lawyer.name?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const filteredData = lawyers.filter((lawyer) => {
+    const matchData = lawyer.name
+      ?.toLowerCase()
+      .includes(searchValue.toLowerCase());
+
+    const selectedCat = selectedCategory
+      ? lawyer.specialization?.includes(selectedCategory)
+      : true;
+    return matchData && selectedCat;
+  });
   // handle submit consultaions
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -62,7 +63,7 @@ export default function Page() {
     }
   };
   return (
-    <div>
+    <div className="bg-[#EEEEEE]">
       <HeroOther
         title="اختار المحامي المناسب لك "
         description="ابحث بسهولة عن المحامي المناسب لمشكلتك، تصفح التقييمات، وشاهد الملف الشخصي لكل محامٍ قبل بدء التواصل."
@@ -71,12 +72,22 @@ export default function Page() {
       />
       <div className="w-[85%] mx-auto my-20 flex items-center justify-center flex-wrap">
         <CategoryBtn
+          icon={<ScaleIcon className="w-6 h-6 text-white" />}
+          title="عرض الكل"
+          onClick={() => setSelectedCategory("")}
+        />
+        <CategoryBtn
           icon={<ShieldCheckIcon className="w-6 h-6 text-white" />}
           title=" القانون الجنائي"
+          onClick={() => {
+            setSelectedCategory("القانون الجنائى");
+            console.log("Specializations: ", lawyers.specialization);
+          }}
         />
         <CategoryBtn
           icon={<UserGroupIcon className="w-6 h-6 text-white" />}
           title=" القانون العمالي"
+          onClick={() => console.log("تم الضغط علي القانون العمالي")}
         />
         <CategoryBtn
           icon={<DocumentTextIcon className="w-6 h-6 text-white" />}
@@ -84,7 +95,11 @@ export default function Page() {
         />
         <CategoryBtn
           icon={<ScaleIcon className="w-6 h-6 text-white" />}
-          title=" القانون المدني"
+          title="القانون المدنى"
+          onClick={() => {
+            setSelectedCategory("القانون المدنى");
+            console.log("Specializations: ", lawyers.specialization);
+          }}
         />
         <CategoryBtn
           icon={<CalculatorIcon className="w-6 h-6 text-white" />}
@@ -105,7 +120,10 @@ export default function Page() {
       </div>
       <div className="w-[85%] mx-auto my-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {filteredData.map((lawyer) => (
-          <div key={lawyer.id} className="relative mx-auto">
+          <div
+            key={lawyer.id}
+            className="relative mx-auto rounded-xl overflow-hidden shadow-xl  max-h-[350px]"
+          >
             <Image
               src={
                 lawyer.profileImageUrl?.startsWith("http")
@@ -122,7 +140,7 @@ export default function Page() {
                 <h3 className="text-lg font-semibold mb-2">
                   {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
                 </h3>
-                <p className="text-sm mb-2">محامي طلاق</p>
+                <p className="text-sm mb-2">{lawyer.specialization} </p>
                 <p className="text-sm">
                   السعر :<span className="font-bold">500</span> جنية
                 </p>
@@ -145,12 +163,14 @@ export default function Page() {
                 {/* ////////////////////////////////////////////////// */}
 
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-                  <label
-                    className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
-                    htmlFor="create-post-modal"
-                  >
-                    طلب استشارة
-                  </label>
+                  <button className="mt-3">
+                    <label
+                      className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                      htmlFor="create-post-modal"
+                    >
+                      طلب استشارة
+                    </label>
+                  </button>
 
                   <input
                     type="checkbox"
@@ -170,6 +190,7 @@ export default function Page() {
                           placeholder="عنوان الاستشارة"
                           className="input input-bordered w-full mb-3 "
                         />
+
                         <textarea
                           value={description}
                           onChange={(e) => {

@@ -1,8 +1,9 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function index() {
+export default function Index() {
   return (
     <div className="bg-[#1C202E] text-white p-10 grid text-center">
       <div className="text-[#C9B38C] p-4 col-span-full">
@@ -13,7 +14,7 @@ export default function index() {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 ">
           <Image
             src="/images/Handcuffs.png"
             alt="legal specialization"
@@ -27,7 +28,7 @@ export default function index() {
             الدفاع في القضايا الجنائية مثل السرقة، القتل، المخدرات، التهديد
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 ">
           <Image
             src="/images/Family.png"
             alt="family specialization"
