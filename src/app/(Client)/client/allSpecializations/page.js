@@ -12,8 +12,11 @@ import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import { getAuth } from "firebase/auth";
 //Firebase
-import { createRequest } from "@/logic/consultations/client/createRequest";
+import newRequest, {
+  createRequest,
+} from "@/logic/consultations/client/createRequest";
 import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 
 export default function Page() {
@@ -44,24 +47,55 @@ export default function Page() {
     return matchData && selectedCat;
   });
   // handle submit consultaions
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [description, setDescription] = useState("");
 
-  const handleSubmit = async () => {
-    const newRequest = {
-      title: { title },
-      description: { description },
-      clientId: "wCgQtUIRIRWuNZIQgV8XWMhXalp1", //from auth
-      lawyerId: "3dvloPPDupUbFjhnrKIT",
-    };
+  // const handleSubmit = async () => {
+  //   const newRequest = {
+  //     title: { title },
+  //     description: { description },
+  //     clientId: "wCgQtUIRIRWuNZIQgV8XWMhXalp1", //from auth
+  //     lawyerId: "3dvloPPDupUbFjhnrKIT",
+  //   };
 
-    try {
-      const res = await createRequest(newRequest);
-      console.log("Request created: ", res);
-    } catch (error) {
-      console.error("Error creating request: ", error);
-    }
+  //   try {
+  //     const res = await createRequest(newRequest);
+  //     console.log("Request created: ", res);
+  //   } catch (error) {
+  //     console.error("Error creating request: ", error);
+  //   }
+  // };
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+
+  const [selectedLawyerId, setSelectedLawyerId] = useState(""); //تخزين ال id بتاع انهي محامي
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // هنا لما نربط بال auth عشان اعرف اجيب ال currentUser  userId: currentUser.uid
+    // const auth = getAuth();
+    // const currentUser = auth.currentUser;
+
+    // if (!currentUser) {
+    //   console.error("المستخدم غير مسجل دخول");
+    //   return;
+    // }
+
+    newRequest({
+      title: formData.title,
+      description: formData.description,
+      userId: "0hPemfz1O8Xd3RoEIyJ5GqO4BoH3",
+      lawyerId: selectedLawyerId,
+      createdAt: new Date().toISOString(),
+      status: "pending",
+      deletedByClient: false,
+    });
+    setFormData({ title: "", description: "" });
   };
+
   return (
     <div className="bg-[#EEEEEE]">
       <HeroOther
@@ -86,12 +120,17 @@ export default function Page() {
         />
         <CategoryBtn
           icon={<UserGroupIcon className="w-6 h-6 text-white" />}
-          title=" القانون العمالي"
-          onClick={() => console.log("تم الضغط علي القانون العمالي")}
+          title="القانون العمالي"
+          onClick={() => {
+            setSelectedCategory("القانون العمالى");
+          }}
         />
         <CategoryBtn
           icon={<DocumentTextIcon className="w-6 h-6 text-white" />}
           title=" القانون التجاري"
+          onClick={() => {
+            setSelectedCategory("القانون التجارى");
+          }}
         />
         <CategoryBtn
           icon={<ScaleIcon className="w-6 h-6 text-white" />}
@@ -103,19 +142,31 @@ export default function Page() {
         />
         <CategoryBtn
           icon={<CalculatorIcon className="w-6 h-6 text-white" />}
-          title=" قانون الضرائب"
+          title="قانون الضرائب"
+          onClick={() => {
+            setSelectedCategory("قانون الضرائب");
+          }}
         />
         <CategoryBtn
           icon={<UserGroupIcon className="w-6 h-6 text-white" />}
-          title=" قانون الأحوال الشخصية"
+          title="قانون الأحوال الشخصية"
+          onClick={() => {
+            setSelectedCategory("قانون الأحوال الشخصية");
+          }}
         />
         <CategoryBtn
           icon={<BuildingOfficeIcon className="w-6 h-6 text-white" />}
-          title=" القانون الإداري"
+          title="القانون الإداري"
+          onClick={() => {
+            setSelectedCategory("القانون الإدارى");
+          }}
         />
         <CategoryBtn
           icon={<CurrencyDollarIcon className="w-6 h-6 text-white" />}
           title=" قانون التأمينات والمعاشات"
+          onClick={() => {
+            setSelectedCategory("قانون التأمينات والمعاشات");
+          }}
         />
       </div>
       <div className="w-[85%] mx-auto my-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -163,7 +214,10 @@ export default function Page() {
                 {/* ////////////////////////////////////////////////// */}
 
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-                  <button className="mt-3">
+                  <button
+                    className="mt-3"
+                    onClick={() => setSelectedLawyerId(lawyer.id)}
+                  >
                     <label
                       className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                       htmlFor="create-post-modal"
@@ -182,9 +236,11 @@ export default function Page() {
                       <h3 className="font-bold text-lg"> طلب الاستشارة</h3>
                       <div className="py-4">
                         <input
-                          value={title}
+                          // value={title}
+                          value={formData.title}
                           onChange={(e) => {
-                            setTitle(e.target.value);
+                            // setTitle(e.target.value);
+                            setFormData({ ...formData, title: e.target.value });
                           }}
                           type="text"
                           placeholder="عنوان الاستشارة"
@@ -192,9 +248,14 @@ export default function Page() {
                         />
 
                         <textarea
-                          value={description}
+                          // value={description}
+                          value={formData.description}
                           onChange={(e) => {
-                            setDescription(e.target.value);
+                            // setDescription(e.target.value);
+                            setFormData({
+                              ...formData,
+                              description: e.target.value,
+                            });
                           }}
                           className="textarea textarea-bordered w-full mb-3 outline-none"
                           placeholder="محتوى الاستشارة"
