@@ -8,7 +8,7 @@ export default function UserProfile({ children }) {
       <div className="">
         <ProfileNav />
       </div>
-      <div className="flex justify-center mt-[-5rem] z-20 relative">
+      {/* <div className="flex justify-center mt-[-5rem] z-20 relative">
         <Image
           src="/images/lawyer.jpg"
           alt="User"
@@ -16,7 +16,7 @@ export default function UserProfile({ children }) {
           height={180}
           className="rounded-full border-4 border-[#C9B38C]"
         />
-      </div>
+      </div> */}
       <main className="pt-15 px-4 mb-9 max-w-4xl mx-auto">{children}</main>
     </div>
   );

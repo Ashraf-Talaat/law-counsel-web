@@ -1,9 +1,19 @@
 import React from "react";
 import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 export default function UserProfileInfo() {
   return (
-    <>
+  <>
+    <div className="flex justify-center mt-[-10rem] mb-7 z-20 relative">
+            <Image
+              src="/images/lawyer.jpg"
+              alt="User"
+              width={180}
+              height={180}
+              className="rounded-full border-4 border-[#C9B38C]"
+            />
+            </div>
       <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto mb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
           <div className="m-5 p-4 space-y-3">

@@ -14,10 +14,9 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { getAuth } from "firebase/auth";
 //Firebase
-import newRequest, {
-  createRequest,
-} from "@/logic/consultations/client/createRequest";
+import newRequest, {createRequest,} from "@/logic/consultations/client/createRequest";
 import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
+import Link from "next/link";
 
 export default function Page() {
   // store all lawers
@@ -175,109 +174,117 @@ export default function Page() {
             key={lawyer.id}
             className="relative mx-auto rounded-xl overflow-hidden shadow-xl  max-h-[350px]"
           >
-            <Image
-              src={
-                lawyer.profileImageUrl?.startsWith("http")
-                  ? lawyer.profileImageUrl
-                  : "/images/lawer-pic.png"
-              }
-              alt={lawyer.name}
-              width={300}
-              height={0}
-              className=" object-cover h-full rounded"
-            />
-            <div className="w-[90%] p-3 rounded-xl  mx-4 bg-white absolute top-45 flex justify-between">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">
-                  {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
-                </h3>
-                <p className="text-sm mb-2">{lawyer.specialization} </p>
-                <p className="text-sm">
-                  السعر :<span className="font-bold">500</span> جنية
-                </p>
-              </div>
-              <div className=" text-end">
-                <p className="mb-2 ">التقييم</p>
-                <div className="flex justify-end">
-                  {[1, 2, 3].map((s, starIdx) => (
-                    <Image
-                      key={starIdx}
-                      src="/images/Star.png"
-                      alt="star"
-                      width={20}
-                      height={20}
-                      className=" "
-                    />
-                  ))}
+            <Link href={`/client/Profile/user/${lawyer.id}`}>
+              <Image
+                src={
+                  lawyer.profileImageUrl?.startsWith("http")
+                    ? lawyer.profileImageUrl
+                    : "/images/lawer-pic.png"
+                }
+                alt={lawyer.name}
+                width={300}
+                height={0}
+                className=" object-cover h-full rounded"
+              />
+              <div className="w-[90%] p-3 rounded-xl  mx-4 bg-white absolute top-45 flex justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
+                  </h3>
+                  <p className="text-sm mb-2">{lawyer.specialization} </p>
+                  <p className="text-sm">
+                    السعر :<span className="font-bold">500</span> جنية
+                  </p>
                 </div>
+                <div className=" text-end">
+                  <p className="mb-2 ">التقييم</p>
+                  <div className="flex justify-end">
+                    {[1, 2, 3].map((s, starIdx) => (
+                      <Image
+                        key={starIdx}
+                        src="/images/Star.png"
+                        alt="star"
+                        width={20}
+                        height={20}
+                        className=" "
+                      />
+                    ))}
+                  </div>
 
-                {/* ////////////////////////////////////////////////// */}
+                  {/* ////////////////////////////////////////////////// */}
 
-                <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-                  <button
-                    className="mt-3"
-                    onClick={() => setSelectedLawyerId(lawyer.id)}
+                  <div
+                    className="tooltip tooltip-right"
+                    data-tip=" طلب استشارة"
                   >
-                    <label
-                      className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
-                      htmlFor="create-post-modal"
+                    <button
+                      className="mt-3"
+                      onClick={() => setSelectedLawyerId(lawyer.id)}
                     >
-                      طلب استشارة
-                    </label>
-                  </button>
+                      <label
+                        className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                        htmlFor="create-post-modal"
+                      >
+                        طلب استشارة
+                      </label>
+                    </button>
 
-                  <input
-                    type="checkbox"
-                    id="create-post-modal"
-                    className="modal-toggle"
-                  />
-                  <div className="modal">
-                    <div className="modal-box w-11/12 max-w-2xl">
-                      <h3 className="font-bold text-lg"> طلب الاستشارة</h3>
-                      <div className="py-4">
-                        <input
-                          // value={title}
-                          value={formData.title}
-                          onChange={(e) => {
-                            // setTitle(e.target.value);
-                            setFormData({ ...formData, title: e.target.value });
-                          }}
-                          type="text"
-                          placeholder="عنوان الاستشارة"
-                          className="input input-bordered w-full mb-3 "
-                        />
+                    <input
+                      type="checkbox"
+                      id="create-post-modal"
+                      className="modal-toggle"
+                    />
+                    <div className="modal">
+                      <div className="modal-box w-11/12 max-w-2xl">
+                        <h3 className="font-bold text-lg"> طلب الاستشارة</h3>
+                        <div className="py-4">
+                          <input
+                            // value={title}
+                            value={formData.title}
+                            onChange={(e) => {
+                              // setTitle(e.target.value);
+                              setFormData({
+                                ...formData,
+                                title: e.target.value,
+                              });
+                            }}
+                            type="text"
+                            placeholder="عنوان الاستشارة"
+                            className="input input-bordered w-full mb-3 "
+                          />
 
-                        <textarea
-                          // value={description}
-                          value={formData.description}
-                          onChange={(e) => {
-                            // setDescription(e.target.value);
-                            setFormData({
-                              ...formData,
-                              description: e.target.value,
-                            });
-                          }}
-                          className="textarea textarea-bordered w-full mb-3 outline-none"
-                          placeholder="محتوى الاستشارة"
-                        ></textarea>
-                      </div>
+                          <textarea
+                            // value={description}
+                            value={formData.description}
+                            onChange={(e) => {
+                              // setDescription(e.target.value);
+                              setFormData({
+                                ...formData,
+                                description: e.target.value,
+                              });
+                            }}
+                            className="textarea textarea-bordered w-full mb-3 outline-none"
+                            placeholder="محتوى الاستشارة"
+                          ></textarea>
+                        </div>
 
-                      <div className="modal-action gap-8">
-                        <button
-                          onClick={handleSubmit}
-                          className="btn bgBtn text-white px-6"
-                        >
-                          ارسال
-                        </button>
-                        <label htmlFor="create-post-modal" className="btn">
-                          إغلاق
-                        </label>
+                        <div className="modal-action gap-8">
+                          <button
+                            onClick={handleSubmit}
+                            className="btn bgBtn text-white px-6"
+                          >
+                            ارسال
+                          </button>
+                          <label htmlFor="create-post-modal" className="btn">
+                            إغلاق
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>
