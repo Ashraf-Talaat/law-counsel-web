@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-import { auth, db } from "@/firebase/firebase";
+import { auth, db } from "../../../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import * as Yup from "yup";
@@ -16,15 +17,17 @@ export default function LawyerRegisterForm() {
     dateOfBirth: "",
     city: "",
     specialization: "",
-    lawyerCard: "",
-    nationalId: "",
+    lawyerCard: null,
+    nationalId: null,
   });
 
   const [specializations, setSpecializations] = useState([]);
   const [errors, setErrors] = useState({});
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("الاسم مطلوب").min(3,"يجب ان يحتوى على 3 حروف"),
+    name: Yup.string()
+      .required("الاسم مطلوب")
+      .min(3, "يجب أن يحتوي على 3 حروف على الأقل"),
     email: Yup.string()
       .email("بريد إلكتروني غير صالح")
       .required("الإيميل مطلوب"),
@@ -37,12 +40,19 @@ export default function LawyerRegisterForm() {
     phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
     dateOfBirth: Yup.string().required("تاريخ الميلاد مطلوب"),
     city: Yup.string().required("المدينة مطلوبة"),
-    specialization: Yup.string(),
+    specializations: Yup.array()
+      .min(1, "يجب اختيار تخصص واحد على الأقل")
+      .of(Yup.string()),
+    lawyerCard: Yup.mixed().required("صورة بطاقة المحاماة مطلوبة"),
+    nationalId: Yup.mixed().required("صورة البطاقة الشخصية مطلوبة"),
   });
 
-  const validateField = async (fieldName, value) => {
+  const validateField = async (fieldName) => {
     try {
-      await Yup.reach(validationSchema, fieldName).validate(value);
+      await validationSchema.validateAt(fieldName, {
+        ...lawyerInputs,
+        specializations,
+      });
       setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
     } catch (error) {
       setErrors((prevErrors) => ({
@@ -58,6 +68,7 @@ export default function LawyerRegisterForm() {
     ) {
       setSpecializations([...specializations, lawyerInputs.specialization]);
       setLawyerInputs({ ...lawyerInputs, specialization: "" });
+      setErrors((prevErrors) => ({ ...prevErrors, specializations: "" }));
     }
   };
 
@@ -65,15 +76,30 @@ export default function LawyerRegisterForm() {
     e.preventDefault();
 
     try {
-      await validationSchema.validate(lawyerInputs, { abortEarly: false });
+      await validationSchema.validate(
+        { ...lawyerInputs, specializations },
+        { abortEarly: false }
+      );
       setErrors({});
+
+      console.log("بيانات المحامي المرسلة:", {
+  name: lawyerInputs.name,
+  email: lawyerInputs.email,
+  password: lawyerInputs.password,
+  phoneNumber: lawyerInputs.phoneNumber,
+  dateOfBirth: lawyerInputs.dateOfBirth,
+  city: lawyerInputs.city,
+  specializations: specializations,
+  lawyerCard: lawyerInputs.lawyerCard,
+  nationalId: lawyerInputs.nationalId,
+});
+
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         lawyerInputs.email,
         lawyerInputs.password
       );
-
       const user = userCredential.user;
 
       await addDoc(collection(db, "lawyers"), {
@@ -83,7 +109,7 @@ export default function LawyerRegisterForm() {
         phoneNumber: lawyerInputs.phoneNumber,
         dateOfBirth: lawyerInputs.dateOfBirth,
         city: lawyerInputs.city,
-        specialization: specializations,
+        specializations: specializations,
         lawyerCard: lawyerInputs.lawyerCard?.name,
         nationalId: lawyerInputs.nationalId?.name,
       });
@@ -102,13 +128,10 @@ export default function LawyerRegisterForm() {
     }
   };
 
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 mb-20">
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
         <form onSubmit={handleSubmit} className="space-y-4 text-right w-full">
-
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             إنشاء حساب جديد
           </h2>
@@ -118,6 +141,7 @@ export default function LawyerRegisterForm() {
           <input
             type="text"
             value={lawyerInputs.name}
+            name="name"
             onChange={(event) => {
               setLawyerInputs({ ...lawyerInputs, name: event.target.value });
               if (errors.name) {
@@ -126,9 +150,6 @@ export default function LawyerRegisterForm() {
             }}
             onBlur={() => validateField("name", lawyerInputs.name)}
             placeholder="الاسم الكامل"
-            value={lawyerInputs.fullName}
-            name="fullName"
-            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.name && (
@@ -143,8 +164,6 @@ export default function LawyerRegisterForm() {
             onBlur={() => validateField("email", lawyerInputs.email)}
             placeholder="البريد الإلكتروني"
             name="email"
-            value={lawyerInputs.email}
-            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.email && (
@@ -162,8 +181,6 @@ export default function LawyerRegisterForm() {
             onBlur={() => validateField("password", lawyerInputs.password)}
             placeholder="كلمة المرور"
             name="password"
-            value={lawyerInputs.password}
-            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.password && (
@@ -178,13 +195,9 @@ export default function LawyerRegisterForm() {
                 confirmPassword: event.target.value,
               });
             }}
-            onBlur={() =>
-              validateField("confirmPassword", lawyerInputs.confirmPassword)
-            }
+            onBlur={() => validateField("confirmPassword")}
             placeholder="تأكيد كلمة المرور"
             name="confirmPassword"
-            value={lawyerInputs.confirmPassword}
-            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.confirmPassword && (
@@ -201,10 +214,11 @@ export default function LawyerRegisterForm() {
                 phoneNumber: event.target.value,
               });
             }}
+            onBlur={() =>
+              validateField("phoneNumber", lawyerInputs.phoneNumber)
+            }
             placeholder="رقم الهاتف"
-            name="phone"
-            value={userData.phone}
-            onChange={(e) => handleInputChange(e)}
+            name="phoneNumber"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.phoneNumber && (
@@ -212,7 +226,6 @@ export default function LawyerRegisterForm() {
           )}
           <input
             type="date"
-
             value={lawyerInputs.dateOfBirth}
             onChange={(event) => {
               setLawyerInputs({
@@ -220,11 +233,11 @@ export default function LawyerRegisterForm() {
                 dateOfBirth: event.target.value,
               });
             }}
-
-            name="birthdate"
-            
+            onBlur={() =>
+              validateField("dateOfBirth", lawyerInputs.dateOfBirth)
+            }
+            name="dateOfBirth"
             placeholder="تاريخ الميلاد"
-
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.dateOfBirth && (
@@ -236,10 +249,9 @@ export default function LawyerRegisterForm() {
             onChange={(event) => {
               setLawyerInputs({ ...lawyerInputs, city: event.target.value });
             }}
+            onBlur={() => validateField("city", lawyerInputs.city)}
             placeholder="المدينة"
             name="city"
-            value={userData.city}
-            onChange={(e) => handleInputChange(e)}
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
 
@@ -259,6 +271,9 @@ export default function LawyerRegisterForm() {
                   specialization: event.target.value,
                 });
               }}
+              onBlur={() =>
+                validateField("specialization", lawyerInputs.specializations)
+              }
             >
               <option value="">اختر مجال التخصص :-</option>
               <option value="القانون الجنائى">القانون الجنائى</option>
@@ -269,9 +284,7 @@ export default function LawyerRegisterForm() {
               <option value="قانون الأحوال الشخصية">
                 قانون الأحوال الشخصية
               </option>
-
             </select>
-
             <button
               type="button"
               onClick={handleAddSpecialization}
@@ -290,6 +303,11 @@ export default function LawyerRegisterForm() {
               </span>
             ))}
           </div>
+          {errors.specializations && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.specializations}
+            </p>
+          )}
           <div className="flex flex-col md:flex-row items-start gap-6 mt-6">
             <div className="w-full md:w-1/2">
               <label className="block text-sm text-right mb-2">
@@ -297,7 +315,6 @@ export default function LawyerRegisterForm() {
               </label>
               <input
                 type="file"
-
                 name="lawyerCard"
                 accept="image/*"
                 onChange={(event) =>
@@ -305,10 +322,16 @@ export default function LawyerRegisterForm() {
                     ...lawyerInputs,
                     lawyerCard: event.target.files[0],
                   })
-
+                }
+                onBlur={() =>
+                  validateField("lawyerCard", lawyerInputs.lawyerCard)
                 }
                 className=" w-3xs px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 bg-gray-100 cursor-pointer"
               />
+
+              {errors.lawyerCard && (
+                <p className="text-red-500 text-sm mt-1">{errors.lawyerCard}</p>
+              )}
             </div>
 
             <div className="w-full md:w-1/2">
@@ -317,7 +340,6 @@ export default function LawyerRegisterForm() {
               </label>
               <input
                 type="file"
-
                 name="nationalId"
                 accept="image/*"
                 onChange={(event) =>
@@ -326,9 +348,15 @@ export default function LawyerRegisterForm() {
                     nationalId: event.target.files[0],
                   })
                 }
-
+                onBlur={() =>
+                  validateField("nationalId", lawyerInputs.nationalId)
+                }
                 className="block w-3xs px-4 py-2 rounded-md border border-gray-300 text-sm text-gray-700 bg-gray-100 cursor-pointer"
               />
+
+              {errors.nationalId && (
+                <p className="text-red-500 text-sm mt-1">{errors.nationalId}</p>
+              )}
             </div>
           </div>
           <div className="flex justify-center ">
@@ -342,9 +370,12 @@ export default function LawyerRegisterForm() {
           <div className="flex justify-center ">
             <p className="mt-4 text-2xl text-gray-700">
               لديك حساب بالفعل ؟
-              <a href="#" className="text-[#1C202E] hover:underline font-bold ">
+              <Link
+                href="/login"
+                className="text-[#1C202E] hover:underline font-bold "
+              >
                 سجل دخول
-              </a>
+              </Link>
             </p>
           </div>
         </form>

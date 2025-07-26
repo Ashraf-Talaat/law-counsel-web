@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { auth, db } from "@/firebase/firebase";
+import { auth, db } from "../../../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import * as Yup from "yup";
@@ -20,7 +20,7 @@ export default function ClientRegisterForm() {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("الاسم مطلوب")
-      .min(3, "يجب ان يحتوى على 3 حروف"),
+      .min(3, "يجب أن يحتوي على 3 حروف على الأقل"),
     email: Yup.string()
       .email("بريد إلكتروني غير صالح")
       .required("الإيميل مطلوب"),
@@ -33,9 +33,11 @@ export default function ClientRegisterForm() {
     phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
   });
 
-  const validateField = async (fieldName, value) => {
+  const validateField = async (fieldName) => {
     try {
-      await Yup.reach(validationSchema, fieldName).validate(value);
+      await validationSchema.validateAt(fieldName, {
+        ...clientInputs,
+      });
       setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
     } catch (error) {
       setErrors((prevErrors) => ({
@@ -49,9 +51,18 @@ export default function ClientRegisterForm() {
     e.preventDefault();
 
     try {
-      await validationSchema.validate(clientInputs, { abortEarly: false });
+      await validationSchema.validate(
+        { ...clientInputs },
+        { abortEarly: false }
+      );
       setErrors({});
 
+      console.log("بيانات العميل المرسلة:", {
+        name: clientInputs.name,
+        email: clientInputs.email,
+        password: clientInputs.password,
+        phoneNumber: clientInputs.phoneNumber,
+      });
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         clientInputs.email,
@@ -62,11 +73,10 @@ export default function ClientRegisterForm() {
 
       await addDoc(collection(db, "clients"), {
         uid: user.uid,
-        name: lawyerInputs.name,
-        email: lawyerInputs.email,
-        phoneNumber: lawyerInputs.phoneNumber,
+        name: clientInputs.name,
+        email: clientInputs.email,
+        phoneNumber: clientInputs.phoneNumber,
       });
-
       alert("تم إنشاء الحساب بنجاح!");
     } catch (err) {
       if (err.inner) {
@@ -80,10 +90,11 @@ export default function ClientRegisterForm() {
       }
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <form onSubmit={handleSubmit} className="space-y-4 text-right w-full">
+        <form onSubmit={handleSubmit} method="post" className="space-y-4 text-right w-full">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             إنشاء حساب جديد
           </h2>
@@ -114,6 +125,7 @@ export default function ClientRegisterForm() {
             }}
             onBlur={() => validateField("email", clientInputs.email)}
             placeholder="البريد الإلكتروني"
+            name="email"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.email && (
@@ -130,6 +142,7 @@ export default function ClientRegisterForm() {
             }}
             onBlur={() => validateField("password", clientInputs.password)}
             placeholder="كلمة المرور"
+            name="password"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.password && (
@@ -144,10 +157,9 @@ export default function ClientRegisterForm() {
                 confirmPassword: event.target.value,
               });
             }}
-            onBlur={() =>
-              validateField("confirmPassword", clientInputs.confirmPassword)
-            }
+            onBlur={() => validateField("confirmPassword")}
             placeholder="تأكيد كلمة المرور"
+            name="confirmPassword"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.confirmPassword && (
@@ -168,6 +180,7 @@ export default function ClientRegisterForm() {
               validateField("phoneNumber", clientInputs.phoneNumber)
             }
             placeholder="رقم الهاتف"
+            name="phoneNumber"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.phoneNumber && (
