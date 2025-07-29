@@ -19,7 +19,7 @@ export default function index() {
             تقييمات العملاء، وابدأ في بناء سمعتك المهنية.
           </p>
           <Link href="register/lawyer">
-            <button className="bgBtn text-white px-4 py-2 rounded-lg mt-2 hover:bg-blue-700 transition duration-300 mx-auto block">
+            <button className="bgBtn cursor-pointer text-white px-4 py-2 rounded-lg mt-2 hover:bg-blue-700 transition duration-300 mx-auto block">
               سجّل كمحامٍ
             </button>
           </Link>
@@ -37,7 +37,7 @@ export default function index() {
             تختار المحامي المناسب.
           </p>
           <Link href="register/user">
-            <button className="bgPrimary goldTxt px-4 py-2 rounded-lg mt-2 hover:bg-[#b69d75] transition duration-300 mx-auto block">
+            <button className="bgPrimary cursor-pointer goldTxt px-4 py-2 rounded-lg mt-2 hover:bg-[#b69d75] transition duration-300 mx-auto block">
               سجّل كعميل
             </button>
           </Link>

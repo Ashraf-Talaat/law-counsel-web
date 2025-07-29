@@ -19,10 +19,10 @@ export default function index() {
               تلاعب، وهدفنا <br />
               إن العدالة توصل لكل واحد محتاجها.
             </p>
-            <button className="px-4 mx-1.5 py-1.5 rounded border text-white border-bgBtn bg-transparent hover:bg-bgBtn hover:text-black transition">
+            <button className="px-4 mx-1.5 py-1.5 cursor-pointer rounded border text-white border-bgBtn bg-transparent hover:bg-[#c9b38c] hover:text-[#ffffff] transition">
               اسأل شات بوت
             </button>
-            <button className="px-4 mx-1.5 py-1.5 rounded bgBtn">
+            <button className="px-4 mx-1.5 py-1.5 cursor-pointer rounded bg-[#c9b38c] hover:bg-[#b69d75]">
               ابدأ استشارتك
             </button>
           </div>
