@@ -1,71 +1,78 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
-//Firebase
-
-// import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import createArticale from "@/logic/articles/createArticle";
 
-export default function CreateArticlePage() {
-  // articles useState
-  const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+//alert
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
-  // create btn useState
+export default function CreateArticlePage() {
+  const [content, setContent] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showButton, setShowButton] = useState(true);
 
-  // create article method
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (!content.trim()) {
+      Swal.fire({
+        title: "المحتوى فارغ!",
+        text: "من فضلك اكتب محتوى للمقال قبل الإرسال.",
+        icon: "warning",
+        confirmButtonText: "حسناً",
+      });
+      return;
+    }
 
-    //upload img
     try {
-      let imageUrl = "";
-      if (imageFile) {
-        const imageRef = ref(
-          storage,
-          `articles/${Date.now()}_${imageFile.name}`
-        );
-        await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(imageRef);
-      }
-
-      // call create method
       const response = await createArticale({
         content,
-        imgUrl: imageUrl,
+        imageUrl,
         lawyerId: "1LgdtODjbta0gnUVWaGNwFqmMTm2",
       });
 
       if (response.success) {
         setContent("");
-        setImageFile(null);
-
+        setImageUrl("");
         document.getElementById("create-post-modal").checked = false;
-
-        alert("Article created successfully!");
+        Swal.fire({
+          title: "تم إنشاء المقال بنجاح!",
+          icon: "success",
+          position: "center",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
-        alert("Failed to create article: " + response.error.message);
+        Swal.fire({
+          title: "خطأ أثناء إنشاء المقال:",
+          body: response.error.message,
+          icon: "error",
+          position: "center",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     } catch (error) {
-      console.error("Error creating article: ", error);
+      console.error("خطأ أثناء إنشاء المقال:", error);
+
+      Swal.fire({
+        title: "خطأ أثناء إنشاء المقال:",
+        body: error,
+        icon: "error",
+        position: "center",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  // hide create btn
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-          setShowButton(false);
-        } else {
-          setShowButton(true);
-        }
+        setShowButton(!entries[0].isIntersecting);
       },
       { threshold: 0.5 }
     );
@@ -78,14 +85,46 @@ export default function CreateArticlePage() {
     };
   }, []);
 
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/uploadimg", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setImageUrl(data.url);
+        toast.success("تم رفع الصورة بنجاح!");
+      } else {
+        console.error("رفع الصورة فشل:", data.error);
+
+        toast.error("حدث خطأ أثناء رفع الصورة");
+      }
+    } catch (err) {
+      toast.error("حدث خطأ أثناء رفع الصورة");
+
+      console.error("خطأ أثناء رفع الصورة:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="fixed bottom-25 left-25 z-50">
         <div className="tooltip tooltip-right" data-tip="إنشاء بوست جديد">
-          {/* create Btn  */}
           {showButton && (
             <label
-              className={`flex items-center justify-center text-white bgBtn rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover transition-opacity duration-300 `}
+              className="flex items-center justify-center text-white bgBtn rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover transition duration-300 ease-in-out transform hover:scale-105 hover:-translate-y-1"
               htmlFor="create-post-modal"
             >
               <svg
@@ -105,35 +144,26 @@ export default function CreateArticlePage() {
             id="create-post-modal"
             className="modal-toggle"
           />
-
-          {/* article form */}
           <div className="modal">
             <div className="modal-box w-11/12 max-w-2xl">
               <h3 className="font-bold text-lg">إنشاء بوست جديد</h3>
               <form onSubmit={handleSubmit}>
                 <div className="py-4">
-                  {/* content input  */}
                   <textarea
                     className="textarea textarea-bordered w-full mb-3 outline-none"
                     placeholder="محتوى البوست"
                     value={content}
-                    onChange={(e) => {
-                      setContent(e.target.value);
-                    }}
+                    onChange={(e) => setContent(e.target.value)}
                   ></textarea>
 
-                  {/* image input  */}
                   <input
                     type="file"
                     accept="image/*"
                     className="file-input file-input-bordered w-full mb-3"
-                    onChange={(e) => {
-                      setImageFile(e.target.files[0]);
-                    }}
+                    onChange={handleUpload}
                   />
                 </div>
 
-                {/* Buttons of send and close  */}
                 <div className="modal-action gap-8">
                   <button
                     type="submit"
