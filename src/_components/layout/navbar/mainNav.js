@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-export default function mainNav() {
+import RegisPopup from "@/_components/layout/RegisPopup";
+export default function MainNav() {
+  const [showPopup, setShowPopup] = useState(false);
   return (
     <div className="text-center">
       <div className="navbar w-full ">
@@ -64,17 +66,19 @@ export default function mainNav() {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link
-            href="/register/user"
+          <button
+            onClick={() => setShowPopup(true)}
             className="btn bgBtn me-1.5 hover:!bg-[#b69d75]"
           >
             انشاء حساب
-          </Link>
+          </button>
+          {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
           <Link href="/login" className="btn ">
             تسجيل دخول
           </Link>
         </div>
       </div>
+      {/* {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />} */}
     </div>
   );
 }
