@@ -48,7 +48,7 @@ export default function RegisPopup({ onClose, isPopup = true }) {
           </div>
 
           {/* كرت العميل */}
-          <div className="w-full md:w-1/2 bg-white p-4 sm:p-6 shadow-lg rounded-lg h-auto">
+          <div className="w-full md:w-1/2 bg-white p-4 sm:p-6  rounded-lg h-auto">
             <UserIcon className="w-12 h-12 sm:w-14 sm:h-14 bgPrimary goldTxt p-1.5 border-4 rounded-full mx-auto" />
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center">
               تسجيل كعميل

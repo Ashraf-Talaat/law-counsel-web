@@ -139,12 +139,17 @@ export default function LawyerProfileInfoForUser({ params }) {
           </div>
           <div className="m-5 p-4 space-y-3">
             <h5>الهاتف :</h5>
-            <h2 className="text-2xl"> 01281898778</h2>
+            <h2 className="text-2xl"> {lawyer.phoneNumber}</h2>
             <hr />
           </div>
           <div className="m-5 p-4 space-y-3">
             <h5>المدينة :</h5>
             <h2 className="text-xl"> {lawyer.city} </h2>
+            <hr />
+          </div>
+          <div className="m-5 p-4 space-y-3">
+            <h5>التخصصات :</h5>
+            <h2 className="text-2xl"> {lawyer.specializations}</h2>
             <hr />
           </div>
         </div>

@@ -191,7 +191,7 @@ export default function Page() {
                   <h3 className="text-lg font-semibold mb-2">
                     {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
                   </h3>
-                  <p className="text-sm mb-2">{lawyer.specialization} </p>
+                  <p className="text-sm mb-2">{lawyer.specializations[0]} </p>
                   <p className="text-sm">
                     السعر :<span className="font-bold">500</span> جنية
                   </p>
