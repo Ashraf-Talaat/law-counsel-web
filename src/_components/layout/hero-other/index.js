@@ -1,7 +1,12 @@
 import React from "react";
-import MainNav from "@/_components/layout/navbar/mainNav"; 
+import MainNav from "@/_components/layout/navbar/mainNav";
 
-export default function index({ title, description, showInput = false  , onSearchChange}) {
+export default function index({
+  title,
+  description,
+  showInput = false,
+  onSearchChange,
+}) {
   return (
     <div className="">
       <div className="hero h-[55vh] w-full relative  bg-[url('/images/hero-bg.png')] bg-cover bg-center">
@@ -20,11 +25,10 @@ export default function index({ title, description, showInput = false  , onSearc
                   type="text"
                   className="input input-bordered w-[500px] placeholder-gray-600 text-black"
                   placeholder="ابحث هنا..."
-                  onChange={(e)=>{
-                    if(typeof onSearchChange === "function"){
+                  onChange={(e) => {
+                    if (typeof onSearchChange === "function") {
                       onSearchChange(e.target.value);
                     }
-                    
                   }}
                 />
               </div>
