@@ -7,6 +7,10 @@ import getAllRequests from "@/logic/consultations/lawyer/getAllRequests";
 import { useState } from "react";
 import { useEffect } from "react";
 import { date } from "yup";
+import approveRequest from "@/logic/consultations/lawyer/approveRequest";
+import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
+import rejectRequest from "@/logic/consultations/lawyer/rejectRequest";
 
 export default function page() {
   const [requests, setRequests] = useState([]);
@@ -19,7 +23,7 @@ export default function page() {
     r();
 
   }, [])
-  if (requests ==[]) {
+  if (requests.length==0) {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
@@ -37,6 +41,7 @@ export default function page() {
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
           <h2 className="text-xl font-bold mb-6 goldTxt">طلباتي</h2>
+          <Toaster/>
           <div className="space-y-6">
             {requests.map((item) => (
               <div key={item.id} className=" rounded-md p-4 bg-gray-100 shadow-md">
@@ -53,6 +58,14 @@ export default function page() {
 
                 <div className="flex justify-end gap-4">
                   <button
+                  onClick={async()=>{ 
+                    const result= await approveRequest(item.id,item.userId,item.lawyerId);
+                    if (result.success){
+                      toast.success("تم موافقة علي طلب الاستشارة")
+                    }else{
+                      toast.error("حصل خطأ")
+                    }
+                  }}
                     type="button"
                     className="flex items-center gap-2 text-green-600 hover:text-white border border-green-700 hover:bg-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
                   >
@@ -61,6 +74,14 @@ export default function page() {
                   </button>
 
                   <button
+                  onClick={async()=>{
+                    const result= await rejectRequest(item.id);
+                    if (result.success){
+                      toast.success("تم الرفض علي طلب الاستشارة")
+                    }else{
+                      toast.error("حصل خطأ")
+                    }
+                  }}
                     type="button"
                     className="flex items-center gap-2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                   >
