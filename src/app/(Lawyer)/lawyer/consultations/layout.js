@@ -7,7 +7,7 @@ export default function LawyerLayout({ children }) {
     <>
       <LawyerNav />
       <div className="bgLayout p-4 text-right mb-4">
-        <SubNav />
+        <SubNav userType={"lawyer"} />
 
         {children}
       </div>
