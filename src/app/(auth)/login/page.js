@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { auth } from "../../../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import * as Yup from "yup";
+import { handleLoginSubmit} from "@/utils/handleLoginSubmit";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
   const [loginInputs, setLoginInputs] = useState({
@@ -15,66 +14,15 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("صيغة البريد الإلكتروني غير صحيحة")
-      .required("البريد الإلكتروني مطلوب"),
-    password: Yup.string()
-      .required("كلمة المرور مطلوبة")
-      .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+  const handleSubmit = (e) => {
+  handleLoginSubmit({
+    e,
+    loginInputs,
+    setErrors,
+    router,
   });
-
-  const validateField = async (fieldName) => {
-    try {
-      await validationSchema.validateAt(fieldName, loginInputs);
-      setErrors((prev) => ({ ...prev, [fieldName]: "" }));
-    } catch (error) {
-      setErrors((prev) => ({ ...prev, [fieldName]: error.message }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setLoginInputs((prev) => ({ ...prev, [name]: value }));
-    try {
-      await validationSchema.validate(loginInputs, { abortEarly: false });
-      setErrors({});
-
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        loginInputs.email,
-        loginInputs.password
-      );
-
-      alert("تم تسجيل الدخول بنجاح");
-      router.push("/profile/lawyer");
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const formErrors = {};
-        err.inner.forEach((error) => {
-          formErrors[error.path] = error.message;
-        });
-        setErrors(formErrors);
-      } else if (err?.code === "auth/user-not-found") {
-        setErrors((prev) => ({
-          ...prev,
-          email: "هذا البريد غير مسجل. يرجى إنشاء حساب أولاً.",
-        }));
-      } else if (err?.code === "auth/wrong-password") {
-        setErrors((prev) => ({
-          ...prev,
-          password: "كلمة المرور غير صحيحة.",
-        }));
-      } else {
-        setErrors((prev) => ({
-          ...prev,
-          general: "حدث خطأ غير متوقع. حاول مرة أخرى.",
-        }));
-        console.error("Login error:", err);
-      }
-    }
-  };
+};
+  
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -167,6 +115,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+       <Toaster />
     </div>
   );
 }

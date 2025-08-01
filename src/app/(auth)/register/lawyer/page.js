@@ -7,6 +7,9 @@ import { auth, db } from "../../../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import * as Yup from "yup";
+import { handleLawyerRegister,validationSchema } from "@/utils/handleLawyerRegister";
+import { useRouter } from "next/navigation";
+
 export default function LawyerRegisterForm() {
   const [lawyerInputs, setLawyerInputs] = useState({
     name: "",
@@ -23,29 +26,7 @@ export default function LawyerRegisterForm() {
 
   const [specializations, setSpecializations] = useState([]);
   const [errors, setErrors] = useState({});
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("الاسم مطلوب")
-      .min(3, "يجب أن يحتوي على 3 حروف على الأقل"),
-    email: Yup.string()
-      .email("بريد إلكتروني غير صالح")
-      .required("الإيميل مطلوب"),
-    password: Yup.string()
-      .required("كلمة المرور مطلوبة")
-      .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
-    confirmPassword: Yup.string()
-      .required("تأكيد كلمة المرور مطلوب")
-      .oneOf([Yup.ref("password"), null], "كلمتا المرور غير متطابقتين"),
-    phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
-    dateOfBirth: Yup.string().required("تاريخ الميلاد مطلوب"),
-    city: Yup.string().required("المدينة مطلوبة"),
-    specializations: Yup.array()
-      .min(1, "يجب اختيار تخصص واحد على الأقل")
-      .of(Yup.string()),
-    lawyerCard: Yup.mixed().required("صورة بطاقة المحاماة مطلوبة"),
-    nationalId: Yup.mixed().required("صورة البطاقة الشخصية مطلوبة"),
-  });
+  const router = useRouter();
 
   const validateField = async (fieldName) => {
     try {
@@ -61,6 +42,44 @@ export default function LawyerRegisterForm() {
       }));
     }
   };
+
+  // const validationSchema = Yup.object().shape({
+  //   name: Yup.string()
+  //     .required("الاسم مطلوب")
+  //     .min(3, "يجب أن يحتوي على 3 حروف على الأقل"),
+  //   email: Yup.string()
+  //     .email("بريد إلكتروني غير صالح")
+  //     .required("الإيميل مطلوب"),
+  //   password: Yup.string()
+  //     .required("كلمة المرور مطلوبة")
+  //     .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+  //   confirmPassword: Yup.string()
+  //     .required("تأكيد كلمة المرور مطلوب")
+  //     .oneOf([Yup.ref("password"), null], "كلمتا المرور غير متطابقتين"),
+  //   phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
+  //   dateOfBirth: Yup.string().required("تاريخ الميلاد مطلوب"),
+  //   city: Yup.string().required("المدينة مطلوبة"),
+  //   specializations: Yup.array()
+  //     .min(1, "يجب اختيار تخصص واحد على الأقل")
+  //     .of(Yup.string()),
+  //   lawyerCard: Yup.mixed().required("صورة بطاقة المحاماة مطلوبة"),
+  //   nationalId: Yup.mixed().required("صورة البطاقة الشخصية مطلوبة"),
+  // });
+
+  // const validateField = async (fieldName) => {
+  //   try {
+  //     await validationSchema.validateAt(fieldName, {
+  //       ...lawyerInputs,
+  //       specializations,
+  //     });
+  //     setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
+  //   } catch (error) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       [fieldName]: error.message,
+  //     }));
+  //   }
+  // };
   const handleAddSpecialization = () => {
     if (
       lawyerInputs.specialization &&
@@ -72,61 +91,83 @@ export default function LawyerRegisterForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await validationSchema.validate(
-        { ...lawyerInputs, specializations },
-        { abortEarly: false }
-      );
-      setErrors({});
-
-      console.log("بيانات المحامي المرسلة:", {
-  name: lawyerInputs.name,
-  email: lawyerInputs.email,
-  password: lawyerInputs.password,
-  phoneNumber: lawyerInputs.phoneNumber,
-  dateOfBirth: lawyerInputs.dateOfBirth,
-  city: lawyerInputs.city,
-  specializations: specializations,
-  lawyerCard: lawyerInputs.lawyerCard,
-  nationalId: lawyerInputs.nationalId,
-});
-
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        lawyerInputs.email,
-        lawyerInputs.password
-      );
-      const user = userCredential.user;
-
-      await addDoc(collection(db, "lawyers"), {
-        uid: user.uid,
-        name: lawyerInputs.name,
-        email: lawyerInputs.email,
-        phoneNumber: lawyerInputs.phoneNumber,
-        dateOfBirth: lawyerInputs.dateOfBirth,
-        city: lawyerInputs.city,
-        specializations: specializations,
-        lawyerCard: lawyerInputs.lawyerCard?.name,
-        nationalId: lawyerInputs.nationalId?.name,
-      });
-
-      alert("تم إنشاء الحساب بنجاح!");
-    } catch (err) {
-      if (err.inner) {
-        const formErrors = {};
-        err.inner.forEach((error) => {
-          formErrors[error.path] = error.message;
-        });
-        setErrors(formErrors);
-      } else {
-        alert("حدث خطأ: " + err.message);
-      }
-    }
+  const handleSubmit = (e) => {
+    handleLawyerRegister({
+      e,
+      lawyerInputs,
+      specializations,
+      setErrors,
+      router,
+      resetForm: () => setLawyerInputs({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phoneNumber: "",
+        dateOfBirth: "",
+        city: "",
+        specialization: "",
+        lawyerCard: null,
+        nationalId: null,
+      }),
+    });
   };
+
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+
+  //     try {
+  //       await validationSchema.validate(
+  //         { ...lawyerInputs, specializations },
+  //         { abortEarly: false }
+  //       );
+  //       setErrors({});
+
+  //       console.log("بيانات المحامي المرسلة:", {
+  //   name: lawyerInputs.name,
+  //   email: lawyerInputs.email,
+  //   password: lawyerInputs.password,
+  //   phoneNumber: lawyerInputs.phoneNumber,
+  //   dateOfBirth: lawyerInputs.dateOfBirth,
+  //   city: lawyerInputs.city,
+  //   specializations: specializations,
+  //   lawyerCard: lawyerInputs.lawyerCard,
+  //   nationalId: lawyerInputs.nationalId,
+  // });
+
+
+  //       const userCredential = await createUserWithEmailAndPassword(
+  //         auth,
+  //         lawyerInputs.email,
+  //         lawyerInputs.password
+  //       );
+  //       const user = userCredential.user;
+
+  //       await addDoc(collection(db, "lawyers"), {
+  //         uid: user.uid,
+  //         name: lawyerInputs.name,
+  //         email: lawyerInputs.email,
+  //         phoneNumber: lawyerInputs.phoneNumber,
+  //         dateOfBirth: lawyerInputs.dateOfBirth,
+  //         city: lawyerInputs.city,
+  //         specializations: specializations,
+  //         lawyerCard: lawyerInputs.lawyerCard?.name,
+  //         nationalId: lawyerInputs.nationalId?.name,
+  //       });
+
+  //       alert("تم إنشاء الحساب بنجاح!");
+  //     } catch (err) {
+  //       if (err.inner) {
+  //         const formErrors = {};
+  //         err.inner.forEach((error) => {
+  //           formErrors[error.path] = error.message;
+  //         });
+  //         setErrors(formErrors);
+  //       } else {
+  //         alert("حدث خطأ: " + err.message);
+  //       }
+  //     }
+  //   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 mb-20">
@@ -276,12 +317,12 @@ export default function LawyerRegisterForm() {
               }
             >
               <option value="">اختر مجال التخصص :-</option>
-              <option value="القانون الجنائى">القانون الجنائى</option>
-              <option value="القانون المدنى">القانون المدنى</option>
-              <option value="القانون الإدارى">القانون الإدارى</option>
-              <option value="القانون التجارى">القانون التجارى</option>
-              <option value="قانون العمل">قانون العمل</option>
-              <option value="قانون الأحوال الشخصية">
+              <option value="الجنائى">القانون الجنائى</option>
+              <option value="المدنى">القانون المدنى</option>
+              <option value="الإدارى">القانون الإدارى</option>
+              <option value="التجارى">القانون التجارى</option>
+              <option value="العمل">قانون العمل</option>
+              <option value="الأحوال الشخصية">
                 قانون الأحوال الشخصية
               </option>
             </select>
