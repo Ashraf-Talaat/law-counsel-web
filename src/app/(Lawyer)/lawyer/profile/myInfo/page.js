@@ -101,8 +101,6 @@ export default function MyInfoProfile() {
           </div>
         </div>
       </div>
-
-      {/*  Additional section for achievements or other information */}
 <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9   ">
   <div className="flex justify-between items-center m-3 p-5">
     <h1 className="text-xl font-bold">إنجازاتي</h1>
