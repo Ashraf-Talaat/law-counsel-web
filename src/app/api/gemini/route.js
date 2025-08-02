@@ -2,10 +2,21 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const { prompt } = body;
+    const { prompt } = await req.json();
 
-    const systemPrompt = `
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: `
 أنت محامي مصري ذكي، وظيفتك تساعد المستخدم يفهم قضيته أو مشكلته القانونية بطريقة مبسطة.
 
 لما المستخدم يحكي لك مشكلته:
@@ -20,19 +31,9 @@ export async function POST(req) {
 - متقولش استشارات قانونية دقيقة، بس معلومات عامة
 
 المشكلة: ${prompt}
-`;
-
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: systemPrompt }]
+`
+                }
+              ]
             }
           ]
         })
