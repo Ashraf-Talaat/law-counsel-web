@@ -1,6 +1,6 @@
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { auth, db } from "@/firebase/firebase";
 import * as Yup from "yup";
 import Swal from 'sweetalert2'
@@ -42,7 +42,7 @@ export const handleClientRegisterSubmit = async (
 
     const user = userCredential.user;
 
-    await addDoc(collection(db, "clients",user.uid), {
+    await setDoc(doc(db, "clients",user.uid), {
       uid: user.uid,
       name: clientInputs.name,
       email: clientInputs.email,

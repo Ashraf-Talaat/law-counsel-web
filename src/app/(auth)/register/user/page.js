@@ -162,7 +162,7 @@ export default function ClientRegisterForm() {
               });
             }}
             onBlur={() =>
-              validateField("phoneNumber", clientInputs.phoneNumber)
+              validationSchema("phoneNumber", clientInputs.phoneNumber)
             }
             placeholder="رقم الهاتف"
             name="phoneNumber"
