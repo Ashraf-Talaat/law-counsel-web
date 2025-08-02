@@ -131,7 +131,7 @@ export default function ClientRegisterForm() {
                 setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
               }
             }}
-            onBlur={() => validateField("name", clientInputs.name)}
+            onBlur={() => validationSchema("name", clientInputs.name)}
             placeholder="الاسم الكامل"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />

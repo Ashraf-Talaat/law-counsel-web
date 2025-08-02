@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { handleLoginSubmit} from "@/utils/handleLoginSubmit";
+import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
@@ -15,14 +15,32 @@ export default function Login() {
   const router = useRouter();
 
   const handleSubmit = (e) => {
-  handleLoginSubmit({
-    e,
-    loginInputs,
-    setErrors,
-    router,
-  });
-};
-  
+    handleLoginSubmit({
+      e,
+      loginInputs,
+      setErrors,
+      router,
+    });
+  };
+
+
+
+  const validateField = async (fieldName) => {
+    try {
+      await validationSchema.validateAt(fieldName, {
+        ...loginInputs,
+      });
+      setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
+    } catch (error) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: error.message,
+      }));
+    }
+  };
+
+ 
+
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -115,7 +133,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-       <Toaster />
+      <Toaster />
     </div>
   );
 }
