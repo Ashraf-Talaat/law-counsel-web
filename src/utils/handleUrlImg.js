@@ -11,17 +11,17 @@ export const uploadImage = async (file) => {
     const data = await res.json();
 
     if (res.ok) {
-    //   console.log("✅ رابط الصورة:", data.url);
-    //   alert("تم رفع الصورة بنجاح ✅");
+    //   console.log("رابط الصورة:", data.url);
+    //   alert("تم رفع الصورة بنجاح ");
       return data.url;
     } else {
-      console.error("❌ رفع الصورة فشل:", data.error);
-    //   alert("فشل في رفع الصورة ❌: " + data.error);
+      console.error(" رفع الصورة فشل:", data.error);
+    //   alert("فشل في رفع الصورة : " + data.error);
       return null;
     }
   } catch (error) {
-    console.error("❌ خطأ غير متوقع أثناء رفع الصورة:", error);
-    // alert("حدث خطأ أثناء رفع الصورة ❌");
+    console.error(" خطأ غير متوقع أثناء رفع الصورة:", error);
+    // alert("حدث خطأ أثناء رفع الصورة ");
     return null;
   }
 };

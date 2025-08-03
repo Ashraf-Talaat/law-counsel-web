@@ -3,7 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { auth, db } from "@/firebase/firebase";
-import Swal from "sweetalert2";
+
 
 export const validationSchema = Yup.object().shape({
   email: Yup.string()
