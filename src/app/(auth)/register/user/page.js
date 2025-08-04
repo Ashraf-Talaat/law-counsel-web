@@ -2,10 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { auth, db } from "@/firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
-import * as Yup from "yup";
+import {
+  clientRegisterValidationSchema,
+  handleClientRegisterSubmit,
+} from "@/utils/handleClientRegisterSubmit";
+import { useRouter } from "next/navigation";
+
+
 export default function ClientRegisterForm() {
   const [clientInputs, setClientInputs] = useState({
     name: "",
@@ -16,74 +19,103 @@ export default function ClientRegisterForm() {
   });
 
   const [errors, setErrors] = useState({});
+   const router = useRouter();
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("الاسم مطلوب")
-      .min(3, "يجب ان يحتوى على 3 حروف"),
-    email: Yup.string()
-      .email("بريد إلكتروني غير صالح")
-      .required("الإيميل مطلوب"),
-    password: Yup.string()
-      .required("كلمة المرور مطلوبة")
-      .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
-    confirmPassword: Yup.string()
-      .required("تأكيد كلمة المرور مطلوب")
-      .oneOf([Yup.ref("password"), null], "كلمتا المرور غير متطابقتين"),
-    phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   name: Yup.string()
+  //     .required("الاسم مطلوب")
+  //     .min(3, "يجب أن يحتوي على 3 حروف على الأقل"),
+  //   email: Yup.string()
+  //     .email("بريد إلكتروني غير صالح")
+  //     .required("الإيميل مطلوب"),
+  //   password: Yup.string()
+  //     .required("كلمة المرور مطلوبة")
+  //     .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+  //   confirmPassword: Yup.string()
+  //     .required("تأكيد كلمة المرور مطلوب")
+  //     .oneOf([Yup.ref("password"), null], "كلمتا المرور غير متطابقتين"),
+  //   phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
+  // });
 
-  const validateField = async (fieldName, value) => {
-    try {
-      await Yup.reach(validationSchema, fieldName).validate(value);
-      setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
-    } catch (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [fieldName]: error.message,
-      }));
-    }
-  };
+  // const validateField = async (fieldName) => {
+  //   try {
+  //     await validationSchema.validateAt(fieldName, {
+  //       ...clientInputs,
+  //     });
+  //     setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
+  //   } catch (error) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       [fieldName]: error.message,
+  //     }));
+  //   }
+  // };
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     await validationSchema.validate(
+  //       { ...clientInputs },
+  //       { abortEarly: false }
+  //     );
+  //     setErrors({});
+
+  //     console.log("بيانات العميل المرسلة:", {
+  //       name: clientInputs.name,
+  //       email: clientInputs.email,
+  //       password: clientInputs.password,
+  //       phoneNumber: clientInputs.phoneNumber,
+  //     });
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       clientInputs.email,
+  //       clientInputs.password
+  //     );
+
+  //     const user = userCredential.user;
+
+  //     await addDoc(collection(db, "clients"), {
+  //       uid: user.uid,
+  //       name: clientInputs.name,
+  //       email: clientInputs.email,
+  //       phoneNumber: clientInputs.phoneNumber,
+  //     });
+  //     alert("تم إنشاء الحساب بنجاح!");
+  //   } catch (err) {
+  //     if (err.inner) {
+  //       const formErrors = {};
+  //       err.inner.forEach((error) => {
+  //         formErrors[error.path] = error.message;
+  //       });
+  //       setErrors(formErrors);
+  //     } else {
+  //       alert("حدث خطأ: " + err.message);
+  //     }
+  //   }
+  // };
+  const validationSchema = clientRegisterValidationSchema;
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      await validationSchema.validate(clientInputs, { abortEarly: false });
-      setErrors({});
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        clientInputs.email,
-        clientInputs.password
-      );
-
-      const user = userCredential.user;
-
-      await addDoc(collection(db, "clients"), {
-        uid: user.uid,
-        name: lawyerInputs.name,
-        email: lawyerInputs.email,
-        phoneNumber: lawyerInputs.phoneNumber,
-      });
-
-      alert("تم إنشاء الحساب بنجاح!");
-    } catch (err) {
-      if (err.inner) {
-        const formErrors = {};
-        err.inner.forEach((error) => {
-          formErrors[error.path] = error.message;
-        });
-        setErrors(formErrors);
-      } else {
-        alert("حدث خطأ: " + err.message);
-      }
-    }
+    handleClientRegisterSubmit(clientInputs, setErrors,router, () =>
+      setClientInputs({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phoneNumber: "",
+      })
+    );
   };
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <form onSubmit={handleSubmit} className="space-y-4 text-right w-full">
+        <form onSubmit={handleSubmit} method="post" className="space-y-4 text-right w-full">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             إنشاء حساب جديد
           </h2>
@@ -99,7 +131,7 @@ export default function ClientRegisterForm() {
                 setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
               }
             }}
-            onBlur={() => validateField("name", clientInputs.name)}
+            onBlur={() => validationSchema("name", clientInputs.name)}
             placeholder="الاسم الكامل"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
@@ -112,12 +144,32 @@ export default function ClientRegisterForm() {
             onChange={(event) => {
               setClientInputs({ ...clientInputs, email: event.target.value });
             }}
-            onBlur={() => validateField("email", clientInputs.email)}
+            onBlur={() => validationSchema("email", clientInputs.email)}
             placeholder="البريد الإلكتروني"
+            name="email"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
+          <input
+            type="text"
+            value={clientInputs.phoneNumber}
+            onChange={(event) => {
+              setClientInputs({
+                ...clientInputs,
+                phoneNumber: event.target.value,
+              });
+            }}
+            onBlur={() =>
+              validationSchema("phoneNumber", clientInputs.phoneNumber)
+            }
+            placeholder="رقم الهاتف"
+            name="phoneNumber"
+            className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
+          />
+          {errors.phoneNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
           )}
           <input
             type="password"
@@ -128,8 +180,9 @@ export default function ClientRegisterForm() {
                 password: event.target.value,
               });
             }}
-            onBlur={() => validateField("password", clientInputs.password)}
+            onBlur={() => validationSchema("password", clientInputs.password)}
             placeholder="كلمة المرور"
+            name="password"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.password && (
@@ -144,34 +197,15 @@ export default function ClientRegisterForm() {
                 confirmPassword: event.target.value,
               });
             }}
-            onBlur={() =>
-              validateField("confirmPassword", clientInputs.confirmPassword)
-            }
+            onBlur={() => validationSchema("confirmPassword")}
             placeholder="تأكيد كلمة المرور"
+            name="confirmPassword"
             className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
           />
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">
               {errors.confirmPassword}
             </p>
-          )}
-          <input
-            type="text"
-            value={clientInputs.phoneNumber}
-            onChange={(event) => {
-              setClientInputs({
-                ...clientInputs,
-                phoneNumber: event.target.value,
-              });
-            }}
-            onBlur={() =>
-              validateField("phoneNumber", clientInputs.phoneNumber)
-            }
-            placeholder="رقم الهاتف"
-            className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#b19667]"
-          />
-          {errors.phoneNumber && (
-            <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
           )}
           <div className="flex flex-col md:flex-row items-start gap-6 mt-6"></div>
           <div className="flex justify-center ">
