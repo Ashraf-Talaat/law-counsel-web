@@ -4,6 +4,8 @@ import ProfileNav from '@/_components/layout/profileNav/index';
 import { ProfileSubNav } from '@/_components/layout/profileNav/profileSubNav/index';
 
 export default function LawyerProfile({ children }) {
+  
+  
   return (
     <>
       <div className="relative bg-gray-100 min-h-screen">
