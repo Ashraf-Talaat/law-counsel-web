@@ -6,9 +6,6 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
-
-// import Image from "next/image";
-
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import Swal from "sweetalert2";
@@ -84,7 +81,6 @@ function EditProfileModal({ isOpen, onClose, userData, onSave }) {
   );
 }
 
-
 export default function UserProfileInfo() {
   const [userData, setUserData] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -149,24 +145,6 @@ export default function UserProfileInfo() {
   if (!userData) return <p className="text-center mt-10">جاري التحميل...</p>;
 
   return (
-
-//   <>
-//     <div className="flex justify-center mt-[-10rem] mb-7 z-20 relative">
-//             <Image
-//               src="/images/lawyer.jpg"
-//               alt="User"
-//               width={180}
-//               height={180}
-//               className="rounded-full border-4 border-[#C9B38C]"
-//             />
-//             </div>
-//       <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto mb-10">
-//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>الإسم :</h5>
-//             <h2 className="text-2xl"> عبدالرحمن فوزى نصر محمود</h2>
-//             <hr />
-
     <>
       <div className="relative bg-white rounded-2xl shadow-lg p-10 text-right max-w-6xl min-h-[350px] mx-auto mb-12">
         <PencilSquareIcon
@@ -178,7 +156,6 @@ export default function UserProfileInfo() {
           <div className="pb-3 border-b border-gray-300">
             <h5 className="text-sm text-gray-500 mb-1">الاسم</h5>
             <h2 className="text-2xl">{userData.name}</h2>
-
           </div>
           <div className="pb-3 border-b border-gray-300">
             <h5 className="text-sm text-gray-500 mb-1">البريد الإلكتروني</h5>
