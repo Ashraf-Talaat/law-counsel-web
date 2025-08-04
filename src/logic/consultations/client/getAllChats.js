@@ -7,16 +7,16 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-export function getAllChatsRealtime(uid, callback) {
+export default function getAllChats(uId, callback) {
   const q = query(collection(db, "chats"), orderBy("lastMessageTime", "desc"));
 
-  const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+  const unsubscribe = onSnapshot(q, async (querySnap) => {
     const chats = [];
 
-    for (const doc of querySnapshot.docs) {
+    for (const doc of querySnap.docs) {
       const chatData = doc.data();
 
-      if (chatData.lawyerId === uid) {
+      if (chatData.clientId === uId) {
         const messagesRef = query(
           collection(db, "chats", doc.id, "messages"),
           orderBy("timestamp", "asc")
@@ -24,9 +24,9 @@ export function getAllChatsRealtime(uid, callback) {
 
         const messagesSnapshot = await getDocs(messagesRef);
 
-        const messages = messagesSnapshot.docs.map((msgDoc) => ({
-          id: msgDoc.id,
-          ...msgDoc.data(),
+        const messages = messagesSnapshot.docs.map((msg) => ({
+          id: msg.id,
+          ...msg.data(),
         }));
 
         chats.push({
@@ -37,8 +37,7 @@ export function getAllChatsRealtime(uid, callback) {
       }
     }
     console.log(chats);
-    callback(chats); // نرجع البيانات للواجهة
+    callback(chats);
   });
-
-  return unsubscribe; // علشان توقف الاستماع بعدين
+  return unsubscribe;
 }

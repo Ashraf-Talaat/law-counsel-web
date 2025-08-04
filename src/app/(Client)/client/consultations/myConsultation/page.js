@@ -1,10 +1,24 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
-export default function page() {
+//logic
+import getAllChats from "@/logic/consultations/client/getAllChats";
+
+export default function Page() {
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = getAllChats("0hPemfz1O8Xd3RoEIyJ5GqO4BoH3", (chat) => {
+      setChats(chat);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
@@ -13,9 +27,9 @@ export default function page() {
           <div className="w-full md:w-1/2 sm:w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
             <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
             <ul className="space-y-4">
-              {[1, 2, 3].map((id) => (
+              {chats.map((ele) => (
                 <li
-                  key={id}
+                  key={ele.lawyerId}
                   className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                 >
                   <Image
@@ -27,8 +41,8 @@ export default function page() {
                   />
 
                   <div>
-                    <p className="font-semibold mb-1">اسم المحامي: مسعوود</p>
-                    <p className="text-sm subTxt ">عنوان الاستشارة</p>
+                    <p className="font-semibold mb-1">اسم المحامي: zohraaaa</p>
+                    <p className="text-sm subTxt "> {ele.lastMessage}</p>
                   </div>
                 </li>
               ))}

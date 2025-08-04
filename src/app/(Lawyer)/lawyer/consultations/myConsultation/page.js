@@ -1,27 +1,29 @@
-'use client'
-
+"use client";
 import Image from "next/image";
-
-//Icons
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useEffect } from "react";
+
+//logic
 import { getAllChatsRealtime } from "@/logic/consultations/lawyer/getAllChats";
 import { sendMessage } from "@/logic/consultations/lawyer/sendMessage";
 
+//Icons
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
-export default function page() {
+export default function Page() {
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
 
-
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime("5oUmpSlGVTX2AsQoSlUpsUsWxi83", (chat) => {
-      setChats(chat);
-      setMessages(chat[index].messages)
-    });
+    const unsubscribe = getAllChatsRealtime(
+      "5oUmpSlGVTX2AsQoSlUpsUsWxi83",
+      (chat) => {
+        setChats(chat);
+        setMessages(chat[index].messages);
+      }
+    );
 
     return () => unsubscribe(); // تنظيف عند الخروج من الصفحة
   }, []);
@@ -36,8 +38,8 @@ export default function page() {
               {chats.map((item, i) => (
                 <li
                   onClick={() => {
-                    setIndex(i)
-                    setMessages(item.messages)
+                    setIndex(i);
+                    setMessages(item.messages);
                   }}
                   key={item.clientId}
                   className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
@@ -76,57 +78,63 @@ export default function page() {
                 }
               </div>
             </div> */}
-          <div className="w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
+          <div className="w-1/2 h-[500px] p-4 flex flex-col justify-between rounded-md shadow-2xl">
             <div>
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
 
-              {/* ✅ Scrollable container */}
-              <div className="space-y-1 overflow-y-auto h-[350px] pr-2 scroll-hidden">
-                {messages.map((item) => (
+              {/* Scrollable container */}
+              <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+                {messages.map((item) =>
                   item.senderId === "5oUmpSlGVTX2AsQoSlUpsUsWxi83" ? (
-                    <div key={item.id} className="text-left bg-blue-200 p-3 rounded-md w-fit">
+                    <div
+                      key={item.id}
+                      className="text-left bg-blue-200 p-2 rounded-md w-fit"
+                    >
                       {item.message}
                     </div>
                   ) : (
-                    <div key={item.id} className="bg-gray-200 p-3 rounded-md w-fit ms-auto">
+                    <div
+                      key={item.id}
+                      className="bg-gray-300 p-2 rounded-md w-fit ms-auto"
+                    >
                       {item.message}
                     </div>
                   )
-                ))}
+                )}
               </div>
             </div>
-
 
             {/* كتابة رسالة */}
             <div className="mt-6 flex">
               <input
-              value={input}
-                onChange={
-                  (e)=>{
-                    setInput(e.target.value);
-                  }
-                }
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
                 type="text"
                 placeholder="اكتب رسالتك هنا"
                 className="w-full border p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-[#c9b38c] caret-[#c9b38c] text-gray-700"
                 style={{ borderColor: "#c9b38c" }}
               />
               <button
-                onClick={
-                 async () => {
-                    input!==""?
-                   await sendMessage(chats[index].chatId, '5oUmpSlGVTX2AsQoSlUpsUsWxi83',input):
-                    ''
-                    setInput('')
-                  }
-                }
-                className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2">
+                onClick={async () => {
+                  input !== ""
+                    ? await sendMessage(
+                        chats[index].chatId,
+                        "5oUmpSlGVTX2AsQoSlUpsUsWxi83",
+                        input
+                      )
+                    : "";
+                  setInput("");
+                }}
+                className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2"
+              >
                 <PaperAirplaneIcon className="w-9 h-9" />
               </button>
             </div>
           </div>
         </div>
-      </div >
+      </div>
     </>
   );
 }
