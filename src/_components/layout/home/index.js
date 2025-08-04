@@ -5,7 +5,8 @@ import About from "@/_components/layout/aboutus";
 import Specializations from "@/_components/layout/home_specializations";
 import TopRated from "@/_components/layout/topRated";
 import ContactUs from "@/_components/layout/contactUs";
-import  RegisPopup  from '@/_components/layout/RegisPopup';
+
+import RegisPopup from "@/_components/layout/RegisPopup";
 
 //
 export default function index() {
@@ -18,7 +19,9 @@ export default function index() {
         <Specializations />
         <About />
         <ContactUs />
-        <RegisPopup isPopup={false}/>
+
+        <RegisPopup  isPopup={false} />
+
         {/* <BookAppointment /> */}
       </div>
     </div>

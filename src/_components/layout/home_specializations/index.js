@@ -1,10 +1,11 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function index() {
+export default function Index() {
   return (
-    <div className="bg-[#1C202E] text-white p-10 grid text-center">
+    <div className="bg-[#1c202e] text-white p-10 grid text-center">
       <div className="text-[#C9B38C] p-4 col-span-full">
         <h2 className="text-2xl font-bold mb-4">تخصصاتنا</h2>
         <p className="mb-6">
@@ -13,7 +14,7 @@ export default function index() {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/Handcuffs.png"
             alt="legal specialization"
@@ -27,7 +28,7 @@ export default function index() {
             الدفاع في القضايا الجنائية مثل السرقة، القتل، المخدرات، التهديد
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/Family.png"
             alt="family specialization"
@@ -41,7 +42,7 @@ export default function index() {
             الزواج، الطلاق، النفقة، الحضانة، إثبات النسب
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/Labor.png"
             alt="Labor specialization"
@@ -55,7 +56,7 @@ export default function index() {
             . التعويضات، العقود، المسؤولية المدنية، الدعاوى المالية
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/Permanent-Job.png"
             alt="legal specialization"
@@ -69,7 +70,7 @@ export default function index() {
             قضايا الموظفين ضد الجهات الحكومية، القرارات الإدارية، التظلمات.
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/IncomeTax.png"
             alt="legal specialization"
@@ -83,7 +84,7 @@ export default function index() {
             مشاكل العاملين، الفصل التعسفي، التعويض، العقود، التأمينات
           </p>
         </div>
-        <div className=" p-4 my-2">
+        <div className=" p-4 my-2 transition-transform hover:scale-[1.01]">
           <Image
             src="/images/Skyscrapers.png"
             alt="legal specialization"
@@ -100,7 +101,7 @@ export default function index() {
       </div>
       <div className="text-[#C9B38C] p-4 col-span-full">
         <Link href="/client/allSpecializations">
-          <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
+          <button className="btn bg-[#C9B38C] text-white hover:bg-[#b69d75] my-2">
             مزيد من التخصصات
           </button>
         </Link>

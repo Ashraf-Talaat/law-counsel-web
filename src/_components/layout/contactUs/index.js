@@ -1,10 +1,36 @@
 import React from "react";
 import Image from "next/image";
-
+import { db } from "@/firebase/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //icons
 import { HomeIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
-export default function index() {
+export default function Index() {
+  let [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    description: "",
+  });
+  // const handleChange = (e) => {
+  //   setContactData = [{ ...contactData, [e.target.name]: e.target.value }];
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await addDoc(collection(db, "contact"), {
+        name: contactData.name,
+        email: contactData.email,
+        description: contactData.description,
+        createdAt: serverTimestamp(),
+      });
+      setContactData({ name: "", email: "", description: "" });
+    } catch (error) {
+      console.error("firestore error:", error);
+    }
+  };
   return (
     <>
       <div className="container  mx-auto my-20 px-4 py-8 bgPrimary">
@@ -13,7 +39,7 @@ export default function index() {
           نموذج الاتصال
         </h1>
         <div className="flex items-center justify-around">
-          <form className="w-full max-w-lg p-8 ">
+          <form className="w-full max-w-lg p-8 " onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 className="block text-gray-700 mb-2 goldTxt"
@@ -26,6 +52,14 @@ export default function index() {
                 id="name"
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
                 placeholder="أدخل اسمك"
+                value={contactData.name}
+                name="name"
+                onChange={(e) => {
+                  setContactData({
+                    ...contactData,
+                    name: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="mb-4">
@@ -40,6 +74,14 @@ export default function index() {
                 id="email"
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
                 placeholder="أدخل بريدك الإلكتروني"
+                value={contactData.email}
+                name="email"
+                onChange={(e) => {
+                  setContactData({
+                    ...contactData,
+                    email: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="mb-4">
@@ -54,11 +96,19 @@ export default function index() {
                 rows="4"
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
                 placeholder="اكتب رسالتك هنا..."
+                value={contactData.description}
+                name="description"
+                onChange={(e) => {
+                  setContactData({
+                    ...contactData,
+                    description: e.target.value,
+                  });
+                }}
               />
             </div>
             <button
               type="submit"
-              className="w-full bgBtn text-white font-bold py-2 px-4 rounded hover:bgBtnHover transition duration-200"
+              className="cursor-pointer w-full bg-[#c9b38c] text-white font-bold py-2 px-4 rounded hover:bg-[#b69d75] transition duration-200"
             >
               إرسال
             </button>

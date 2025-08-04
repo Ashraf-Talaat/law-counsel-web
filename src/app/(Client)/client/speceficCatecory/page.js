@@ -1,40 +1,31 @@
 "use client";
-
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HeroOther from "@/_components/layout/hero-other";
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/24/solid";
 //Firebase
 import { createRequest } from "@/logic/consultations/client/createRequest";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase/firebase";
+import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const specialtyFromUrl = searchParams.get("specialty");
+
+  // store all lawers
   const [lawyers, setLawyers] = useState([]);
-  const [serachValue, setSerachValue] = useState("");
+
+  // function to get all lawers data from firebase
   useEffect(() => {
-    const fetchLawyers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "lawyers")); // اسم الكلكشن حسب ما عندك
-        const lawyersData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLawyers(lawyersData);
-      } catch (error) {
-        console.error("Error fetching lawyers: ", error);
-      }
+    const getLawyers = async () => {
+      const data = await fetchLawyers();
+      setLawyers(data);
     };
 
-    fetchLawyers();
+    getLawyers();
   }, []);
-  
-  
-  
-  
-  
-  
-  
+
+  // for submit consultaion
 
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
@@ -55,22 +46,31 @@ export default function Page() {
     }
   };
 
-  const filterLawers = lawyers.filter((lawer) =>
-    lawyer.name?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  // store search lawers
+  const [searchValue, setSearchValue] = useState("");
+  // filter result
+  const filteredLawyers = lawyers.filter((lawyer) => {
+    const nameMatch = lawyer.name
+      ?.toLowerCase()
+      .includes(searchValue.toLowerCase());
+    const specialtyMatch = specialtyFromUrl
+      ? lawyer.specialty === specialtyFromUrl
+      : true;
+    return nameMatch && specialtyMatch;
+  });
 
   return (
     <div className="bg-[#EEEEEE]">
       <HeroOther
-        title="القانون الجنائي"
+        title={specialtyFromUrl || "جميع المحامين"}
         description="هتم القانون الجنائي بتنظيم الجرائم والعقوبات، ويهدف إلى تحقيق
- العدالة وردع المخالفين وحماية المجتمع من الأفعال الإجرامية."
+                      العدالة وردع المخالفين وحماية المجتمع من الأفعال الإجرامية."
         showInput={true}
-        onSearchChange={setSerachValue}
+        onSearchChange={setSearchValue}
       />
 
       <div className="w-[85%]  mx-auto my-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {lawyers.map((lawyer) => (
+        {filteredLawyers.map((lawyer) => (
           <div
             key={lawyer.id}
             className="relative mx-auto bg-white rounded-xl overflow-hidden shadow-xl  max-h-[350px]"
@@ -88,7 +88,10 @@ export default function Page() {
             />
             <div className="w-[90%] p-3 rounded-xl mx-4 bg-white absolute top-50 ">
               <div className="flex justify-between ">
-                <h3 className="text-lg font-semibold mb-2"> {lawyer.name}</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  {" "}
+                  {lawyer.name.split(" ").slice(0, 2).join(" ")}
+                </h3>
                 <div className="flex ">
                   <p className="mb-2">التقييم</p>
                   <div className="flex ">
@@ -102,10 +105,9 @@ export default function Page() {
               <div className=" flex justify-between ">
                 {/* //////////////////////////////////////////////////////////////////////////// */}
                 <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
-
-                  <button>
+                  <button className="mt-3">
                     <label
-                      className=" text-white px-2.5 bgPrimary mt-2 rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                      className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                       htmlFor="create-post-modal"
                     >
                       طلب استشارة
