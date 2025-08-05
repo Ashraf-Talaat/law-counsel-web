@@ -28,9 +28,9 @@ export default function Page() {
         <div className="w-full max-w-3xl mx-auto my-10 p-6 bg-white ">
           {articles.map((art) => (
             <div key={art.id} className="mb-15 p-8 rounded-lg shadow-lg">
-              <div className="flex items-center mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Image
-                  src="/images/logo-dark.png"
+                  src={art.userImage}
                   alt="topRated"
                   width={50}
                   height={50}
@@ -38,7 +38,7 @@ export default function Page() {
                 />
 
                 <div>
-                  <p className="font-semibold mb-1">ندي محمد</p>
+                  <p className="font-semibold mb-1"> {art.userName}</p>
                   <p className="text-sm text-gray-500">
                     {new Date(art.createdAt).toLocaleDateString("ar-EG", {
                       day: "numeric",

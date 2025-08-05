@@ -182,7 +182,7 @@ export default function Page() {
                 className=" object-cover h-full rounded"
               />
               </Link>
-              <div className="w-[90%] p-3 rounded-xl  mx-4 bg-white absolute top-45 flex justify-between">
+              <div className="min-w-[90%] p-3 rounded-xl mb-6 mx-4 bg-white absolute top-45 flex justify-between">
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
                     {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
