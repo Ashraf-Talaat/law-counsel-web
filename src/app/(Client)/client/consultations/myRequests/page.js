@@ -7,6 +7,7 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 
 //logic
 import getMyRequests from "@/logic/consultations/client/getMyRequests";
+import DeleteRequest from "@/logic/consultations/client/deleteRequest";
 
 //alert
 import toast, { Toaster } from "react-hot-toast";
@@ -15,6 +16,7 @@ import Swal from "sweetalert2";
 export default function Page() {
   const [requests, setRequests] = useState([]);
 
+  //get all requests
   useEffect(() => {
     const req = async () => {
       const result = await getMyRequests("V16E4Wi1pNSZdZFQhT896gm2jU73");
@@ -23,6 +25,41 @@ export default function Page() {
     req();
   }, []);
 
+  //delete request method
+  const handleDeleteRequest = async (requestId) => {
+    const result = await Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: "لن تتمكن من التراجع عن هذا!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "نعم، احذفه!",
+      cancelButtonText: "إلغاء",
+    });
+
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "جارٍ الحذف...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      //delete request
+      try {
+        await DeleteRequest(requestId);
+        Swal.close();
+        Swal.fire("تم الحذف!", "تم حذف الطلب بنجاح.", "success");
+      } catch (error) {
+        Swal.fire("خطأ", "حدث خطأ أثناء الحذف.", "error");
+      }
+
+      //update UI
+      setRequests(requests.filter((item) => item.id !== requestId));
+    }
+  };
+
+  //check if there is requests or not
   if (requests.length === 0) {
     return (
       <>
@@ -57,8 +94,12 @@ export default function Page() {
                   محتوى الطلب: {item.description}
                 </p>
                 <p className="font-semibold">اسم المحامي: {item.lawyerId}</p>
+
+                {/* buttons of edit and delete */}
                 <div className="flex justify-end gap-4">
+                  {/* edit button  */}
                   <button
+                  
                     type="button"
                     className="flex items-center gap-2 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                   >
@@ -66,7 +107,9 @@ export default function Page() {
                     تعديل
                   </button>
 
+                  {/* deleted button  */}
                   <button
+                    onClick={() => handleDeleteRequest(item.id)}
                     type="button"
                     className="flex items-center gap-2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                   >

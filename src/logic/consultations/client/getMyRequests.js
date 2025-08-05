@@ -11,7 +11,10 @@ export default async function getMyRequests(uId) {
 
     const requests = querySnapshot.docs
       .filter(
-        (doc) => doc.data().userId === uId && doc.data().status === "pending"
+        (doc) =>
+          doc.data().userId === uId &&
+          doc.data().status === "pending" &&
+          doc.data().deletedByClient === false
       )
       .map((doc) => ({
         id: doc.id,
