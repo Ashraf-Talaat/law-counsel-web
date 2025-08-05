@@ -146,6 +146,7 @@ export default function UserProfileInfo() {
 
   return (
     <>
+    
       <div className="relative bg-white rounded-2xl shadow-lg p-10 text-right max-w-6xl min-h-[350px] mx-auto mb-12">
         <PencilSquareIcon
           onClick={() => setIsEditOpen(true)}

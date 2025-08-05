@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import MainNav from "./layout/navbar/mainNav";
 
 export function AskGemini() {
   const [prompt, setPrompt] = useState("");
@@ -78,7 +79,12 @@ export function AskGemini() {
       }
 
       return (
+        
+       
+        <>
+        
         <div key={pi} className="mb-3 space-y-2">
+          
           {lines.map((line, li) => {
             // إذا السطر هو عنوان (قصير ومش جملة كاملة)
             if (line.length <= 40 && !line.startsWith("*")) {
@@ -98,12 +104,15 @@ export function AskGemini() {
             );
           })}
         </div>
+        </>
       );
     });
   };
 
   return (
+    
     <div className="flex flex-col max-w-4xl mx-auto p-4">
+      
       <div className="mb-4">
         <h1 className="text-2xl font-semibold text-gray-800">اسأل Law Consoule</h1>
         <p className="text-sm text-gray-500">
@@ -186,5 +195,7 @@ export function AskGemini() {
         </form>
       </div>
     </div>
+    
   );
+
 }

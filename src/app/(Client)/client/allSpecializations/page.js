@@ -21,9 +21,13 @@ import Link from "next/link";
 export default function Page() {
   // store all lawers
   const [lawyers, setLawyers] = useState([]);
-
+  const [isLogin, setLogin] = useState(false);
+  const clientId= localStorage.getItem('uid')
   // fetch data to get all lawers from firebase
   useEffect(() => {
+    if (clientId !== null && localStorage.getItem('userType') == 'client') {
+           setLogin(true)
+          }
     const allLawyers = async () => {
       const data = await fetchLawyers();
       setLawyers(data);
@@ -74,19 +78,10 @@ export default function Page() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // هنا لما نربط بال auth عشان اعرف اجيب ال currentUser  userId: currentUser.uid
-    // const auth = getAuth();
-    // const currentUser = auth.currentUser;
-
-    // if (!currentUser) {
-    //   console.error("المستخدم غير مسجل دخول");
-    //   return;
-    // }
-
     newRequest({
       title: formData.title,
       description: formData.description,
-      userId: "0hPemfz1O8Xd3RoEIyJ5GqO4BoH3",
+      userId: clientId,
       lawyerId: selectedLawyerId,
       createdAt: new Date().toISOString(),
       status: "pending",
@@ -168,13 +163,13 @@ export default function Page() {
           }}
         />
       </div>
-      <div className="w-[85%] mx-auto my-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="w-[85%] mx-auto  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {filteredData.map((lawyer) => (
           <div
             key={lawyer.id}
-            className="relative mx-auto rounded-xl overflow-hidden shadow-xl  max-h-[350px]"
+            className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  max-h-[350px]"
           >
-            <Link href={`/client/Profile/user/${lawyer.id}`}>
+            <Link href={`/client/Profile/${lawyer.id}`}>
               <Image
                 src={
                   lawyer.profileImageUrl?.startsWith("http")
@@ -186,6 +181,7 @@ export default function Page() {
                 height={0}
                 className=" object-cover h-full rounded"
               />
+              </Link>
               <div className="w-[90%] p-3 rounded-xl  mx-4 bg-white absolute top-45 flex justify-between">
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
@@ -213,21 +209,26 @@ export default function Page() {
 
                   {/* ////////////////////////////////////////////////// */}
 
-                  <div
-                    className="tooltip tooltip-right"
-                    data-tip=" طلب استشارة"
-                  >
-                    <button
+                  <button
                       className="mt-3"
                       onClick={() => setSelectedLawyerId(lawyer.id)}
                     >
                       <label
-                        className=" text-white px-2.5 bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                        className=" text-white px-2.5 cursor-pointer bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                         htmlFor="create-post-modal"
                       >
                         طلب استشارة
                       </label>
                     </button>
+
+                </div>
+              </div>
+            {/* </Link> */}
+            <div
+                    className="tooltip tooltip-right"
+                    data-tip=" طلب استشارة"
+                  >
+                    
 
                     <input
                       type="checkbox"
@@ -282,9 +283,6 @@ export default function Page() {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </Link>
           </div>
         ))}
       </div>
