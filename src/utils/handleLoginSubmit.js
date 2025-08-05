@@ -55,7 +55,7 @@ export const handleLoginSubmit = async ({
         return;
       }
       toast.success("تم تسجيل الدخول بنجاح كمحامي");
-      router.push("/lawyer/home");
+      router.push("/lawyer/home/articles");
       return;
     } else {
       toast.error("لا يوجد حساب مرتبط بهذا البريد الإلكتروني.");

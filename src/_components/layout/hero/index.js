@@ -25,9 +25,11 @@ export default function index() {
               اسأل شات بوت
             </button>
             </Link>
+            <Link href={"/client/allSpecializations"} >
             <button className="px-4 mx-1.5 py-1.5 cursor-pointer rounded bg-[#c9b38c] hover:bg-[#b69d75]">
               ابدأ استشارتك
             </button>
+            </Link>
           </div>
         </div>
       </div>

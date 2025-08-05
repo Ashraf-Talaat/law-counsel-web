@@ -3,8 +3,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import RegisPopup from "@/_components/layout/RegisPopup";
+import { useEffect } from "react";
 export default function MainNav() {
   const [showPopup, setShowPopup] = useState(false);
+  const [isLogin, setLogin] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
+      setLogin(true)
+    }
+  }, [])
   return (
     <div className="text-center">
       <div className="navbar w-full ">
@@ -35,12 +42,22 @@ export default function MainNav() {
               <li>
                 <Link href="/">الرئيسية</Link>
               </li>
+              {isLogin ?
+                <li>
+                  <Link href="/client/userArticle">المقالات</Link>
+                </li> : ''}
+              {isLogin ?
+                <li>
+                  <Link href="/client/consultations/myConsultation">الدردشات</Link>
+                </li> : ''}
               <li>
                 <Link href="/aboutUs">من نحن</Link>
               </li>
               <li>
                 <Link href="#">تواصل معنا</Link>
               </li>
+              
+
             </ul>
           </div>
           <Link href="/" className="">
@@ -57,15 +74,24 @@ export default function MainNav() {
             <li>
               <Link href="/">الرئيسية</Link>
             </li>
+            {isLogin ?
+              <li>
+                <Link  href="/client/userArticle">المقالات</Link>
+              </li> : ''}
+            {isLogin ?
+              <li>
+                <Link href="/client/consultations/myConsultation">الدردشات</Link>
+              </li> : ''}
             <li>
               <Link href="/aboutUs">من نحن</Link>
             </li>
             <li>
               <Link href="/#aboutUs">تواصل معنا</Link>
             </li>
+            
           </ul>
         </div>
-        <div className="navbar-end">
+        {isLogin ? "" : <div className="navbar-end">
           <button
             onClick={() => setShowPopup(true)}
             className="btn bgBtn me-1.5 hover:!bg-[#b69d75]"
@@ -76,7 +102,7 @@ export default function MainNav() {
           <Link href="/login" className="btn ">
             تسجيل دخول
           </Link>
-        </div>
+        </div>}
       </div>
       {/* {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />} */}
     </div>
