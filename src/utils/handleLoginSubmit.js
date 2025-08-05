@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { auth, db } from "@/firebase/firebase";
 
-
 export const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("صيغة البريد الإلكتروني غير صحيحة")
@@ -13,8 +12,6 @@ export const validationSchema = Yup.object().shape({
     .required("كلمة المرور مطلوبة")
     .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
 });
-
-
 
 export const handleLoginSubmit = async ({
   e,
@@ -44,21 +41,21 @@ export const handleLoginSubmit = async ({
       localStorage.setItem("userType", "client");
       localStorage.setItem("uid", uid);
       toast.success("تم تسجيل الدخول بنجاح كعميل");
-      // router.push("/profile/client");
+      router.push("/");
       return;
     } else if (lawyerDoc.exists()) {
       localStorage.setItem("userType", "lawyer");
       localStorage.setItem("uid", uid);
 
-      // if(!lawyerDoc.data().isApproved){
-      //   Swal.fire({
-      //     icon :"info",
-      //     text:" المحامي لسه مش متوافق عليه"
-      //   })
-      //   return ;
-      // }
+      if (!lawyerDoc.data().isApproved) {
+        Swal.fire({
+          icon: "info",
+          text: " المحامي لسه مش متوافق عليه",
+        });
+        return;
+      }
       toast.success("تم تسجيل الدخول بنجاح كمحامي");
-      // router.push("/profile/lawyer");
+      router.push("/lawyer/home");
       return;
     } else {
       toast.error("لا يوجد حساب مرتبط بهذا البريد الإلكتروني.");

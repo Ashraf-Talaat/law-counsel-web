@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from 'react-hot-toast';
+import RegisPopup from "@/_components/layout/RegisPopup";
 
 export default function Login() {
+  const [showPopup, setShowPopup] = useState(false);
+  
   const [loginInputs, setLoginInputs] = useState({
     email: "",
     password: "",
@@ -39,10 +42,9 @@ export default function Login() {
     }
   };
 
- 
-
   return (
     <div>
+      
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
@@ -111,14 +113,15 @@ export default function Login() {
               </div>
             </form>
             <div className="flex justify-center mt-2">
-              <p className="mr-4 text-2xl text-gray-700">
+              <p className="mr-4 text-xl text-gray-700">
                 ليس لديك حساب ؟
-                <Link
-                  href="/register/user"
+                <button
+                onClick={() => setShowPopup(true)}
                   className="text-[#1C202E] hover:underline font-bold mr-3"
                 >
                   أنشئ حساب
-                </Link>
+                </button>
+                {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
               </p>
             </div>
           </div>
