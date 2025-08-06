@@ -1,16 +1,30 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import createArticale from "@/logic/articles/createArticle";
+import createArticle from "@/logic/articles/createArticle";
 
 //alert
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import myInfo from "@/logic/articles/myInfo";
 
 export default function CreateArticlePage() {
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [showButton, setShowButton] = useState(true);
+  const [lawyerInfo, setLawyerInfo] = useState("");
+  const [lawyerId, setLawyerId] = useState(null);
+
+  useEffect(() => {
+    const lawyerid = localStorage.getItem("uid");
+    setLawyerId(lawyerid);
+    const fetch = async () => {
+      const data = await myInfo(lawyerId);
+      setLawyerInfo(data);
+    };
+
+    fetch();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +40,12 @@ export default function CreateArticlePage() {
     }
 
     try {
-      const response = await createArticale({
+      const response = await createArticle({
         content,
         imageUrl,
-        lawyerId: "1LgdtODjbta0gnUVWaGNwFqmMTm2",
+        userId: lawyerId,
+        userName: lawyerInfo.name,
+        userImage: lawyerInfo.idImageUrl,
       });
 
       if (response.success) {

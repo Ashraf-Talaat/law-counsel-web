@@ -6,7 +6,6 @@ import Image from "next/image";
 // Firebase
 import { db } from "@/firebase/firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
 //Icons
 import {
@@ -27,8 +26,13 @@ import CommentsSection from "@/_components/commentSection/CommentsSection";
 export default function HomeArticles() {
   const [articles, setArticles] = useState([]);
   const [commentsCount, setCommentsCount] = useState({});
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const [lawyerId, setLawyerId] = useState(null);
+
+  useEffect(() => {
+    const id = localStorage.getItem("uid");
+    setLawyerId(id);
+    console.log(id);
+  }, []);
 
   // Fetch articles and comments count on component mount
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function HomeArticles() {
 
   // Handle like button click
   const handleLike = async (articleId, currentLikes = []) => {
-    if (!user) {
+    if (!lawyerId) {
       Swal.fire({
         title: "يجب تسجيل الدخول أولاً لعمل لايك",
         icon: "warning",
@@ -62,13 +66,12 @@ export default function HomeArticles() {
     }
 
     const articleRef = doc(db, "articles", articleId);
-    const userId = user.uid;
 
-    const isLiked = currentLikes.includes(userId);
+    const isLiked = currentLikes.includes(lawyerId);
 
     try {
       await updateDoc(articleRef, {
-        likes: isLiked ? arrayRemove(userId) : arrayUnion(userId),
+        likes: isLiked ? arrayRemove(lawyerId) : arrayUnion(lawyerId),
       });
 
       // Update local state manually to reflect UI change
@@ -78,8 +81,8 @@ export default function HomeArticles() {
             ? {
                 ...article,
                 likes: isLiked
-                  ? article.likes.filter((id) => id !== userId)
-                  : [...article.likes, userId],
+                  ? article.likes.filter((id) => id !== lawyerId)
+                  : [...article.likes, lawyerId],
               }
             : article
         )
@@ -111,7 +114,11 @@ export default function HomeArticles() {
       {/* start article */}
       <div className="flex flex-col items-center p-6 bgLayout space-y-6 ">
         {articles.map((article) => {
-          const isLiked = user && article.likes.includes(user.uid);
+          // const isLiked = lawyerId && article.likes.includes(lawyerId);
+          const isLiked =
+            lawyerId &&
+            Array.isArray(article.likes) &&
+            article.likes.includes(lawyerId);
 
           return (
             <div
@@ -146,7 +153,8 @@ export default function HomeArticles() {
                       isLiked ? "text-blue-500" : "hover:text-primary"
                     }`}
                   >
-                    <span> {article.likes.length ?? ""}</span>
+                    {/* <span> {article.likes.length ?? ""}</span> */}
+                    <span>{article.likes?.length ?? 0}</span>
                     <HandThumbUpIcon className="w-5 h-5" />
                   </button>
 
