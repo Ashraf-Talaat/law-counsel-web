@@ -10,7 +10,7 @@ import RegisPopup from "@/_components/layout/RegisPopup";
 import { useState } from "react";
 import { useEffect } from "react";
 
-export default function index() {
+export default function Index() {
    const [isLogin, setLogin] = useState(false);
     useEffect(() => {
        if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
