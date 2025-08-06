@@ -10,10 +10,16 @@ import getAllChats from "@/logic/consultations/client/getAllChats";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [input, setInput] = useState("");
+  const uid =localStorage.getItem("uid");
 
   useEffect(() => {
-    const unsubscribe = getAllChats("0hPemfz1O8Xd3RoEIyJ5GqO4BoH3", (chat) => {
+    const unsubscribe = getAllChats(uid, (chat) => {
       setChats(chat);
+      setMessages(chat[index].messages);
+
     });
 
     return () => unsubscribe();
@@ -27,8 +33,12 @@ export default function Page() {
           <div className="w-full md:w-1/2 sm:w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
             <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
             <ul className="space-y-4">
-              {chats.map((ele) => (
+              {chats.map((ele,i) => (
                 <li
+                onClick={()=>{
+                  setIndex(i);
+                    setMessages(ele.messages);
+                }}
                   key={ele.lawyerId}
                   className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                 >
@@ -50,7 +60,7 @@ export default function Page() {
           </div>
 
           {/* chat */}
-          <div className="w-full md:w-1/2 sm:w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
+          {/* <div className="w-full md:w-1/2 sm:w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
             <div>
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
               <div className="space-y-3">
@@ -63,7 +73,6 @@ export default function Page() {
               </div>
             </div>
 
-            {/* كتابة رسالة */}
             <div className="mt-6 flex">
               <input
                 type="text"
@@ -75,7 +84,63 @@ export default function Page() {
                 <PaperAirplaneIcon className="w-9 h-9" />
               </button>
             </div>
+          </div> */}
+          <div className="w-1/2 h-[500px] p-4 flex flex-col justify-between rounded-md shadow-2xl">
+            <div>
+              <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
+
+              {/* Scrollable container */}
+              <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+                {messages.map((item) =>
+                  item.senderId === "5oUmpSlGVTX2AsQoSlUpsUsWxi83" ? (
+                    <div
+                      key={item.id}
+                      className="text-left bg-blue-200 p-2 rounded-md w-fit"
+                    >
+                      {item.message}
+                    </div>
+                  ) : (
+                    <div
+                      key={item.id}
+                      className="bg-gray-300 p-2 rounded-md w-fit ms-auto"
+                    >
+                      {item.message}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* كتابة رسالة */}
+            <div className="mt-6 flex">
+              <input
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
+                type="text"
+                placeholder="اكتب رسالتك هنا"
+                className="w-full border p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-[#c9b38c] caret-[#c9b38c] text-gray-700"
+                style={{ borderColor: "#c9b38c" }}
+              />
+              <button
+                onClick={async () => {
+                  input !== ""
+                    ? await sendMessage(
+                      chats[index].chatId,
+                      uid,
+                      input
+                    )
+                    : "";
+                  setInput("");
+                }}
+                className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2"
+              >
+                <PaperAirplaneIcon className="w-9 h-9" />
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
     </>

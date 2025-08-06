@@ -317,10 +317,10 @@ export default function LawyerRegisterForm() {
               }
             >
               <option value="">اختر مجال التخصص :-</option>
-              <option value="الجنائى">القانون الجنائى</option>
-              <option value="المدنى">القانون المدنى</option>
-              <option value="الإدارى">القانون الإدارى</option>
-              <option value="التجارى">القانون التجارى</option>
+              <option value="جنائى">القانون الجنائى</option>
+              <option value="مدنى">القانون المدنى</option>
+              <option value="إدارى">القانون الإدارى</option>
+              <option value="تجارى">القانون التجارى</option>
               <option value="العمل">قانون العمل</option>
               <option value="الأحوال الشخصية">
                 قانون الأحوال الشخصية
