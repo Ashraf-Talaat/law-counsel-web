@@ -182,10 +182,29 @@ export default function Page() {
                 className=" object-cover h-full rounded"
               />
               </Link>
-              <div className="min-w-[90%] p-3 rounded-xl mb-6 mx-4 bg-white absolute top-45 flex justify-between">
+              <div className=" bg-white 
+    rounded-xl 
+    p-3 
+    mb-6 
+    mx-4 
+    relative 
+    z-10 
+    w-[90%] 
+    sm:absolute 
+    sm:top-[70%] 
+    sm:left-1/2 
+    sm:-translate-x-1/2 
+    sm:translate-y-[-50%] 
+    sm:shadow-lg 
+    flex 
+    flex-col 
+    sm:flex-row 
+    mx-auto
+    justify-between 
+    gap-4">
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
-                    {lawyer.name.split(" ").slice(0, 2).join(" ")}{" "}
+                    {lawyer.name.length > 10 ? lawyer.name.slice(0, 9) + "..." : lawyer.name}{" "}
                   </h3>
                   <p className="text-sm mb-2">{lawyer.specializations[0]} </p>
                   <p className="text-sm">
@@ -214,7 +233,7 @@ export default function Page() {
                       onClick={() => setSelectedLawyerId(lawyer.id)}
                     >
                       <label
-                        className=" text-white px-2.5 cursor-pointer bgPrimary  rounded-lg w-14 h-14 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                        className=" text-white px-2.5 cursor-pointer bgPrimary  rounded-lg w-17 h-17 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                         htmlFor="create-post-modal"
                       >
                         طلب استشارة
