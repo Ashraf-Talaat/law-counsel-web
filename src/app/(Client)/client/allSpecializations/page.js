@@ -22,12 +22,12 @@ export default function Page() {
   // store all lawers
   const [lawyers, setLawyers] = useState([]);
   const [isLogin, setLogin] = useState(false);
-  const clientId= localStorage.getItem('uid')
+  // const clientId= localStorage.getItem('uid')
   // fetch data to get all lawers from firebase
   useEffect(() => {
-    if (clientId !== null && localStorage.getItem('userType') == 'client') {
-           setLogin(true)
-          }
+    // if (clientId !== null && localStorage.getItem('userType') == 'client') {
+    //        setLogin(true)
+    //       }
     const allLawyers = async () => {
       const data = await fetchLawyers();
       setLawyers(data);
@@ -45,7 +45,7 @@ export default function Page() {
       .includes(searchValue.toLowerCase());
 
     const selectedCat = selectedCategory
-      ? lawyer.specialization?.includes(selectedCategory)
+      ? lawyer.specializations?.includes(selectedCategory)
       : true;
     return matchData && selectedCat;
   });
@@ -116,7 +116,7 @@ export default function Page() {
           icon={<UserGroupIcon className="w-6 h-6 text-white" />}
           title="القانون العمالي"
           onClick={() => {
-            setSelectedCategory("القانون العمالى");
+            setSelectedCategory(" العمالى");
           }}
         />
         <CategoryBtn
@@ -130,8 +130,8 @@ export default function Page() {
           icon={<ScaleIcon className="w-6 h-6 text-white" />}
           title="القانون المدنى"
           onClick={() => {
-            setSelectedCategory("القانون المدنى");
-            console.log("Specializations: ", lawyers.specialization);
+            setSelectedCategory("مدني");
+            // console.log("Specializations: ", lawyers.specializations);
           }}
         />
         <CategoryBtn
