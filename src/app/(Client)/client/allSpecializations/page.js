@@ -163,11 +163,11 @@ export default function Page() {
           }}
         />
       </div>
-      <div className="w-[85%] mx-auto  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="w-[90%] mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-7">
         {filteredData.map((lawyer) => (
           <div
             key={lawyer.id}
-            className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  max-h-[350px]"
+            className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  max-h-[500px]"
           >
             <Link href={`/client/Profile/${lawyer.id}`}>
               <Image
@@ -229,11 +229,11 @@ export default function Page() {
                   {/* ////////////////////////////////////////////////// */}
 
                   <button
-                      className="mt-3"
+                      className="mt-3 "
                       onClick={() => setSelectedLawyerId(lawyer.id)}
                     >
                       <label
-                        className=" text-white px-2.5 cursor-pointer bgPrimary  rounded-lg w-17 h-17 hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
+                        className=" text-white px-2.5 cursor-pointer bgPrimary  rounded-lg   hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                         htmlFor="create-post-modal"
                       >
                         طلب استشارة

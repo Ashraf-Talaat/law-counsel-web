@@ -1,14 +1,28 @@
+"use client"
+import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function index() {
+export default function Index() {
+  let [lawyers, setLawyers] =useState([]);
+    useEffect(() => {
+      // if (clientId !== null && localStorage.getItem('userType') == 'client') {
+      //        setLogin(true)
+      //       }
+      const allLawyers = async () => {
+        const data = await fetchLawyers();
+        setLawyers(data);
+      };
+  
+      allLawyers();
+    }, []);
   return (
     <>
       <div className="mt-52  w-[85%] mx-auto">
         <h2 className="font-bold text-xl text-[#c9b38c]">الاعلي تقييما</h2>
         <div className=" mt-5   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[1, 2, 3, 4].map((_, idx) => (
-            <div key={idx} className="relative w-fit mx-auto">
+          {lawyers.slice(0, 4).map((lawer) => (
+            <div key={lawer.id} className="relative w-fit mx-auto">
               <Image
                 src="/images/lawer-pic.png"
                 alt="topRated"
@@ -18,7 +32,7 @@ export default function index() {
               />
               <div className="w-[90%] bg-white p-4 rounded-xl shadow-md absolute left-1/2 -translate-x-1/2 -bottom-[-20px] flex justify-between items-start gap-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-1">أحمد محمد</h3>
+                  <h3 className="text-lg font-semibold mb-1">{lawer.name}</h3>
                   <p className="text-sm text-gray-600">محامي طلاق</p>
                 </div>
                 <div className="text-end">
