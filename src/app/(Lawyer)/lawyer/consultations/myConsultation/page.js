@@ -16,14 +16,13 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
 
+  const lawyerId = localStorage.getItem("uid");
+
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime(
-      "5oUmpSlGVTX2AsQoSlUpsUsWxi83",
-      (chat) => {
-        setChats(chat);
-        setMessages(chat[index].messages);
-      }
-    );
+    const unsubscribe = getAllChatsRealtime(lawyerId, (chat) => {
+      setChats(chat);
+      setMessages(chat[index].messages);
+    });
 
     return () => unsubscribe(); // تنظيف عند الخروج من الصفحة
   }, []);
@@ -62,22 +61,6 @@ export default function Page() {
           </div>
 
           {/* chat */}
-          {/* <div className="w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
-            <div>
-              <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
-              <div className="space-y-3">
-                {messages.map((item) => (
-                  item.senderId == "5oUmpSlGVTX2AsQoSlUpsUsWxi83" ?
-                    <div className="text-left bg-blue-200 p-3 rounded-md w-fit">
-                      {item.message}
-                    </div> :
-                    <div className=" bg-gray-200 p-3 rounded-md w-fit ms-auto">
-                      {item.message}
-                    </div>
-                ))
-                }
-              </div>
-            </div> */}
           <div className="w-1/2 h-[500px] p-4 flex flex-col justify-between rounded-md shadow-2xl">
             <div>
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
@@ -85,7 +68,7 @@ export default function Page() {
               {/* Scrollable container */}
               <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
                 {messages.map((item) =>
-                  item.senderId === "5oUmpSlGVTX2AsQoSlUpsUsWxi83" ? (
+                  item.senderId === lawyerId ? (
                     <div
                       key={item.id}
                       className="text-left bg-blue-200 p-2 rounded-md w-fit"
@@ -104,7 +87,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* كتابة رسالة */}
+            {/* write message form  */}
             <div className="mt-6 flex">
               <input
                 value={input}
@@ -121,7 +104,7 @@ export default function Page() {
                   input !== ""
                     ? await sendMessage(
                         chats[index].chatId,
-                        "5oUmpSlGVTX2AsQoSlUpsUsWxi83",
+                        lawyerId,
                         input
                       )
                     : "";

@@ -7,13 +7,20 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 //logic
 import getAllChats from "@/logic/consultations/client/getAllChats";
+import { sendMessage } from "@/logic/consultations/lawyer/sendMessage";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [input, setInput] = useState("");
+
+  const clientId = localStorage.getItem("uid");
 
   useEffect(() => {
-    const unsubscribe = getAllChats("0hPemfz1O8Xd3RoEIyJ5GqO4BoH3", (chat) => {
+    const unsubscribe = getAllChats(clientId, (chat) => {
       setChats(chat);
+      setMessages(chat[index].messages);
     });
 
     return () => unsubscribe();
@@ -27,9 +34,13 @@ export default function Page() {
           <div className="w-full md:w-1/2 sm:w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
             <h2 className="text-xl font-bold mb-4 goldTxt">المحامين</h2>
             <ul className="space-y-4">
-              {chats.map((ele) => (
+              {chats.map((chat, i) => (
                 <li
-                  key={ele.lawyerId}
+                  onClick={() => {
+                    setMessages(chat.messages);
+                    setIndex(i);
+                  }}
+                  key={i}
                   className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                 >
                   <Image
@@ -42,7 +53,7 @@ export default function Page() {
 
                   <div>
                     <p className="font-semibold mb-1">اسم المحامي: zohraaaa</p>
-                    <p className="text-sm subTxt "> {ele.lastMessage}</p>
+                    <p className="text-sm subTxt "> {chat.lastMessage}</p>
                   </div>
                 </li>
               ))}
@@ -53,25 +64,50 @@ export default function Page() {
           <div className="w-full md:w-1/2 sm:w-1/2 h-[500px] p-6 flex flex-col justify-between rounded-md shadow-2xl">
             <div>
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
-              <div className="space-y-3">
-                <div className=" bg-gray-200 p-3 rounded-md w-fit ms-auto">
-                  مرحبًا، عندي استشارة قانونية بخصوص...
-                </div>
-                <div className="text-left bg-blue-200 p-3 rounded-md w-fit">
-                  تفضل، احكيلي التفاصيل
-                </div>
+
+              {/* Scrollable container */}
+              <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+                {messages.map((item) =>
+                  item.senderId === clientId ? (
+                    <div
+                      key={item.id}
+                      className="text-left bg-blue-200 p-2 rounded-md w-fit"
+                    >
+                      {item.message}
+                    </div>
+                  ) : (
+                    <div
+                      key={item.id}
+                      className="bg-gray-300 p-2 rounded-md w-fit ms-auto"
+                    >
+                      {item.message}
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
-            {/* كتابة رسالة */}
+            {/* write message form */}
             <div className="mt-6 flex">
               <input
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
                 type="text"
                 placeholder="اكتب رسالتك هنا"
                 className="w-full border p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-[#c9b38c] caret-[#c9b38c] text-gray-700"
                 style={{ borderColor: "#c9b38c" }}
               />
-              <button className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2">
+              <button
+                onClick={async () => {
+                  input !== ""
+                    ? await sendMessage(chats[index].chatId, clientId, input)
+                    : "";
+                  setInput("");
+                }}
+                className="p-2 goldTxt hover:bg-[#c9b38c36] rounded rotate-180 ms-2"
+              >
                 <PaperAirplaneIcon className="w-9 h-9" />
               </button>
             </div>
