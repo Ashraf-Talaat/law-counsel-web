@@ -92,7 +92,7 @@ export default function Page() {
               {/* Scrollable container */}
               <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
                 {messages.map((item) =>
-                  item.senderId === "5oUmpSlGVTX2AsQoSlUpsUsWxi83" ? (
+                  item.senderId === uid ? (
                     <div
                       key={item.id}
                       className="text-left bg-blue-200 p-2 rounded-md w-fit"
