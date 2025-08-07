@@ -12,7 +12,7 @@ export default function RegisPopup({ onClose, isPopup = true }) {
       }`}
     >
       <div className="relative bg-white text-lg max-w-4xl   rounded-lg   sm:p-6 md:p-10">
-        {/* الهيدر و زر الإغلاق يظهروا فقط لو isPopup true */}
+       
         {isPopup && (
           <>
             <h2 className="mb-4 font-bold">برجاء الاختيار</h2>

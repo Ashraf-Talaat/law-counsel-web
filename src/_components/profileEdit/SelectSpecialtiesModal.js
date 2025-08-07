@@ -3,11 +3,15 @@ import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
 const specialtiesList = [
-  "قانون جنائي",
-  "قانون مدني",
-  "قانون تجاري",
-  "قانون الأحوال الشخصية",
+  "جنائي",
+  "مدني",
+  "تجاري",
+  "الأحوال الشخصية",
   "الملكية الفكرية",
+  "العمال",
+  "الضرائب",
+  "الإداري",
+  "البيئة",
 ];
 
 export default function SelectSpecialtiesModal({

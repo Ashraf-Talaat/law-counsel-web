@@ -149,7 +149,17 @@ export default function LawyerProfileInfoForUser({ params }) {
           </div>
           <div className="m-5 p-4 space-y-3">
             <h5>التخصصات :</h5>
-            <h2 className="text-2xl"> {lawyer.specializations}</h2>
+            <div className="flex flex-wrap gap-2">
+              {lawyer.specializations.map((x, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <h2 className="text-2xl">{x}</h2>
+                  {i !== lawyer.specializations.length - 1 && (
+                    <span className="text-gray-400">|</span>
+                  )}
+                </div>
+              ))}
+            </div>
+
             <hr />
           </div>
         </div>
@@ -157,7 +167,6 @@ export default function LawyerProfileInfoForUser({ params }) {
       <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9   ">
         <div className="flex justify-between items-center m-3 p-5">
           <h1 className="text-xl font-bold">إنجازاتي</h1>
-         
         </div>
         <ul className="list-disc list-inside m-3 p-5 space-y-2">
           {/* {lawyer.achievements.map((achievement, index) => (

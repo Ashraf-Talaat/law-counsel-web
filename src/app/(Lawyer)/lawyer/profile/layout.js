@@ -1,11 +1,30 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProfileNav from '@/_components/layout/profileNav/index';
 import { ProfileSubNav } from '@/_components/layout/profileNav/profileSubNav/index';
+import { getLawyerData } from "@/utils/getLawyerdate";
 
 export default function LawyerProfile({ children }) {
-  
-  
+const [lawyer, setLawyer] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const lawyerId = localStorage.getItem("uid");
+      if (!lawyerId) return;
+
+      try {
+        const data = await getLawyerData(lawyerId);
+        setLawyer(data);
+      } catch (err) {
+        console.error(err);
+     
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      fetchData();
+    }
+  }, []);
   return (
     <>
       <div className="relative bg-gray-100 min-h-screen">
@@ -16,7 +35,7 @@ export default function LawyerProfile({ children }) {
             className="bg-white rounded-xl shadow-md p-6 w-[18rem] mt-[-4rem] h-[35rem] mx-auto lg:mx-0 lg:mr-10"
           >
             <Image
-              src="/images/lawyer.jpg"
+              src={lawyer?.profileImageUrl || "/images/lawyer.jpg"}
               alt="User"
               width={150}
               height={150}
