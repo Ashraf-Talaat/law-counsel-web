@@ -1,6 +1,7 @@
 "use client"
 import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Index() {
@@ -21,10 +22,11 @@ export default function Index() {
       <div className="mt-52  w-[85%] mx-auto">
         <h2 className="font-bold text-xl text-[#c9b38c]">الاعلي تقييما</h2>
         <div className=" mt-5   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {lawyers.slice(0, 4).map((lawer) => (
-            <div key={lawer.id} className="relative w-fit mx-auto">
+          {lawyers.slice(0, 4).map((lawyer) => (
+            <div key={lawyer.id} className="relative w-fit mx-auto">
+              <Link href={`/client/Profile/${lawyer.id}`}>
               <Image
-                src="/images/lawer-pic.png"
+                src={ lawyer.profileImageUrl || "/images/lawer-pic.png"}
                 alt="topRated"
                 width={280}
                 height={300}
@@ -32,10 +34,10 @@ export default function Index() {
               />
               <div className="w-[90%] bg-white p-4 rounded-xl shadow-md absolute left-1/2 -translate-x-1/2 -bottom-[-20px] flex justify-between items-start gap-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-1">{lawer.name}</h3>
-                  <p className="text-sm text-gray-600">محامي طلاق</p>
+                  <h3 className="text-lg font-semibold mb-1">{lawyer.name}</h3>
+                  <p className="text-md text-gray-600">{lawyer.specializations[0]}</p>
                 </div>
-                <div className="text-end">
+                <div className="text-end mt-2">
                   <p className="mb-1 text-sm text-gray-700">التقييم</p>
                   <div className="flex justify-end gap-1">
                     {[1, 2, 3].map((s, starIdx) => (
@@ -50,6 +52,7 @@ export default function Index() {
                   </div>
                 </div>
               </div>
+              </Link>
             </div>
           ))}
         </div>
