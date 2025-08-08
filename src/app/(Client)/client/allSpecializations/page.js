@@ -21,7 +21,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Description } from "@headlessui/react";
 
 
-export default function page() {
+export default function Page() {
   // store all lawers
   const [lawyers, setLawyers] = useState([]);
   const [isLogin, setLogin] = useState(false);
