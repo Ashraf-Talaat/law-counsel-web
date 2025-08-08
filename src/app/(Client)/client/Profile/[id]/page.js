@@ -60,7 +60,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                 height={200}
                 className="rounded-full border-6 border-[#C9B38C] shadow-2xl"
               />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white"></div>
+           
             </div>
           </div>
 
