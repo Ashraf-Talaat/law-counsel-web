@@ -14,29 +14,32 @@ import { db } from "@/firebase/firebase";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import LoadingLogo from "@/_components/Loading";
+import { uploadImage } from "@/utils/handleUrlImg";
 
 function EditProfileModal({ isOpen, onClose, userData, onSave }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [imageUrl, setImgUrl]= useState("");
 
   useEffect(() => {
     if (userData) {
       setName(userData.name || "");
       setEmail(userData.email || "");
       setPhone(userData.phone || "");
+      setImgUrl(userData.imageUrl||"");
     }
   }, [userData]);
 
   const handleSave = () => {
-    if (!name.trim() || !email.trim() || !phone.trim()) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !imageUrl.trim()) {
       return Swal.fire({
         title: "يرجى ملء جميع الحقول",
         icon: "warning",
         position: "center",
       });
     }
-    onSave({ name, email, phone });
+    onSave({ name, email, phone , imageUrl });
     onClose();
     Swal.fire({
       title: "تم التعديل بنجاح!",
@@ -44,6 +47,14 @@ function EditProfileModal({ isOpen, onClose, userData, onSave }) {
       timer: 1500,
       showConfirmButton: false, 
     });
+  };
+
+  const handleImageChange = async(e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const url = await uploadImage(file);
+    console.log(url);
+    setImgUrl(url);
   };
 
   if (!isOpen) return null;
@@ -70,6 +81,22 @@ function EditProfileModal({ isOpen, onClose, userData, onSave }) {
           placeholder="رقم الهاتف"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+        />
+
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="معاينة الصورة"
+            className="w-24 h-24 rounded-full object-cover mb-3"
+            width={70}
+            height={70}
+          />
+        )}
+        <input
+          type="file"
+          accept="image/*"
+          className="w-full mb-3 p-2 border border-gray-300 rounded file:mr-4 file:py-2 file:px-4"
+          onChange={handleImageChange}
         />
 
         <div className="modal-action flex justify-end gap-4">

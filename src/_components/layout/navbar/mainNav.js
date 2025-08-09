@@ -127,14 +127,14 @@ export default function MainNav() {
           </ul>
         </div>
         {isLogin ? (
-          <div className="w-[50px] h-[50px] rounded-full ring-4 ring-[#C9B38C]/30 overflow-hidden">
-            <Link href="/client/Profile/myInfo" >
+          <div className="navbar-end">
+            <Link href="/client/Profile/myInfo">
             <Image
               src={client.imageUrl||"/images/logo-dark.png"}
               width={70}
               height={70}
               alt="profile pic"
-              className="object-cover"
+              className=" rounded-full border-2 border-[#C9B38C] object-cover"
               
             />
             </Link>
