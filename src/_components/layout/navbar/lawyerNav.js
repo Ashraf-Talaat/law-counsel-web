@@ -51,11 +51,11 @@ export default function LawyerNav() {
           {/* profile */}
           <Link href="/lawyer/profile/myInfo">
             <Image
-              src="/public/images/lawyer.jpg"
+              src="/images/lawyer.jpg"
               alt="User"
               width={70}
               height={70}
-              className="rounded-full border-4 border-[#C9B38C]"
+              className="rounded-full border-2 border-[#C9B38C]"
             />
           </Link>
         </div>

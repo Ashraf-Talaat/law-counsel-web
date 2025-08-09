@@ -20,7 +20,8 @@ export default async function getMyRequests(uId) {
         id: doc.id,
         ...doc.data(),
       }));
-
+      console.log(requests);
+      
     return requests;
   } catch (error) {
     console.error("Error fetching requests:", error);

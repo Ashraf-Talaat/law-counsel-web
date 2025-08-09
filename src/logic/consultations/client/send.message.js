@@ -1,12 +1,15 @@
 import { db } from "@/firebase/firebase";
-import { collection, addDoc, updateDoc, doc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
 
-
-export async function sendMessage( chatId, senderId, message ) {
+export async function sendMessage(chatId, senderId, message) {
   try {
     const messageRef = collection(db, "chats", chatId, "messages");
-
-    // Add the message to the messages subcollection
     await addDoc(messageRef, {
       senderId,
       message,
@@ -19,7 +22,6 @@ export async function sendMessage( chatId, senderId, message ) {
       lastMessage: message,
       lastMessageTime: serverTimestamp(),
     });
-
     console.log(" Message sent");
     return { success: true };
   } catch (error) {

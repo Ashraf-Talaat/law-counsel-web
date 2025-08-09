@@ -1,12 +1,20 @@
 import { db } from "@/firebase/firebase.js";
 import { collection, addDoc } from "firebase/firestore";
 
-export default async function createArticale({ content, imageUrl, lawyerId }) {
+export default async function createArticle({
+  content,
+  imageUrl,
+  userId,
+  userName,
+  userImage,
+}) {
   try {
     const docRef = await addDoc(collection(db, "articles"), {
       content,
       imageUrl,
-      lawyerId,
+      userId,
+      userName,
+      userImage,
       createdAt: new Date().toISOString(),
     });
 

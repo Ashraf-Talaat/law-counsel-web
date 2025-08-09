@@ -22,6 +22,7 @@ export const handleLoginSubmit = async ({
   setErrors,
   router,
   setLoading
+
 }) => {
   e.preventDefault();
 
@@ -44,14 +45,17 @@ export const handleLoginSubmit = async ({
     if (clientDoc.exists()) {
       localStorage.setItem("userType", "client");
       localStorage.setItem("uid", uid);
-      Cookies.set("userType",  "client");
+
+      Cookies.set("userType", "client");
+
       toast.success("تم تسجيل الدخول بنجاح كعميل");
       router.push("/");
       return;
     } else if (lawyerDoc.exists()) {
-      
+
       if (!lawyerDoc.data().isApproved) {
-        setLoading(false)
+        setLoading(false);
+
         Swal.fire({
           icon: "info",
           text: " المحامي لسه مش متوافق عليه",
@@ -60,7 +64,9 @@ export const handleLoginSubmit = async ({
       }
       localStorage.setItem("userType", "lawyer");
       localStorage.setItem("uid", uid);
-      Cookies.set("userType","lawyer"); 
+
+      Cookies.set("userType", "lawyer");
+
       toast.success("تم تسجيل الدخول بنجاح كمحامي");
       router.push("/lawyer/home/articles");
       return;
