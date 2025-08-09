@@ -42,7 +42,7 @@ function EditProfileModal({ isOpen, onClose, userData, onSave }) {
       title: "تم التعديل بنجاح!",
       icon: "success",
       timer: 1500,
-      showConfirmButton: false,
+      showConfirmButton: false, 
     });
   };
 
@@ -164,7 +164,7 @@ export default function UserProfileInfo() {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 mt-2">
           <div className="relative w-28 h-28 rounded-full ring-4 ring-[#C9B38C]/30 overflow-hidden">
             <Image
-              src={userData?.avatar || "/images/logo-dark.png"}
+              src={userData?.imageUrl || "/images/logo-dark.png"}
               alt="صورة المستخدم"
               fill
               className="object-cover"
