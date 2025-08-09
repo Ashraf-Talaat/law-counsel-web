@@ -1,8 +1,18 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import MainNav from "../navbar/mainNav.js";
 import HomeFeatures from "@/_components/layout/homeFeatures";
 import Link from "next/link.js";
-export default function index() {
+import { getClientData } from "@/utils/getClientData.js";
+
+export default function Index() {
+    const [isLogin, setLogin] = useState(false);
+    const [client, setClient] = useState([]);
+       useEffect(() => {
+         if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
+           setLogin(true)
+         }
+       }, [])
   return (
     <div className="">
       <div className="hero  w-full relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center">
@@ -13,19 +23,19 @@ export default function index() {
         <div className="hero-overlay bg-[url('/images/Rectangle.png')]"></div>
 
         <div className="hero-content flex justify-start items-end text-right text-white z-10 w-full">
-          <div className="max-w-xl w-[85%]">
+          <div className="w-[95%] sm:w-[90%] md:w-[85%] max-w-xl mx-10">
             <h1 className="text-5xl font-bold">مشاكلك القانونية ليها حل</h1>
             <p className="py-6">
               بنقف دايمًا مع الحق، وندافع عنه بكل شجاعة. احنا ضد أي استغلال أو
               تلاعب، وهدفنا <br />
               إن العدالة توصل لكل واحد محتاجها.
             </p>
-            <Link href={"/client/Chatbot"}>
+            <Link  href={isLogin?"/client/Chatbot" :"/register/user"}>
             <button className="px-4 mx-1.5 py-1.5 cursor-pointer rounded border text-white border-bgBtn bg-transparent hover:bg-[#c9b38c] hover:text-[#ffffff] transition">
               اسأل شات بوت
             </button>
             </Link>
-            <Link href={"/client/allSpecializations"} >
+            <Link href={isLogin?"/client/allSpecializations":"/register/user"} >
             <button className="px-4 mx-1.5 py-1.5 cursor-pointer rounded bg-[#c9b38c] hover:bg-[#b69d75]">
               ابدأ استشارتك
             </button>

@@ -26,6 +26,7 @@ export const handleClientRegisterSubmit = async (
   clientInputs,
   setErrors,
   router,
+  setLoading,
   resetForm 
 ) => {
   try {
@@ -54,6 +55,7 @@ export const handleClientRegisterSubmit = async (
       text: 'يمكنك الآن تسجيل الدخول',
      
     }).then(()=>{
+      setLoading(true);
         router.push("/login");
     });
 
@@ -61,6 +63,7 @@ export const handleClientRegisterSubmit = async (
 
 
   } catch (err) {
+    setLoading(false)
     if (err.inner) {
       const formErrors = {};
       err.inner.forEach((error) => {

@@ -10,6 +10,7 @@ import Specializations from "@/_components/layout/home_specializations";
 import TopRated from "@/_components/layout/topRated";
 import ContactUs from "@/_components/layout/contactUs";
 import RegisPopup from "@/_components/layout/RegisPopup";
+
 import LoadingLogo from "@/_components/Loading";
 
 export default function Index() {
@@ -47,4 +48,5 @@ export default function Index() {
       </div>
     );
   }
+
 }

@@ -30,7 +30,7 @@ export default function Page() {
       setLoading(false);
     });
 
-    return () => unsubscribe(); // تنظيف عند الخروج من الصفحة
+    return () => unsubscribe();
   }, []);
 
   if (isLoading) {

@@ -100,10 +100,9 @@ export default function MyInfoProfile() {
       await updateLawyerProfile(lawyerId, { achievements: newAchievements });
       setLawyer((prev) => ({ ...prev, achievements: newAchievements }));
     } catch (error) {
-      console.error(
-        "\u0641\u0634\u0644 \u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0625\u0646\u062c\u0627\u0632\u0627\u062a:",
-        error
-      );
+
+      console.error( error);
+
     }
   };
 
@@ -157,13 +156,43 @@ export default function MyInfoProfile() {
     </div>
   );
 
-  //******************************************************************************* */
+// <<<<<<< ashraf-connect
+//   //******************************************************************************* */
 
-  if (isLoading) {
-    return <LoadingLogo />;
-  } else {
-    if (!lawyer)
-      return <p className="text-center mt-10">تعذر تحميل البيانات</p>;
+//   if (isLoading) {
+//     return <LoadingLogo />;
+//   } else {
+//     if (!lawyer)
+//       return <p className="text-center mt-10">تعذر تحميل البيانات</p>;
+// =======
+      <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9">
+        <div className="flex justify-between items-center m-3 p-5">
+          <h1 className="text-xl font-bold">إنجازاتي</h1>
+          <button
+            className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-full cursor-pointer"
+            onClick={() => setIsAchievementsModalOpen(true)}
+          >
+            أضف إنجازاً
+          </button>
+        </div>
+      <ul className="list-disc list-inside bg-gray-50 rounded-lg p-5 m-3 space-y-3 text-gray-800">
+  {lawyer.achievements && lawyer.achievements.trim() !== "" ? (
+    lawyer.achievements
+      .split("\n")
+      .map((ach, idx) => (
+        <li key={idx} className="leading-relaxed tracking-wide">
+          {ach}
+        </li>
+      ))
+  ) : (
+    <li className="text-gray-500 italic">لا توجد إنجازات حتى الآن</li>
+  )}
+</ul>
+
+
+
+      </div>
+
 
     return (
       <>
@@ -225,24 +254,38 @@ export default function MyInfoProfile() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9">
-          <div className="flex justify-between items-center m-3 p-5">
-            <h1 className="text-xl font-bold">إنجازاتي</h1>
-            <button
-              className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-full cursor-pointer"
-              onClick={() => setIsAchievementsModalOpen(true)}
-            >
-              أضف إنجازاً
-            </button>
-          </div>
-          <ul className="list-disc list-inside m-3 p-5 space-y-2">
-            {lawyer.achievements && lawyer.achievements.length > 0 ? (
-              lawyer.achievements.map((ach, idx) => <li key={idx}>{ach}</li>)
-            ) : (
-              <li>لا توجد إنجازات حتى الآن</li>
-            )}
-          </ul>
-        </div>
+// <<<<<<< ashraf-connect
+//         <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9">
+//           <div className="flex justify-between items-center m-3 p-5">
+//             <h1 className="text-xl font-bold">إنجازاتي</h1>
+//             <button
+//               className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-full cursor-pointer"
+//               onClick={() => setIsAchievementsModalOpen(true)}
+//             >
+//               أضف إنجازاً
+//             </button>
+//           </div>
+//           <ul className="list-disc list-inside m-3 p-5 space-y-2">
+//             {lawyer.achievements && lawyer.achievements.length > 0 ? (
+//               lawyer.achievements.map((ach, idx) => <li key={idx}>{ach}</li>)
+//             ) : (
+//               <li>لا توجد إنجازات حتى الآن</li>
+//             )}
+//           </ul>
+//         </div>
+
+   <EditAchievementsModal
+  isOpen={isAchievementsModalOpen}
+  onClose={() => setIsAchievementsModalOpen(false)}
+ currentAchievements={
+  typeof lawyer?.achievements === "string"
+    ? lawyer.achievements.split("\n").map(item => item.trim()).filter(item => item !== "")
+    : []
+}
+
+  onSave={handleAchievementsSave}
+/>
+
 
         <EditLawyerInfoModal
           isOpen={isModalOpen}

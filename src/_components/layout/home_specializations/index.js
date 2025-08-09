@@ -1,9 +1,15 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Index() {
+   const [isLogin, setLogin] = useState(false);
+  useEffect(() => {
+         if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
+           setLogin(true)
+         }
+       }, [])
   return (
     <div className="bg-[#1c202e] text-white p-10 grid text-center">
       <div className="text-[#C9B38C] p-4 col-span-full">
@@ -100,7 +106,7 @@ export default function Index() {
         </div>
       </div>
       <div className="text-[#C9B38C] p-4 col-span-full">
-        <Link href="/client/allSpecializations">
+        <Link href={isLogin?"/client/allSpecializations" : "/register/user"}>
           <button className="btn bg-[#C9B38C] text-white hover:bg-[#b69d75] my-2">
             مزيد من التخصصات
           </button>

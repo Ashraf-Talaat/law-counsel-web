@@ -11,6 +11,7 @@ import LoadingLogo from "@/_components/Loading";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
+
   const [showPopup, setShowPopup] = useState(false);
 
   const [loginInputs, setLoginInputs] = useState({
@@ -20,8 +21,10 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
+
   const handleSubmit = async (e) => {
     setLoading(true);
+
 
     await handleLoginSubmit({
       e,
@@ -29,8 +32,11 @@ export default function Login() {
       setErrors,
       router,
       setLoading,
+
     });
+    
   };
+  
 
   const validateField = async (fieldName) => {
     try {
@@ -46,11 +52,13 @@ export default function Login() {
     }
   };
 
+
   if (loading) {
     return <LoadingLogo />;
   }
   return (
     <div>
+
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">

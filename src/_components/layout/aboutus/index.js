@@ -5,15 +5,15 @@ import Link from "next/link";
 export default function index() {
   return (
     <div id="aboutUs" className=" bg-gray-100 p-10 rounded-lg shadow-lg my-20">
-      <div className="grid grid-cols-1 lg:grid-cols-3 rounded-lg  bg-white p-10 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-9 rounded-lg  bg-white p-10 ">
         <div className="relative ">
-          <div className="hero-overlay bg-[#C9B38C] w-[300px] h-[330px]"></div>
+          <div className="hero-overlay bg-[#C9B38C] max-w-[300px] min-h-[330px]"></div>
           <Image
             src="/images/lawer-pic.png"
             alt="lawer pic"
             width={300}
             height={300}
-            className=" h-auto absolute top-4 right-6 bottom-0 left-0 z-10"
+            className=" h-auto absolute top-4 right-5 bottom-0 left-0 z-10"
           />
         </div>
         <div className="col-span-2">
