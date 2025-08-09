@@ -123,6 +123,7 @@ export default function MainNav() {
             </li>
           </ul>
         </div>
+
         {isLogin ? (
           <div className="navbar-end ">
             <Link href="/client/Profile/myInfo">
@@ -148,6 +149,7 @@ export default function MainNav() {
               تسجيل دخول
             </Link>
           </div>
+
         )}
       </div>
       {/* {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />} */}
