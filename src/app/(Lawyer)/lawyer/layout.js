@@ -1,19 +1,45 @@
-import Footer from "@/_components/layout/footer/page";
-import "@/styles/globals.css";
-import { Cairo } from "next/font/google";
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import { Toaster } from "react-hot-toast";
+
+//components
+import Footer from "@/_components/layout/footer/page";
+import LoadingLogo from "@/_components/Loading";
+import "@/styles/globals.css";
+
+//fonts
+import { Cairo } from "next/font/google";
 
 const cairo = Cairo({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
 });
-export default function LayoutClient({ children }) {
+
+export default function LayoutLawyer({ children }) {
+  const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userType = (Cookies.get("userType") || "").toLowerCase();
+    if (userType !== "lawyer") {
+      if (userType === "client") {
+        router.push("/");
+      } else {
+        router.push("/login");
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [router]);
+
   return (
     <html lang="ar" dir="rtl" data-theme="light">
       <body className={`${cairo.className}  text-base-content font-sans `}>
         <Toaster position="top-center" reverseOrder={false} />
 
-        {children}
+        {isLoading ? <LoadingLogo /> : children}
         <Footer></Footer>
       </body>
     </html>

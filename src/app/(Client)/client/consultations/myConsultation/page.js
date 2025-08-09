@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
@@ -15,7 +15,18 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
 
+  //get user id
   const clientId = localStorage.getItem("uid");
+
+  //scroll bottom of chat
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   useEffect(() => {
     const unsubscribe = getAllChats(clientId, (chat) => {
@@ -66,7 +77,10 @@ export default function Page() {
               <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
 
               {/* Scrollable container */}
-              <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+              <div
+                ref={chatContainerRef}
+                className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden"
+              >
                 {messages.map((item) =>
                   item.senderId === clientId ? (
                     <div

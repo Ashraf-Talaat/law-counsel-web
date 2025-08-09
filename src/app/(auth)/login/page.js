@@ -4,12 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import RegisPopup from "@/_components/layout/RegisPopup";
 
+import LoadingLogo from "@/_components/Loading";
+
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  
+
   const [loginInputs, setLoginInputs] = useState({
     email: "",
     password: "",
@@ -17,16 +20,17 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    handleLoginSubmit({
+  const handleSubmit = async (e) => {
+    setLoading(true);
+
+    await handleLoginSubmit({
       e,
       loginInputs,
       setErrors,
       router,
+      setLoading,
     });
   };
-
-
 
   const validateField = async (fieldName) => {
     try {
@@ -42,9 +46,11 @@ export default function Login() {
     }
   };
 
+  if (loading) {
+    return <LoadingLogo />;
+  }
   return (
     <div>
-      
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
@@ -116,12 +122,14 @@ export default function Login() {
               <p className="mr-4 text-xl text-gray-700">
                 ليس لديك حساب ؟
                 <button
-                onClick={() => setShowPopup(true)}
+                  onClick={() => setShowPopup(true)}
                   className="text-[#1C202E] hover:underline font-bold mr-3"
                 >
                   أنشئ حساب
                 </button>
-                {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
+                {showPopup && (
+                  <RegisPopup onClose={() => setShowPopup(false)} />
+                )}
               </p>
             </div>
           </div>
