@@ -49,9 +49,7 @@ export const handleLoginSubmit = async ({
       router.push("/");
       return;
     } else if (lawyerDoc.exists()) {
-      localStorage.setItem("userType", "lawyer");
-      localStorage.setItem("uid", uid);
-      Cookies.set("userType","lawyer", { expires: 7 }); // Set cookie to expire in 7 days
+      
       if (!lawyerDoc.data().isApproved) {
         setLoading(false)
         Swal.fire({
@@ -60,6 +58,9 @@ export const handleLoginSubmit = async ({
         });
         return;
       }
+      localStorage.setItem("userType", "lawyer");
+      localStorage.setItem("uid", uid);
+      Cookies.set("userType","lawyer"); 
       toast.success("تم تسجيل الدخول بنجاح كمحامي");
       router.push("/lawyer/home/articles");
       return;

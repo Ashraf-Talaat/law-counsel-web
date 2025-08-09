@@ -10,8 +10,8 @@ import RegisPopup from "@/_components/layout/RegisPopup";
 import { useState } from "react";
 import { useEffect } from "react";
 import LoadingLogo from "@/_components/Loading";
-import protectedRoute from "@/utils/protectedRoute";
-import { useRouter } from "next/router";
+
+
 
 export default function Index() {
   const [isLogin, setLogin] = useState(false);
@@ -33,8 +33,7 @@ export default function Index() {
   } else {
 
     return (
-
-      isLoading ? <LoadingLogo /> :
+      
         <div>
           <Hero />
           <TopRated />
