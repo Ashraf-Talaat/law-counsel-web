@@ -217,7 +217,7 @@ export function AskGemini() {
                 </div>
                 <button
                   type="submit"
-                  className="flex-shrink-0 bg-gradient-to-r from-[#262b3e] to-[#262b3e] hover:from-indigo-700 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
+                  className="flex-shrink-0 bg-gradient-to-r from-[#262b3e] to-[#687693] hover:from-[#687693] hover:to-[#262b3e] text-white px-8 py-4 rounded-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
                   disabled={loading || !prompt.trim()}
                 >
                   {loading ? (

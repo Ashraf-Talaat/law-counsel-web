@@ -19,13 +19,17 @@ export default function Page() {
   } else {
     return (
       <>
+       <div className="w-[85%] mx-auto">
         <MainNav />
+        </div>
         <main className="min-h-screen  p-8 bg-[#eee]">
           <div className="">
             <h1 className="text-2xl font-bold mb-4"> محاميك الذكي</h1>
             <AskGemini />
           </div>
         </main>
+        
+        
       </>
     );
   }
