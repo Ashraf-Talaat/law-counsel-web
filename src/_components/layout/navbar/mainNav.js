@@ -26,13 +26,10 @@ export default function MainNav() {
       } catch (err) {
         console.error(err);
       }
-    
-    }
+    };
     if (typeof window !== "undefined") {
       fetchData();
     }
-
-    
   }, []);
   return (
     <div className="text-center">
@@ -127,16 +124,15 @@ export default function MainNav() {
           </ul>
         </div>
         {isLogin ? (
-          <div className="navbar-end">
+          <div className="navbar-end ">
             <Link href="/client/Profile/myInfo">
-            <Image
-              src={client.imageUrl||"/images/logo-dark.png"}
-              width={70}
-              height={70}
-              alt="profile pic"
-              className=" rounded-full border-2 border-[#C9B38C] object-cover"
-              
-            />
+              <Image
+                src={client.imageUrl || "/images/logo-dark.png"}
+                width={70}
+                height={70}
+                alt="profile pic"
+                className="w-[70px] h-[70px] rounded-full border-2 border-[#C9B38C] object-cover"
+              />
             </Link>
           </div>
         ) : (
