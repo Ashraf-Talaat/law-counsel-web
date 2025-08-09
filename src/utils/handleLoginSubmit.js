@@ -3,6 +3,9 @@ import { doc, getDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { auth, db } from "@/firebase/firebase";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+
 
 export const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -18,6 +21,7 @@ export const handleLoginSubmit = async ({
   loginInputs,
   setErrors,
   router,
+  setLoading
 }) => {
   e.preventDefault();
 
@@ -40,14 +44,16 @@ export const handleLoginSubmit = async ({
     if (clientDoc.exists()) {
       localStorage.setItem("userType", "client");
       localStorage.setItem("uid", uid);
+      Cookies.set("userType",  "client");
       toast.success("تم تسجيل الدخول بنجاح كعميل");
       router.push("/");
       return;
     } else if (lawyerDoc.exists()) {
       localStorage.setItem("userType", "lawyer");
       localStorage.setItem("uid", uid);
-
+      Cookies.set("userType","lawyer", { expires: 7 }); // Set cookie to expire in 7 days
       if (!lawyerDoc.data().isApproved) {
+        setLoading(false)
         Swal.fire({
           icon: "info",
           text: " المحامي لسه مش متوافق عليه",
@@ -58,6 +64,7 @@ export const handleLoginSubmit = async ({
       router.push("/lawyer/home/articles");
       return;
     } else {
+      setLoading(false);
       toast.error("لا يوجد حساب مرتبط بهذا البريد الإلكتروني.");
       setErrors((prev) => ({
         ...prev,
@@ -66,6 +73,7 @@ export const handleLoginSubmit = async ({
       return;
     }
   } catch (err) {
+    setLoading(false);
     if (err instanceof Yup.ValidationError) {
       const formErrors = {};
       err.inner.forEach((error) => {

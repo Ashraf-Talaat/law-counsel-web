@@ -7,7 +7,7 @@ import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from 'react-hot-toast';
 import RegisPopup from "@/_components/layout/RegisPopup";
 
-import Load from "@/_components/Loading";
+import LoadingLogo from "@/_components/Loading";
 
 
 
@@ -30,6 +30,7 @@ export default function Login() {
       loginInputs,
       setErrors,
       router,
+      setLoading,
       
     });
     
@@ -53,7 +54,7 @@ export default function Login() {
   };
 
   if(loading){
-    return <Load/>
+    return <LoadingLogo/>
   }
   return (
     

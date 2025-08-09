@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import HeroOther from "@/_components/layout/hero-other";
 import { fetchArticles } from "@/services/client/getAllArticles";
+import LoadingLogo from "@/_components/Loading";
 
 export default function Page() {
   let [articles, setArticles] = useState([]);
@@ -15,6 +16,8 @@ export default function Page() {
     };
     allArticle();
   }, []);
+
+  if(articles.length===0)return<LoadingLogo/>
 
   return (
     <>

@@ -31,6 +31,8 @@ export default function MainNav() {
     if (typeof window !== "undefined") {
       fetchData();
     }
+
+    
   }, []);
   return (
     <div className="text-center">

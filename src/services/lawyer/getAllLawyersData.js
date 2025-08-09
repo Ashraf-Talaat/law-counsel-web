@@ -3,10 +3,11 @@ import { db } from "@/firebase/firebase";
 export const fetchLawyers = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "lawyers"));
-    const lawyersData = querySnapshot.docs.map((doc) => ({
+    const lawyersData = querySnapshot.docs
+    .map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
+    })).filter((lawyer) => lawyer.isApproved==true);
     console.log(lawyersData);
     return lawyersData;
   } catch (error) {
