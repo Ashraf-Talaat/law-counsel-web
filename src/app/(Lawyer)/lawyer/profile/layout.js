@@ -6,7 +6,7 @@ import { ProfileSubNav } from '@/_components/layout/profileNav/profileSubNav/ind
 import { getLawyerData } from "@/utils/getLawyerdate";
 
 export default function LawyerProfile({ children }) {
-const [lawyer, setLawyer] = useState();
+  const [lawyer, setLawyer] = useState();
   useEffect(() => {
     const fetchData = async () => {
       const lawyerId = localStorage.getItem("uid");
@@ -26,27 +26,46 @@ const [lawyer, setLawyer] = useState();
     }
   }, []);
   return (
-    <>
-      <div className="relative bg-gray-100 min-h-screen">
-        <ProfileNav />
+    <div dir="rtl" className="relative bg-gray-50 min-h-screen">
+      <ProfileNav />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6 px-4 relative z-10 mt-[-2rem]">
-          <aside
-            className="bg-white rounded-xl shadow-md p-6 w-[18rem] mt-[-4rem] h-[35rem] mx-auto lg:mx-0 lg:mr-10"
-          >
-            <Image
-              src={lawyer?.profileImageUrl || "/images/lawyer.jpg"}
-              alt="User"
-              width={150}
-              height={150}
-              className="mx-auto rounded-full mb-4 border-4 border-[#C9B38C]"
-            />
-            <ProfileSubNav />
+      {/* Header stripe */}
+      <div className="h-32 bg-gradient-to-l from-[#C9B38C] to-[#b69d75]" />
+
+      <div className="relative z-10 -mt-14 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
+          {/* Sidebar card */}
+          <aside className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 h-fit sticky top-24">
+            <div className="flex flex-col items-center text-center">
+              <div className="relative w-28 h-28 rounded-full ring-4 ring-white shadow overflow-hidden -mt-10 border-2 border-[#C9B38C]">
+                <Image
+                  src={lawyer?.profileImageUrl || "/images/lawyer.jpg"}
+                  alt="User"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h2 className="mt-4 text-xl font-semibold text-gray-900">
+                {lawyer?.name || "المستخدم"}
+              </h2>
+              {lawyer?.city && (
+                <p className="text-sm text-gray-500">{lawyer.city}</p>
+              )}
+            </div>
+
+            <div className="mt-6">
+              <ProfileSubNav />
+            </div>
           </aside>
 
-          <main className="w-full mt-10 lg:mt-20">{children}</main>
+          {/* Main content card */}
+          <main className="w-full">
+            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6">
+              {children}
+            </div>
+          </main>
         </div>
       </div>
-    </>
+    </div>
   );
 }

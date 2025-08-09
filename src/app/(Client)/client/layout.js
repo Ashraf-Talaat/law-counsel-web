@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 
 import { Cairo } from "next/font/google";
 
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -37,22 +36,7 @@ export default function LayoutClient({ children }) {
     }
   }, [router]);
 
-  const router = useRouter();
-  const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const userType = (Cookies.get("userType") || "").toLowerCase();
-    if (userType !== "client") {
-      if (userType === "lawyer") {
-        router.push("/lawyer/home/articles");
-      } else {
-        router.push("/login");
-      }
-    } else {
-      setLoading(false);
-    }
-
-  }, [router]);
 
   return (
 

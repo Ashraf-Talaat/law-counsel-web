@@ -11,6 +11,7 @@ import {
   HandThumbUpIcon,
   ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/24/outline";
+import { HandThumbUpIcon as HandThumbUpSolidIcon } from "@heroicons/react/24/solid";
 
 //alert
 import Swal from "sweetalert2";
@@ -85,11 +86,11 @@ export default function HomeArticles() {
         prevArticles.map((article) =>
           article.id === articleId
             ? {
-                ...article,
-                likes: isLiked
-                  ? article.likes.filter((id) => id !== lawyerId)
-                  : [...article.likes, lawyerId],
-              }
+              ...article,
+              likes: isLiked
+                ? article.likes.filter((id) => id !== lawyerId)
+                : [...article.likes, lawyerId],
+            }
             : article
         )
       );
@@ -121,87 +122,121 @@ export default function HomeArticles() {
         {/* end Create Article */}
 
         {/* start article */}
-        <div className="flex flex-col items-center p-6 bgLayout space-y-6 ">
-          {articles.map((article) => {
-            // const isLiked = lawyerId && article.likes.includes(lawyerId);
-            const isLiked =
-              lawyerId &&
-              Array.isArray(article.likes) &&
-              article.likes.includes(lawyerId);
+        <div className="flex justify-center px-4 py-8 bg-gray-50">
+          <div className="w-full max-w-2xl space-y-4 sm:space-y-6">
+            {articles.map((article) => {
 
-            return (
-              <div
-                key={article.id}
-                className="w-full max-w-3xl bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-transform hover:scale-[1.01] hover:shadow-lg"
-              >
-                {/*  article image */}
-                {article.imageUrl && (
-                  <Image
-                    className="w-full h-64 object-cover"
-                    src={article.imageUrl}
-                    alt="article image"
-                    width={1200}
-                    height={300}
-                  />
-                )}
+              const isLiked =
+                lawyerId &&
+                Array.isArray(article.likes) &&
+                article.likes.includes(lawyerId);
 
-                {/*  article content */}
-                <div className="p-6">
-                  <p className="text-gray-700 mb-6 leading-relaxed text-lg">
-                    {article.content}
-                  </p>
+              return (
+                <div
+                  key={article.id}
+                  className="w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition"
+                >
+                  {/* Author Info */}
+                  <div className="flex items-center gap-3 m-4">
+                    <div className="relative w-12 h-12">
+                      <Image
+                        src={article.userImage || "/images/logo-dark.png"}
+                        alt="صورة المحامي"
+                        fill
+                        className="rounded-full object-cover border-2 border-blue-100"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800 text-sm">
+                        {article.userName || "محامي متخصص"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {new Date(article.createdAt).toLocaleDateString("ar-EG", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                   {/*  article image */}
+                   {article.imageUrl && (
+                     <Image
+                       className="w-full max-h-96 object-cover"
+                       src={article.imageUrl}
+                       alt="article image"
+                       width={1200}
+                       height={500}
+                     />
+                   )}
 
-                  {/* Like + Comment Buttons */}
-                  <div className="flex justify-end items-center gap-8 subTxt text-sm">
-                    {/* Like Button */}
-                    <button
-                      onClick={() => {
-                        handleLike(article.id, article.likes);
-                      }}
-                      className={`flex items-center gap-1 transition ${
-                        isLiked ? "text-blue-500" : "hover:text-primary"
-                      }`}
-                    >
-                      {/* <span> {article.likes.length ?? ""}</span> */}
-                      <span>{article.likes?.length ?? 0}</span>
-                      <HandThumbUpIcon className="w-5 h-5" />
-                    </button>
+                   {/*  article content */}
+                   <div className="p-5 sm:p-6">
+                     {/* author header padding to align */}
+                     <div className="sm:hidden" />
+                    <p className="text-gray-900 mb-4 leading-8 whitespace-pre-line break-words text-[15px] sm:text-[16px]">
+                      {article.content}
+                    </p>
 
-                    {/* Comment Button */}
-                    <label
-                      htmlFor={`modal-${article.id}`}
-                      className="flex items-center gap-1 hover:text-primary transition cursor-pointer"
-                    >
-                      <span>{commentsCount[article.id] ?? ""}</span>
-                      <ChatBubbleBottomCenterTextIcon className="w-5 h-5" />
-                    </label>
+                    {/* Like + Comment Buttons */}
+                    <div className="mt-2 border-t border-gray-100 pt-4 flex items-center justify-between text-sm">
+                      {/* Like Button */}
+                       <button
+                        onClick={() => {
+                          handleLike(article.id, article.likes);
+                        }}
+                         aria-pressed={Boolean(isLiked)}
+                         className={`group inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition ${
+                           isLiked
+                             ? "text-[#C9B38C] bg-[#C9B38C]/10"
+                             : "text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10"
+                         }`}
+                      >
+                         {isLiked ? (
+                           <HandThumbUpSolidIcon className="w-5 h-5" />
+                         ) : (
+                           <HandThumbUpIcon className="w-5 h-5" />
+                         )}
+                         <span className="text-[13px]">{isLiked ? "إلغاء الإعجاب" : "أعجبني"}</span>
+                         <span className="tabular-nums">{article.likes?.length ?? 0}</span>
+                      </button>
 
-                    {/* Modal */}
-                    <input
-                      type="checkbox"
-                      id={`modal-${article.id}`}
-                      className="modal-toggle"
-                    />
-                    <div className="modal" role="dialog">
-                      <div className="modal-box w-full max-w-2xl relative">
-                        {/* Close Icon */}
-                        <label
-                          htmlFor={`modal-${article.id}`}
-                          className="absolute left-4 top-4 text-xl cursor-pointer text-gray-500 hover:text-red-500"
-                        >
-                          ✖
-                        </label>
+                      {/* Comment Button */}
+                       <label
+                        htmlFor={`modal-${article.id}`}
+                         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10 transition cursor-pointer"
+                      >
+                        <ChatBubbleBottomCenterTextIcon className="w-5 h-5" />
+                         <span className="tabular-nums">{commentsCount[article.id] ?? 0}</span>
+                      </label>
 
-                        <h3 className="font-bold text-lg mb-4">التعليقات</h3>
+                      {/* Modal */}
+                      <input
+                        type="checkbox"
+                        id={`modal-${article.id}`}
+                        className="modal-toggle"
+                      />
+                      <div className="modal" role="dialog">
+                        <div className="modal-box w-full max-w-2xl relative rounded-2xl ring-1 ring-gray-100">
+                          {/* Close Icon */}
+                          <label
+                            htmlFor={`modal-${article.id}`}
+                            className="absolute left-4 top-4 text-xl cursor-pointer text-gray-500 hover:text-red-500"
+                          >
+                            ✖
+                          </label>
 
-                        <CommentsSection articleId={article.id} />
+                          <h3 className="font-bold text-lg mb-4">التعليقات</h3>
+
+                          <CommentsSection articleId={article.id} />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
         {/* end article */}
       </>

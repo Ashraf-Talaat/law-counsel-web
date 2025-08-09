@@ -13,7 +13,7 @@ export default function LawyerProfileInfoForUser({ params }) {
   let { id } = params;
   const [lawyer, setLawyer] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const uid =localStorage.getItem("uid");
+  const uid = localStorage.getItem("uid");
   useEffect(() => {
     const getlawyer = async () => {
       const data = await fetchLawyerById(id);
@@ -46,9 +46,9 @@ export default function LawyerProfileInfoForUser({ params }) {
       createdAt: new Date().toISOString(),
       status: "pending",
       deletedByClient: false,
-    }).then(()=>{
+    }).then(() => {
       toast.success("تم إرسال الطلب بنجاح!");
-    }).catch(()=>{
+    }).catch(() => {
       toast.error("فشل في إرسال الطلب. حاول مرة أخرى.")
     });
     setFormData({ title: "", description: "" });
@@ -60,9 +60,9 @@ export default function LawyerProfileInfoForUser({ params }) {
       <>
         {/* Modern Lawyer Profile Layout with Separate Cards */}
         <div className="min-h-screen  p-6">
-          <Toaster/>
+          <Toaster />
           <div className="max-w-7xl mx-auto">
-            
+
             {/* Page Header */}
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold bg-gradient-to-r from-[#262b3e] to-[#687693] bg-clip-text text-transparent mb-2">
@@ -72,11 +72,11 @@ export default function LawyerProfileInfoForUser({ params }) {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
+
               {/* Lawyer Info Card - Small */}
               <div className="lg:col-span-1">
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 text-center relative">
-                  
+
                   {/* Accent bar */}
                   <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#262b3e] to-[#687693] rounded-t-3xl" />
 
@@ -100,7 +100,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                     {lawyer.name}
                   </h2>
                   <p className="text-[#262b3e]-600 font-medium mb-4">محامي متخصص</p>
-                  
+
                   {/* Quick Info Badges */}
                   <div className="space-y-3 mb-8">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#262b3e]-100 text-[#262b3e]-700 text-sm">
@@ -138,7 +138,7 @@ export default function LawyerProfileInfoForUser({ params }) {
               {/* Data Card - Takes remaining space */}
               <div className="lg:col-span-2">
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
-                  
+
                   {/* Card Header */}
                   <div className="flex items-center gap-3 mb-8">
                     <div className="w-12 h-12 bg-gradient-to-r from-[#262b3e]-100 to-blue-100 rounded-full flex items-center justify-center">
@@ -154,7 +154,7 @@ export default function LawyerProfileInfoForUser({ params }) {
 
                   {/* Data Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    
+
                     {/* Name Field */}
                     <div className="p-6 rounded-2xl bg-gradient-to-br from-[#262b3e0f] to-blue-50 border border-[#262b3e22]">
                       <div className="flex items-center gap-3 mb-3">
@@ -218,7 +218,14 @@ export default function LawyerProfileInfoForUser({ params }) {
                         </div>
                         <h5 className="text-sm font-semibold text-cyan-700">التخصصات</h5>
                       </div>
-                      <p className="text-xl font-bold text-gray-800">{lawyer.specializations[0]}</p>
+                      <p  className="text-xl font-bold text-gray-800">
+                        {
+                          lawyer.specializations.map((spec,index) => (
+                             spec +( lawyer.specializations.length -1 ===index ? "" :" - ")
+                          ))
+                        }
+                      </p>
+
                     </div>
                   </div>
 
@@ -298,68 +305,7 @@ export default function LawyerProfileInfoForUser({ params }) {
             </div>
           </div>
         </div>
-// <<<<<<< UpdateLogic
-//       </div>
-//       <div className="bg-white rounded-lg shadow-md p-5 max-w-3xl mx-auto mb-10">
-//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>الإسم :</h5>
-//             <h2 className="text-2xl"> {lawyer.name}</h2>
-//             <hr />
-//           </div>
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>البريد الإلكترونى :</h5>
-//             <h2 className="text-2xl"> {lawyer.email}</h2>
-//             <hr />
-//           </div>
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>نبذة عنى :</h5>
-//             <h2 className="text-2xl">محامى توب التوب والباقى فوتوشوب</h2>
-//             <hr />
-//           </div>
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>الهاتف :</h5>
-//             <h2 className="text-2xl"> {lawyer.phoneNumber}</h2>
-//             <hr />
-//           </div>
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>المدينة :</h5>
-//             <h2 className="text-xl"> {lawyer.city} </h2>
-//             <hr />
-//           </div>
-//           <div className="m-5 p-4 space-y-3">
-//             <h5>التخصصات :</h5>
-//             <div className="flex flex-wrap gap-2">
-//               {lawyer.specializations.map((x, i) => (
-//                 <div key={i} className="flex items-center gap-2">
-//                   <h2 className="text-2xl">{x}</h2>
-//                   {i !== lawyer.specializations.length - 1 && (
-//                     <span className="text-gray-400">|</span>
-//                   )}
-//                 </div>
-//               ))}
-//             </div>
 
-//             <hr />
-//           </div>
-//         </div>
-//       </div>
-//       <div className="bg-white rounded-lg shadow-md p-4 text-right max-w-3xl mx-auto my-9   ">
-//         <div className="flex justify-between items-center m-3 p-5">
-//           <h1 className="text-xl font-bold">إنجازاتي</h1>
-//         </div>
-//         <ul className="list-disc list-inside m-3 p-5 space-y-2">
-//           {/* {lawyer.achievements.map((achievement, index) => (
-//             <li key={index} className="text-gray-700">
-//               {achievement}
-//             </li>
-//           ))} */}
-//           <li className="text-gray-700">{lawyer.achievements}</li>
-//         </ul>
-//       </div>
-//     </>
-//   );
-// =======
       </>
     );
   }

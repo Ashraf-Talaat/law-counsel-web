@@ -35,6 +35,17 @@ export default function Page() {
 
   if (isLoading) {
     return <LoadingLogo />;
+   } else if (chats.length === 0) {
+    return (
+      <>
+        <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
+          <h2 className="text-xl font-bold mb-6 goldTxt">المحامين</h2>
+          <div className="space-y-6">
+            <p>لا توجد استشارات</p>
+          </div>
+        </div>
+      </>
+    );
   } else {
     return (
       <>
