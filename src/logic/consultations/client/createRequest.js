@@ -29,8 +29,10 @@ const newRequest = async ({ title, description, userId, lawyerId }) => {
       status: "pending",
     });
     console.log("Consultation added with ID:", docRef.id);
+    return { valid: true };
   } catch (error) {
     console.error("Error adding consultation:", error);
+    return { valid: false };
   }
 };
 
