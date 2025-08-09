@@ -25,7 +25,7 @@ export default function Page() {
       }
     );
 
-    return () => unsubscribe(); // تنظيف عند الخروج من الصفحة
+    return () => unsubscribe();
   }, []);
   return (
     <>

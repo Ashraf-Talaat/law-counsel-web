@@ -1,8 +1,15 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function index() {
+export default function Index() {
+   const [isLogin, setLogin] = useState(false);
+   useEffect(() => {
+            if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
+              setLogin(true)
+            }
+          }, [])
   return (
     <div className="bg-gray-100 p-10 rounded-lg shadow-lg my-28 ">
       <div className="bg-white p-8 flex flex-col lg:flex-row items-center justify-between w-full gap-10 ">
@@ -18,7 +25,7 @@ export default function index() {
             معلومات موثوقة ومبسطة لمساعدتك على فهم حقوقك والتعامل مع القضايا
             القانونية بثقة.
           </p>
-          <Link href="/client/userArticle">
+          <Link href={isLogin?"/client/userArticle" : "/register/user"}>
             <button className="btn bg-[#C9B38C] hover:bg-[#b69d75] my-2">
               قراءة المزيد
             </button>

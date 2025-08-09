@@ -23,7 +23,7 @@ export default function Index() {
         <div className="hero-overlay bg-[url('/images/Rectangle.png')]"></div>
 
         <div className="hero-content flex justify-start items-end text-right text-white z-10 w-full">
-          <div className="max-w-xl w-[85%]">
+          <div className="w-[95%] sm:w-[90%] md:w-[85%] max-w-xl mx-10">
             <h1 className="text-5xl font-bold">مشاكلك القانونية ليها حل</h1>
             <p className="py-6">
               بنقف دايمًا مع الحق، وندافع عنه بكل شجاعة. احنا ضد أي استغلال أو

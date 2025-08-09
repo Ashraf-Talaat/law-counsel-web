@@ -26,8 +26,7 @@ export default function MainNav() {
       } catch (err) {
         console.error(err);
       }
-    
-    }
+    };
     if (typeof window !== "undefined") {
       fetchData();
     }
@@ -124,41 +123,32 @@ export default function MainNav() {
             </li>
           </ul>
         </div>
-       {isLogin ? (
-  <div className="navbar-end">
-    <Link href="/client/Profile/myInfo">
-      {client?.imageUrl ? (
-        <Image
-          src={client.imageUrl}
-          width={70}
-          height={70}
-          alt="profile pic"
-          className="rounded-full border-2 border-[#C9B38C]"
-        />
-      ) : (
-        <Image
-          src="/images/default-avatar.png" // صورة افتراضية
-          width={70}
-          height={70}
-          alt="default profile"
-          className="rounded-full border-2 border-[#C9B38C]"
-        />
-      )}
-    </Link>
-  </div>
-) : (
-  <div className="navbar-end">
-    <button
-      onClick={() => setShowPopup(true)}
-      className="btn bgBtn me-1.5 hover:!bg-[#b69d75]"
-    >
-      انشاء حساب
-    </button>
-    {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
-    <Link href="/login" className="btn">
-      تسجيل دخول
-    </Link>
-  </div>
+
+        {isLogin ? (
+          <div className="navbar-end ">
+            <Link href="/client/Profile/myInfo">
+              <Image
+                src={client.imageUrl || "/images/logo-dark.png"}
+                width={70}
+                height={70}
+                alt="profile pic"
+                className="w-[70px] h-[70px] rounded-full border-2 border-[#C9B38C] object-cover"
+              />
+            </Link>
+          </div>
+        ) : (
+          <div className="navbar-end">
+            <button
+              onClick={() => setShowPopup(true)}
+              className="btn bgBtn me-1.5 hover:!bg-[#b69d75]"
+            >
+              انشاء حساب
+            </button>
+            {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
+            <Link href="/login" className="btn ">
+              تسجيل دخول
+            </Link>
+          </div>
 
         )}
       </div>

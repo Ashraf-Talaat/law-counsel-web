@@ -39,6 +39,7 @@ export const handleLawyerRegister = async ({
     specializations,
     setErrors,
     router,
+    setLoading,
     resetForm,
 }) => {
     e.preventDefault();
@@ -54,6 +55,7 @@ export const handleLawyerRegister = async ({
         const nationalIdUrl = await uploadImage(lawyerInputs.nationalId);
 
         if (!lawyerCardUrl || !nationalIdUrl) {
+            setLoading(false);
             Swal.fire({
                 icon: 'error',
                 title: 'حدث خطأ',
@@ -95,12 +97,14 @@ export const handleLawyerRegister = async ({
             text: 'يمكنك الآن تسجيل الدخول',
 
         }).then(() => {
+            setLoading(true);
             router.push("/login");
         });
 
         if (resetForm) resetForm();
 
     } catch (err) {
+        setLoading(false);
         if (err.inner) {
             const formErrors = {};
             err.inner.forEach((error) => {

@@ -9,29 +9,47 @@ import ContactUs from "@/_components/layout/contactUs";
 import RegisPopup from "@/_components/layout/RegisPopup";
 import { useState } from "react";
 import { useEffect } from "react";
+import LoadingLogo from "@/_components/Loading";
 
-export default function index() {
-   const [isLogin, setLogin] = useState(false);
-    useEffect(() => {
-       if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
-         setLogin(true)
-       }
-     }, []);
-  return (
+
+
+export default function Index() {
+  const [isLogin, setLogin] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  
+  useEffect(() => {
     
-    <div>
-      <Hero />
-      <TopRated />
-      <div className="w-[85%] mx-auto ">
-        <LatestNews />
-        <Specializations />
-        <About />
-        <ContactUs />
+    if (localStorage.getItem('uid') !== null && localStorage.getItem('userType') == 'client') {
+      setLogin(true)
+    }
+   
+    setLoading(false);
+  }, []);
 
-       {!isLogin&& <RegisPopup  isPopup={false} />}
+  if (isLoading) {
+    return (
+      <LoadingLogo />
+    );
+  } else {
 
-        {/* <BookAppointment /> */}
-      </div>
-    </div>
-  );
+    return (
+      
+        <div>
+          <Hero />
+          <TopRated />
+          <div className="w-[85%] mx-auto ">
+            <LatestNews />
+            <Specializations />
+            <About />
+            <ContactUs />
+
+            {!isLogin && <RegisPopup isPopup={false} />}
+
+            {/* <BookAppointment /> */}
+          </div>
+        </div>
+
+    );
+  } 
+
 }

@@ -7,7 +7,12 @@ import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from 'react-hot-toast';
 import RegisPopup from "@/_components/layout/RegisPopup";
 
+import LoadingLogo from "@/_components/Loading";
+
+
+
 export default function Login() {
+  const [loading,setLoading]= useState(false)
   const [showPopup, setShowPopup] = useState(false);
   
   const [loginInputs, setLoginInputs] = useState({
@@ -17,14 +22,20 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    handleLoginSubmit({
+  const handleSubmit =async (e) => {
+    setLoading(true);
+    
+    await handleLoginSubmit({
       e,
       loginInputs,
       setErrors,
       router,
+      setLoading,
+      
     });
+    
   };
+  
 
 
 
@@ -42,8 +53,12 @@ export default function Login() {
     }
   };
 
+  if(loading){
+    return <LoadingLogo/>
+  }
   return (
-    <div>
+    
+      <div>
       
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
