@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { auth, db } from "@/firebase/firebase";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { getFirebaseAuthErrorMessage } from "./codesErrorFireAuth";
+
 
 
 export const validationSchema = Yup.object().shape({
@@ -87,25 +89,10 @@ export const handleLoginSubmit = async ({
         formErrors[error.path] = error.message;
       });
       setErrors(formErrors);
-    } else if (err?.code === "auth/user-not-found") {
-      toast.error("هذا البريد الإلكتروني غير مسجل.");
-      setErrors((prev) => ({
-        ...prev,
-        email: "هذا البريد غير مسجل. يرجى إنشاء حساب أولاً.",
-      }));
-    } else if (err?.code === "auth/wrong-password") {
-      toast.error("كلمة المرور غير صحيحة.");
-      setErrors((prev) => ({
-        ...prev,
-        password: "كلمة المرور غير صحيحة.",
-      }));
     } else {
-      toast.error("حدث خطأ غير متوقع. حاول مرة أخرى.");
-      setErrors((prev) => ({
-        ...prev,
-        general: "حدث خطأ غير متوقع. حاول مرة أخرى.",
-      }));
-      console.error("Login error:", err);
+      const errorMessage = getFirebaseAuthErrorMessage(err.code, 'arabic');
+      toast.error(errorMessage);
+      // console.error("Login error:", err);
     }
   }
 };

@@ -12,6 +12,7 @@ import { sendMessage } from "@/logic/consultations/lawyer/sendMessage";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import getAllChats from "@/logic/consultations/client/getAllChats";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
@@ -21,11 +22,15 @@ export default function Page() {
   const [isLoading, setLoading] = useState(true);
 
   const clientId = localStorage.getItem("uid");
+
   const chatContainerRef = useRef(null);
+
+
 
   //get all chats
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime(clientId, (chat) => {
+    const unsubscribe = getAllChats(clientId, (chat) => {
+
       setChats(chat);
       setMessages(chat[index].messages);
     });

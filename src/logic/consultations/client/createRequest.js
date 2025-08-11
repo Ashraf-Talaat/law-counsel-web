@@ -17,7 +17,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //   }
 // }
 
-const newRequest = async ({ title, description, userId, lawyerId }) => {
+const newRequest = async ({ title, description, userId, lawyerId ,nameClient,nameLawyer}) => {
   try {
     const docRef = await addDoc(collection(db, "consultations"), {
       title,
@@ -27,6 +27,8 @@ const newRequest = async ({ title, description, userId, lawyerId }) => {
       createdAt: serverTimestamp(),
       deletedByClient: false,
       status: "pending",
+      nameClient,
+      nameLawyer,
     });
     console.log("Consultation added with ID:", docRef.id);
     return { valid: true };

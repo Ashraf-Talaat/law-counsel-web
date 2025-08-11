@@ -10,7 +10,7 @@ import { ScaleIcon } from "@heroicons/react/24/outline";
 import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { getAuth } from "firebase/auth";
 //Firebase
@@ -26,13 +26,16 @@ export default function Page() {
   // store all lawers
   const [lawyers, setLawyers] = useState([]);
   const [isLogin, setLogin] = useState(false);
-  const [clientId, setUid] = useState('');
+  // const [uid, setUid] = useState('');
   const [isLoading, setLoading] = useState(true);
+  const [nameClient, setNameClient] = useState('');
+  // const [nameLawyer, setNameLawyer] = useState('');
+  const uid = localStorage.getItem("uid");
 
   // fetch data to get all lawers from firebase 
   useEffect(() => {
-    setUid(localStorage.getItem("uid"));
-    if (clientId !== null && localStorage.getItem('userType') == 'client') {
+    // setUid(localStorage.getItem("uid"));
+    if (uid !== null && localStorage.getItem('userType') == 'client') {
       setLogin(true)
     }
     const allLawyers = async () => {
@@ -40,6 +43,15 @@ export default function Page() {
       setLawyers(data);
     };
 
+    const getNames= async ()=>{
+      const clientDoc = await getDoc(doc(db, 'clients', uid));
+      const nClient = clientDoc.exists() ? clientDoc.data().name : 'عميل';
+      setNameClient(nClient);
+      console.log(nClient);
+      // const lawyerDoc = await getDoc(doc(db, 'lawyers', lawyer));
+      // const nLawyer = lawyerDoc.exists() ? lawyerDoc.data().name : 'محامي';
+    }
+    getNames();
     allLawyers();
     setLoading(false);
   }, []);
@@ -77,11 +89,13 @@ export default function Page() {
     const requestPromise = () => newRequest({
       title: formData.title,
       description: formData.description,
-      userId: clientId,
+      userId: uid,
       lawyerId: selectedLawyerId,
       createdAt: new Date().toISOString(),
       status: "pending",
       deletedByClient: false,
+      nameClient: nameClient,
+      nameLawyer: lawyers.find(lawyer => lawyer.id === selectedLawyerId)?.name || "Unknown Lawyer",
     });
     toast.promise(
       requestPromise,

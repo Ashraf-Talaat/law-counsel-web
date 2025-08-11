@@ -105,20 +105,21 @@ export const handleLawyerRegister = async ({
 
     } catch (err) {
         setLoading(false);
-        if (err.inner) {
-            const formErrors = {};
-            err.inner.forEach((error) => {
-                formErrors[error.path] = error.message;
-            });
-            setErrors(formErrors);
-        } else {
+        // if (err.inner) {
+        //     const formErrors = {};
+        //     err.inner.forEach((error) => {
+        //         formErrors[error.path] = error.message;
+        //     });
+        //     setErrors(formErrors);
+        // } else {
             // alert("حدث خطأ: " + err.message);
+            const errorMessage = getFirebaseAuthErrorMessage(err.code, 'arabic');
             Swal.fire({
                 icon: 'error',
                 title: 'حدث خطأ',
-                text: 'يرجى المحاولة مرة أخرى : ' + err.message,
+                text: errorMessage,
 
             })
         }
-    }
+    // }
 };
