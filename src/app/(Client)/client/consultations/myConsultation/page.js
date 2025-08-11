@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
 
@@ -20,23 +20,29 @@ export default function Page() {
   const [input, setInput] = useState("");
   const [isLoading, setLoading] = useState(true);
 
-  const lawyerId = localStorage.getItem("uid");
+  const clientId = localStorage.getItem("uid");
+  const chatContainerRef = useRef(null);
 
   //get all chats
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime(lawyerId, (chat) => {
+    const unsubscribe = getAllChatsRealtime(clientId, (chat) => {
       setChats(chat);
       setMessages(chat[index].messages);
-
     });
     setLoading(false);
     return () => unsubscribe();
   }, []);
 
+  //scroll bottom of chat
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   if (isLoading) {
-    return (
-      <LoadingLogo />
-    );
+    return <LoadingLogo />;
   } else if (chats.length === 0) {
     return (
       <>
@@ -89,9 +95,12 @@ export default function Page() {
                 <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
 
                 {/* Scrollable container */}
-                <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+                <div
+                  ref={chatContainerRef}
+                  className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden"
+                >
                   {messages.map((item) =>
-                    item.senderId === lawyerId ? (
+                    item.senderId === clientId ? (
                       <div
                         key={item.id}
                         className="text-left bg-blue-200 p-2 rounded-md w-fit"
@@ -125,7 +134,7 @@ export default function Page() {
                 <button
                   onClick={async () => {
                     input !== ""
-                      ? await sendMessage(chats[index].chatId, lawyerId, input)
+                      ? await sendMessage(chats[index].chatId, clientId, input)
                       : "";
                     setInput("");
                   }}

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
 
@@ -21,6 +21,7 @@ export default function Page() {
   const [isLoading, setLoading] = useState(true);
 
   const lawyerId = localStorage.getItem("uid");
+  const chatContainerRef = useRef(null);
 
   //get all chats
   useEffect(() => {
@@ -33,9 +34,17 @@ export default function Page() {
     return () => unsubscribe();
   }, []);
 
+  //scroll bottom of chat
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   if (isLoading) {
     return <LoadingLogo />;
-   } else if (chats.length === 0) {
+  } else if (chats.length === 0) {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
@@ -61,7 +70,7 @@ export default function Page() {
                       setIndex(i);
                       setMessages(item.messages);
                     }}
-                    key={item.clientId}
+                    key={i}
                     className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                   >
                     <Image
@@ -87,7 +96,10 @@ export default function Page() {
                 <h2 className="text-xl font-bold mb-4 goldTxt">الشات</h2>
 
                 {/* Scrollable container */}
-                <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
+                <div
+                  ref={chatContainerRef}
+                  className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden"
+                >
                   {messages.map((item) =>
                     item.senderId === lawyerId ? (
                       <div

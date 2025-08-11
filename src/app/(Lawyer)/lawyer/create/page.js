@@ -25,8 +25,10 @@ export default function CreateArticlePage() {
   useEffect(() => {
     const lawyerid = localStorage.getItem("uid");
     setLawyerId(lawyerid);
+
     const fetch = async () => {
-      const data = await myInfo(lawyerId);
+      if (!lawyerid) return;
+      const data = await myInfo(lawyerid);
       setLawyerInfo(data);
       setisLoading(false);
     };
