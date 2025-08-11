@@ -200,7 +200,7 @@ export default function Page() {
           {filteredData.map((lawyer) => (
             <div
               key={lawyer.id}
-              className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  max-h-[500px]"
+              className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  min-h-[350px]"
             >
               <Link href={`/client/Profile/${lawyer.id}`}>
                 <Image

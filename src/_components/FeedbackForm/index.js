@@ -2,21 +2,27 @@ import React, { useState } from "react";
 
 export default function FeedbackForm() {
   const [isOpen, setIsOpen] = useState(false);
-  const [clientName, setClientName] = useState("");
-  const [description, setDescription] = useState("");
-  const [rating, setRating] = useState(0);
+  const [formData, setFormData] = useState({
+    description: "",
+    rating: 0,
+  });
+
+  //   const [clientName, setClientName] = useState("");
+  //   const [description, setDescription] = useState("");
+  //   const [rating, setRating] = useState(0);
 
   const handleRatingChange = (value) => {
-    setRating(value);
+    setFormData({ ...formData, rating: value });
   };
 
   const handleSubmit = () => {
+    e.preventDefault();
     const feedbackData = {
-      clientName,
-      description,
-      rating,
+      description : formData.description,
+      rating:formData.rating,
     };
     console.log("Feedback Submitted:", feedbackData);
+     setFormData({ title: "", description: "" });
 
     // بعد الإرسال يقفل
     setIsOpen(false);
@@ -29,7 +35,10 @@ export default function FeedbackForm() {
   return (
     <div className="p-6">
       {/* الزرار اللي بيفتح الـ Dialog */}
-      <button onClick={() => setIsOpen(true)} className="btn bg-[#262b3e] text-white">
+      <button
+        onClick={() => setIsOpen(true)}
+        className="btn bg-[#262b3e] text-white"
+      >
         أضف تقييم
       </button>
 
@@ -39,20 +48,13 @@ export default function FeedbackForm() {
           <div className="bg-white p-6 rounded-lg w-[400px] shadow-lg">
             <h2 className="text-xl font-bold mb-4">إضافة تقييم</h2>
 
-            {/* اسم العميل */}
-            <input
-              type="text"
-              placeholder="اسم العميل"
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
-              className="input input-bordered w-full mb-3"
-            />
-
             {/* الوصف */}
             <textarea
               placeholder="وصف التقييم"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               className="textarea textarea-bordered w-full mb-3"
             ></textarea>
 
@@ -65,13 +67,13 @@ export default function FeedbackForm() {
                   name="rating"
                   className="mask mask-star-2 bg-orange-400"
                   aria-label={`${value} star`}
-                  checked={rating === value}
+                  checked={formData.rating === value}
                   onChange={() => handleRatingChange(value)}
                 />
               ))}
             </div>
 
-            {/* الأزرار */}
+            {/* الزراير بتاعه open , close */}
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setIsOpen(false)}
@@ -79,7 +81,10 @@ export default function FeedbackForm() {
               >
                 إلغاء
               </button>
-              <button onClick={handleSubmit} className="btn bg-[#262b3e] text-white">
+              <button
+                onClick={handleSubmit}
+                className="btn bg-[#262b3e] text-white"
+              >
                 إرسال
               </button>
             </div>
