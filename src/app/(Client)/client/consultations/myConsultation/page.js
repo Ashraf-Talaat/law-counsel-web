@@ -56,9 +56,7 @@ export default function Page() {
 
           <h2 className="text-xl font-bold mb-6 goldTxt">المحامين</h2>
           <div className="space-y-6">
-             {/* /////////////////////////////// */}
-          <FeedbackForm/>
-          {/* //////////////////////////////////////// */}
+          
             <p>لا توجد استشارات</p>
           </div>
         </div>
@@ -68,8 +66,16 @@ export default function Page() {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
-         
+          {/* /////////////////////////////// */}
           
+          <FeedbackForm
+            clientId={chats[index].clientId}
+            lawyerId={chats[index].lawyerId}
+            nameClient={chats[index].nameClient}
+            nameLawyer={chats[index].nameLawyer}
+            
+          />
+          {/* //////////////////////////////////////// */}
           <div className="flex justify-around gap-6">
             {/*list of lawyers*/}
             <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">

@@ -1,35 +1,54 @@
+import { db } from "@/firebase/firebase";
+import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-export default function FeedbackForm() {
+export default function FeedbackForm({
+  clientId,
+  lawyerId,
+  nameClient,
+  nameLawyer,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     description: "",
     rating: 0,
   });
 
-  //   const [clientName, setClientName] = useState("");
-  //   const [description, setDescription] = useState("");
-  //   const [rating, setRating] = useState(0);
-
   const handleRatingChange = (value) => {
     setFormData({ ...formData, rating: value });
+    console.log("Rating Changed:", value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const feedbackData = {
-      description : formData.description,
-      rating:formData.rating,
-    };
-    console.log("Feedback Submitted:", feedbackData);
-     setFormData({ title: "", description: "" });
+    try {
+      const feedbackData = {
+        description: formData.description,
+        rating: formData.rating,
+      };
+      const docRef = doc(db, "lawyers", lawyerId);
 
-    // بعد الإرسال يقفل
-    setIsOpen(false);
-    // تصفير الحقول
-    setClientName("");
-    setDescription("");
-    setRating(0);
+      await updateDoc(docRef, {
+        ["feedback"]: arrayUnion({
+          lawyerId,
+          clientId,
+          nameClient,
+          nameLawyer,
+          description: formData.description,
+          rating: formData.rating,
+          createdAt:  new Date()
+        }),
+      });
+      toast.success("تم الارسال ");
+      console.log("Feedback Submitted:", feedbackData);
+      setFormData({ description: "", rating: 0 });
+
+      // بعد الإرسال يقفل
+      setIsOpen(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

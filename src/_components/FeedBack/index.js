@@ -1,50 +1,40 @@
 import Image from "next/image";
 import React from "react";
 
-export default function FeedBack() {
+export default function FeedBack({ rating, name, description }) {
+  const r = rating; 
   return (
     <>
-      <div className=" bg-white my-6 p-6 rounded-3xl shadow-xl">
+      {/* <div className=" bg-white my-6 p-6 rounded-3xl shadow-xl"> */}
         {/* heading title for feedback */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 bg-gradient-to-r from-[#262b3e]-100 to-blue-100 rounded-full flex items-center justify-center">
-            <svg
-              className="w-6 h-6 text-yellow-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.12 3.436a1 1 0 00.95.69h3.614c.969 0 1.371 1.24.588 1.81l-2.923 2.12a1 1 0 00-.364 1.118l1.12 3.436c.3.921-.755 1.688-1.54 1.118l-2.923-2.12a1 1 0 00-1.176 0l-2.923 2.12c-.784.57-1.838-.197-1.539-1.118l1.12-3.436a1 1 0 00-.364-1.118L2.777 8.863c-.783-.57-.38-1.81.588-1.81h3.614a1 1 0 00.95-.69l1.12-3.436z" />
-            </svg>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold text-gray-800">التقييمات</h3>
-          </div>
-        </div>
+        
 
         {/* feedback section content iterable content */}
         <div className="p-6 bg-gray-50 border-gray-200/50 rounded-xl">
           <div className="flex items-center gap-3 mb-4">
             {/* image for user avatar  */}
-            <Image
+            {/* <Image
               src=""
               alt="User Avatar"
               width={50}
               height={50}
               className="w-12 h-12 rounded-full border border-gray-200"
-            />
+            /> */}
 
             <div className="flex flex-col">
               {/* user name  */}
-              <h5 className="text-lg font-semibold text-gray-700">أحمد علي</h5>
+              <h5 className="text-lg font-semibold text-gray-700"> {name}</h5>
 
               {/* user rating stars */}
               <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
+               
+                {
+                
+                Array.from({ length: rating }, (_, i) => i + 1).map((star) => (
                   <svg
                     key={star}
                     className={`w-5 h-5 ${
-                      star <= 4 ? "text-yellow-400" : "text-gray-300"
+                      star <= r ? "text-yellow-400" : "text-gray-300"
                     }`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -58,13 +48,10 @@ export default function FeedBack() {
 
           {/* comment section */}
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="text-gray-700 leading-relaxed">
-              الخدمة كانت ممتازة جدًا والتعامل راقي. أنصح بالتجربة!
-            </p>
+            <p className="text-gray-700 leading-relaxed">{description}</p>
           </div>
         </div>
-        
-      </div>
+      {/* </div> */}
     </>
   );
 }

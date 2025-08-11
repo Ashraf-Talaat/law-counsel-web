@@ -5,7 +5,9 @@ import MainNav from "@/_components/layout/navbar/mainNav";
 export default function ClientLayout({ children }) {
   return (
     <>
-      <MainNav />
+      <div className="w-[95%] mx-auto ">
+        <MainNav />
+      </div>
       <div className="bgLayout p-4 text-right mb-4">
         <SubNav userType={"client"} />
 
