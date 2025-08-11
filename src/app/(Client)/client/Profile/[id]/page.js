@@ -7,10 +7,13 @@ import newRequest, {
 } from "@/logic/consultations/client/createRequest";
 import LoadingLogo from "@/_components/Loading";
 import toast, { Toaster } from "react-hot-toast";
+import { getDoc ,doc } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
+import FeedBack from "@/_components/FeedBack";
 
-export default function LawyerProfileInfoForUser({ params }) {
+export default  function LawyerProfileInfoForUser({ params }) {
   // get lawer id from url
-  let { id } = params;
+  let { id } =  React.use(params);
   const [lawyer, setLawyer] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [nameClient, setNameClient] = useState('');
@@ -21,9 +24,10 @@ export default function LawyerProfileInfoForUser({ params }) {
       setLawyer(data);
     };
     const getNames = async () => {
-      const clientDoc = await getDoc(doc(db, 'clients', clientId));
+      const clientDoc = await getDoc(doc(db, 'clients', uid));
       const nClient = clientDoc.exists() ? clientDoc.data().name : 'عميل';
       setNameClient(nClient);
+      console.log(nClient);
       // const lawyerDoc = await getDoc(doc(db, 'lawyers', lawyer));
       // const nLawyer = lawyerDoc.exists() ? lawyerDoc.data().name : 'محامي';
     }
@@ -253,10 +257,13 @@ export default function LawyerProfileInfoForUser({ params }) {
                     </div>
                   </div>
                 </div>
+                {/* feedback section component */}
+            <FeedBack/>
               </div>
             </div>
           </div>
         </div>
+        
 
         {/* Consultation Modal */}
         <input

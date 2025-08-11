@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 //modal + edit method
 import editClientRequest from "@/logic/consultations/client/editClientRequest";
 import EditModal from "@/_components/editClientRequest/EditModal";
+import FeedbackForm from "@/_components/FeedbackForm";
 
 export default function Page() {
   const [requests, setRequests] = useState([]);
@@ -94,6 +95,7 @@ export default function Page() {
       <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
         <h2 className="text-xl font-bold mb-6 goldTxt">طلباتي</h2>
         <div className="space-y-6">
+          <FeedbackForm/>
           {requests.map((item) => (
             <div key={item.id} className="rounded-md p-4 bg-gray-100 shadow-md">
               <div className="flex justify-between items-center mb-2">
@@ -105,7 +107,7 @@ export default function Page() {
               <p className="text-gray-700 mb-3">
                 محتوى الطلب: {item.description}
               </p>
-              <p className="font-semibold">اسم المحامي: {item.lawyerId}</p>
+              <p className="font-semibold">اسم المحامي: {item.nameLawyer}</p>
 
               {/* buttons */}
               <div className="flex justify-end gap-4">

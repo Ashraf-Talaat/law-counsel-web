@@ -12,6 +12,7 @@ import { sendMessage } from "@/logic/consultations/lawyer/sendMessage";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import getAllChats from "@/logic/consultations/client/getAllChats";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
@@ -20,11 +21,11 @@ export default function Page() {
   const [input, setInput] = useState("");
   const [isLoading, setLoading] = useState(true);
 
-  const lawyerId = localStorage.getItem("uid");
+  const clientId = localStorage.getItem("uid");
 
   //get all chats
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime(lawyerId, (chat) => {
+    const unsubscribe = getAllChats(clientId, (chat) => {
       setChats(chat);
       setMessages(chat[index].messages);
 
@@ -91,7 +92,7 @@ export default function Page() {
                 {/* Scrollable container */}
                 <div className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden">
                   {messages.map((item) =>
-                    item.senderId === lawyerId ? (
+                    item.senderId === clientId ? (
                       <div
                         key={item.id}
                         className="text-left bg-blue-200 p-2 rounded-md w-fit"
@@ -125,7 +126,7 @@ export default function Page() {
                 <button
                   onClick={async () => {
                     input !== ""
-                      ? await sendMessage(chats[index].chatId, lawyerId, input)
+                      ? await sendMessage(chats[index].chatId, clientId, input)
                       : "";
                     setInput("");
                   }}
