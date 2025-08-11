@@ -13,12 +13,21 @@ export default function LawyerProfileInfoForUser({ params }) {
   let { id } = params;
   const [lawyer, setLawyer] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [nameClient, setNameClient] = useState('');
   const uid = localStorage.getItem("uid");
   useEffect(() => {
     const getlawyer = async () => {
       const data = await fetchLawyerById(id);
       setLawyer(data);
     };
+    const getNames = async () => {
+      const clientDoc = await getDoc(doc(db, 'clients', clientId));
+      const nClient = clientDoc.exists() ? clientDoc.data().name : 'عميل';
+      setNameClient(nClient);
+      // const lawyerDoc = await getDoc(doc(db, 'lawyers', lawyer));
+      // const nLawyer = lawyerDoc.exists() ? lawyerDoc.data().name : 'محامي';
+    }
+    getNames();
     getlawyer();
     setLoading(false);
   }, []);
@@ -46,6 +55,8 @@ export default function LawyerProfileInfoForUser({ params }) {
       createdAt: new Date().toISOString(),
       status: "pending",
       deletedByClient: false,
+      nameClient: nameClient,
+      nameLawyer: lawyer.name,
     }).then(() => {
       toast.success("تم إرسال الطلب بنجاح!");
     }).catch(() => {
@@ -218,10 +229,10 @@ export default function LawyerProfileInfoForUser({ params }) {
                         </div>
                         <h5 className="text-sm font-semibold text-cyan-700">التخصصات</h5>
                       </div>
-                      <p  className="text-xl font-bold text-gray-800">
+                      <p className="text-xl font-bold text-gray-800">
                         {
-                          lawyer.specializations.map((spec,index) => (
-                             spec +( lawyer.specializations.length -1 ===index ? "" :" - ")
+                          lawyer.specializations.map((spec, index) => (
+                            spec + (lawyer.specializations.length - 1 === index ? "" : " - ")
                           ))
                         }
                       </p>
