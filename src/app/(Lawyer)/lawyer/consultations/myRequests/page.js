@@ -25,16 +25,64 @@ export default function Page() {
 
   const uid = localStorage.getItem("uid");
 
+  // get all requests
   useEffect(() => {
     const res = async () => {
       const data = await getAllRequests(uid);
       setRequests(data);
-      console.log(data);
       setLoading(false);
     };
     res();
   }, []);
 
+  // delete request
+  const handleDeleteRequest = async (requestId) => {
+    const result = await Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: "لن تتمكن من التراجع عن هذا!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "نعم، احذفه!",
+      cancelButtonText: "إلغاء",
+    });
+
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "جارٍ الحذف...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      try {
+        await rejectRequest(requestId);
+        Swal.close();
+        Swal.fire("تم الحذف!", "تم حذف الطلب بنجاح.", "success");
+        setRequests(requests.filter((item) => item.id !== requestId));
+      } catch (error) {
+        Swal.fire("خطأ", "حدث خطأ أثناء الحذف.", "error");
+      }
+    }
+  };
+
+  //accept request
+  const handleAcceptRequest = async (itemId, userId, lawyerId) => {
+    try {
+      const result = await approveRequest(itemId, userId, lawyerId);
+      if (result.success) {
+        toast.success("تم الموافقة على طلب الاستشارة");
+
+        setRequests(requests.filter((pre) => pre.id !== itemId));
+      } else {
+        toast.error("حصل خطأ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //UI
   if (isLoading) {
     return <LoadingLogo />;
   } else {
@@ -77,18 +125,14 @@ export default function Page() {
                   <p className="font-semibold ">اسم العميل</p>
 
                   <div className="flex justify-end gap-4">
+                    {/* accept btn request */}
                     <button
-                      onClick={async () => {
-                        const result = await approveRequest(
+                      onClick={() => {
+                        handleAcceptRequest(
                           item.id,
                           item.userId,
                           item.lawyerId
                         );
-                        if (result.success) {
-                          toast.success("تم موافقة علي طلب الاستشارة");
-                        } else {
-                          toast.error("حصل خطأ");
-                        }
                       }}
                       type="button"
                       className="flex items-center gap-2 text-green-600 hover:text-white border border-green-700 hover:bg-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
@@ -97,14 +141,10 @@ export default function Page() {
                       قبول
                     </button>
 
+                    {/* delete btn request */}
                     <button
-                      onClick={async () => {
-                        const result = await rejectRequest(item.id);
-                        if (result.success) {
-                          toast.success("تم الرفض علي طلب الاستشارة");
-                        } else {
-                          toast.error("حصل خطأ");
-                        }
+                      onClick={() => {
+                        handleDeleteRequest(item.id);
                       }}
                       type="button"
                       className="flex items-center gap-2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"

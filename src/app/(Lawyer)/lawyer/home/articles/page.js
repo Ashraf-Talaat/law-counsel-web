@@ -86,11 +86,11 @@ export default function HomeArticles() {
         prevArticles.map((article) =>
           article.id === articleId
             ? {
-              ...article,
-              likes: isLiked
-                ? article.likes.filter((id) => id !== lawyerId)
-                : [...article.likes, lawyerId],
-            }
+                ...article,
+                likes: isLiked
+                  ? article.likes.filter((id) => id !== lawyerId)
+                  : [...article.likes, lawyerId],
+              }
             : article
         )
       );
@@ -100,8 +100,7 @@ export default function HomeArticles() {
     }
   };
 
-  // Handle comment button click
-
+//UI
   if (isLoading) {
     return <LoadingLogo />;
   } else {
@@ -125,7 +124,6 @@ export default function HomeArticles() {
         <div className="flex justify-center px-4 py-8 bg-gray-50">
           <div className="w-full max-w-2xl space-y-4 sm:space-y-6">
             {articles.map((article) => {
-
               const isLiked =
                 lawyerId &&
                 Array.isArray(article.likes) &&
@@ -151,29 +149,32 @@ export default function HomeArticles() {
                         {article.userName || "محامي متخصص"}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {new Date(article.createdAt).toLocaleDateString("ar-EG", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
+                        {new Date(article.createdAt).toLocaleDateString(
+                          "ar-EG",
+                          {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          }
+                        )}
                       </p>
                     </div>
                   </div>
-                   {/*  article image */}
-                   {article.imageUrl && (
-                     <Image
-                       className="w-full max-h-96 object-cover"
-                       src={article.imageUrl}
-                       alt="article image"
-                       width={1200}
-                       height={500}
-                     />
-                   )}
+                  {/*  article image */}
+                  {article.imageUrl && (
+                    <Image
+                      className="w-full max-h-96 object-cover"
+                      src={article.imageUrl}
+                      alt="article image"
+                      width={1200}
+                      height={500}
+                    />
+                  )}
 
-                   {/*  article content */}
-                   <div className="p-5 sm:p-6">
-                     {/* author header padding to align */}
-                     <div className="sm:hidden" />
+                  {/*  article content */}
+                  <div className="p-5 sm:p-6">
+                    {/* author header padding to align */}
+                    <div className="sm:hidden" />
                     <p className="text-gray-900 mb-4 leading-8 whitespace-pre-line break-words text-[15px] sm:text-[16px]">
                       {article.content}
                     </p>
@@ -181,33 +182,39 @@ export default function HomeArticles() {
                     {/* Like + Comment Buttons */}
                     <div className="mt-2 border-t border-gray-100 pt-4 flex items-center justify-between text-sm">
                       {/* Like Button */}
-                       <button
+                      <button
                         onClick={() => {
                           handleLike(article.id, article.likes);
                         }}
-                         aria-pressed={Boolean(isLiked)}
-                         className={`group inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition ${
-                           isLiked
-                             ? "text-[#C9B38C] bg-[#C9B38C]/10"
-                             : "text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10"
-                         }`}
+                        aria-pressed={Boolean(isLiked)}
+                        className={`group inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition ${
+                          isLiked
+                            ? "text-[#C9B38C] bg-[#C9B38C]/10"
+                            : "text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10"
+                        }`}
                       >
-                         {isLiked ? (
-                           <HandThumbUpSolidIcon className="w-5 h-5" />
-                         ) : (
-                           <HandThumbUpIcon className="w-5 h-5" />
-                         )}
-                         <span className="text-[13px]">{isLiked ? "إلغاء الإعجاب" : "أعجبني"}</span>
-                         <span className="tabular-nums">{article.likes?.length ?? 0}</span>
+                        {isLiked ? (
+                          <HandThumbUpSolidIcon className="w-5 h-5" />
+                        ) : (
+                          <HandThumbUpIcon className="w-5 h-5" />
+                        )}
+                        <span className="text-[13px]">
+                          {isLiked ? "إلغاء الإعجاب" : "أعجبني"}
+                        </span>
+                        <span className="tabular-nums">
+                          {article.likes?.length ?? 0}
+                        </span>
                       </button>
 
                       {/* Comment Button */}
-                       <label
+                      <label
                         htmlFor={`modal-${article.id}`}
-                         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10 transition cursor-pointer"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-gray-600 hover:text-[#C9B38C] hover:bg-[#C9B38C]/10 transition cursor-pointer"
                       >
                         <ChatBubbleBottomCenterTextIcon className="w-5 h-5" />
-                         <span className="tabular-nums">{commentsCount[article.id] ?? 0}</span>
+                        <span className="tabular-nums">
+                          {commentsCount[article.id] ?? 0}
+                        </span>
                       </label>
 
                       {/* Modal */}
