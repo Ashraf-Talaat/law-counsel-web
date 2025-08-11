@@ -93,7 +93,7 @@ export default function Page() {
                     />
 
                     <div>
-                      <p className="font-semibold mb-1">اسم العميل</p>
+                      <p className="font-semibold mb-1">{item.nameLawyer} </p>
                       <p className="text-sm subTxt "> {item.lastMessage}</p>
                     </div>
                   </li>

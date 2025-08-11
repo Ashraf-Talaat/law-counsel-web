@@ -117,7 +117,7 @@ export default function Page() {
                   <p className="text-gray-700 mb-3">
                     محتوى الطلب: {item.description}
                   </p>
-                  <p className="font-semibold">اسم المحامي: {item.lawyerId}</p>
+                  <p className="font-semibold">اسم المحامي: {item.nameLawyer}</p>
 
                   {/* buttons */}
                   <div className="flex justify-end gap-4">

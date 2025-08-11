@@ -67,9 +67,9 @@ export default function Page() {
   };
 
   //accept request
-  const handleAcceptRequest = async (itemId, userId, lawyerId) => {
+  const handleAcceptRequest = async (itemId, userId, lawyerId,nameClient,nameLawyer) => {
     try {
-      const result = await approveRequest(itemId, userId, lawyerId);
+      const result = await approveRequest(itemId, userId, lawyerId,nameClient,nameLawyer);
       if (result.success) {
         toast.success("تم الموافقة على طلب الاستشارة");
 
@@ -123,6 +123,7 @@ export default function Page() {
                     محتوى الطلب: {item.description}
                   </p>
                   <p className="font-semibold ">اسم العميل</p>
+                  <p className="font-semibold">{item.nameClient}</p>
 
                   <div className="flex justify-end gap-4">
                     {/* accept btn request */}
@@ -131,7 +132,9 @@ export default function Page() {
                         handleAcceptRequest(
                           item.id,
                           item.userId,
-                          item.lawyerId
+                          item.lawyerId,
+                          item.nameClient,
+                          item.nameLawyer,
                         );
                       }}
                       type="button"

@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export default async function approveRequest(requestId, userId, lawyerId) {
+export default async function approveRequest(requestId, userId, lawyerId, nameClient, nameLawyer) {
   try {
     const consultationRef = doc(db, "consultations", requestId);
     await updateDoc(consultationRef, {
@@ -18,6 +18,8 @@ export default async function approveRequest(requestId, userId, lawyerId) {
     const chatDocRef = await addDoc(collection(db, "chats"), {
       clientId: userId,
       lawyerId: lawyerId,
+      nameClient: nameClient,
+      nameLawyer: nameLawyer,
       lastMessage: "مرحبا بك، يمكنك البدء في المحادثة الآن.",
       lastMessageTime: serverTimestamp(),
       createdAt: serverTimestamp(),
