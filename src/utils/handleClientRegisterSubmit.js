@@ -4,6 +4,8 @@ import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { auth, db } from "@/firebase/firebase";
 import * as Yup from "yup";
 import Swal from 'sweetalert2'
+import { getFirebaseAuthErrorMessage } from "./codesErrorFireAuth";
+import toast from "react-hot-toast";
 
 
 export const clientRegisterValidationSchema = Yup.object().shape({
@@ -64,20 +66,21 @@ export const handleClientRegisterSubmit = async (
 
   } catch (err) {
     setLoading(false)
-    if (err.inner) {
-      const formErrors = {};
-      err.inner.forEach((error) => {
-        formErrors[error.path] = error.message;
-      });
-      setErrors(formErrors);
-    } else {
-      // alert("حدث خطأ: " + err.message);
+    // if (err.inner) {
+    //   const formErrors = {};
+    //   err.inner.forEach((error) => {
+    //     formErrors[error.path] = error.message;
+    //   });
+    //   setErrors(formErrors);
+    // } else {
+      const errorMessage = getFirebaseAuthErrorMessage(err.code, 'arabic');
       Swal.fire({
       icon: 'error',
-      title: 'حدث خطأ',
-      text: 'يرجى المحاولة مرة أخرى : ' + err.message,
+      title: 'خطأ في التسجيل',
+      text: errorMessage,
      
     })
-    }
+      // console.error("Login error:", err);
+    // }
   }
 };
