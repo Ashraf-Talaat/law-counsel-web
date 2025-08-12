@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-
+import { useRouter } from "next/navigation";
 //components
 import Hero from "@/_components/layout/hero";
 import LatestNews from "@/_components/layout/latestNews";
@@ -16,6 +16,7 @@ import LoadingLogo from "@/_components/Loading";
 export default function Index() {
   const [isLogin, setLogin] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (
@@ -23,6 +24,8 @@ export default function Index() {
       localStorage.getItem("userType") == "client"
     ) {
       setLogin(true);
+    } else if (localStorage.getItem("userType") == "lawyer") {
+      router.push("/lawyer/home/articles");
     }
 
     setLoading(false);
@@ -48,5 +51,4 @@ export default function Index() {
       </div>
     );
   }
-
 }

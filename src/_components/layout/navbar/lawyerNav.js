@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getLawyerData } from "@/utils/getLawyerdate";
 
 export default function LawyerNav() {
+const [lawyer, setLawyer] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const lawyerId = localStorage.getItem("uid");
+      if (!lawyerId) return;
+
+      try {
+        const data = await getLawyerData(lawyerId);
+        setLawyer(data);
+      } catch (err) {
+        console.error(err);
+     
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      fetchData();
+    }
+  }, []);
   return (
     <div className="text-center">
       <div className="navbar w-full ">
@@ -40,7 +60,7 @@ export default function LawyerNav() {
                 </Link>
               </li>
               <li>
-                <Link href="/aboutUs">من نحن</Link>
+                <Link href="/lawyer/aboutus">من نحن</Link>
               </li>
               <li>
                 <Link href="#">تواصل معنا</Link>
@@ -51,11 +71,11 @@ export default function LawyerNav() {
           {/* profile */}
           <Link href="/lawyer/profile/myInfo">
             <Image
-              src="/images/lawyer.jpg"
+              src={lawyer?.profileImageUrl}
               alt="User"
               width={70}
               height={70}
-              className="rounded-full border-2 border-[#C9B38C]"
+              className="rounded-full w-16 h-16 object-cover  border-2 border-[#C9B38C]"
             />
           </Link>
         </div>
@@ -80,7 +100,7 @@ export default function LawyerNav() {
 
         {/* logo */}
         <div className="navbar-end">
-          <Link href="/" className="">
+          <Link href="/lawyer/home/articles" className="">
             <Image
               src="/images/logo-dark.png"
               alt="logo"
