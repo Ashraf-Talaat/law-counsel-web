@@ -9,6 +9,8 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
     aboutMe: initialData?.aboutMe || "",
     phoneNumber: initialData?.phoneNumber || "",
     city: initialData?.city || "",
+    price: initialData?.price || 0.0
+    
   });
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
       aboutMe: initialData?.aboutMe || "",
       phoneNumber: initialData?.phoneNumber || "",
       city: initialData?.city || "",
+      price: initialData?.price || 0.0
     });
   }, [initialData]);
 
@@ -45,6 +48,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
             <TextareaField label="نبذة عنى" name="aboutMe" value={formData.aboutMe} onChange={handleChange} />
             <InputField label="الهاتف" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
             <InputField label="المدينة" name="city" value={formData.city} onChange={handleChange} />
+            <InputField label="السعر" name="price" value={formData.price} onChange={handleChange} />
           </div>
 
           <div className="flex justify-end gap-2">

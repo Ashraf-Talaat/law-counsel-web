@@ -148,6 +148,7 @@ export default function UserProfileInfo() {
 
   const handleLogout = () => {
     localStorage.removeItem("uid");
+    localStorage.removeItem("userType");
     Cookies.remove("userType")
     toast.success("تم تسجيل الخروج");
     window.location.href = "/login";

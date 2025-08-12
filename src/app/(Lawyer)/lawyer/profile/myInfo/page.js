@@ -138,6 +138,7 @@ export default function MyInfoProfile() {
                 value={lawyer.phoneNumber || "غير متوفر"}
               />
               <InfoItem label="المدينة" value={lawyer.city || "غير متوفر"} />
+              <InfoItem label="السعر" value={lawyer.price || 0.0} />
             </div>
 
             <div className="mt-4 grid grid-cols-1 gap-3">
