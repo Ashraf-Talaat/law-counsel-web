@@ -44,7 +44,7 @@ export default function Index() {
                   <div className="text-end mt-2">
                     <p className="mb-1 text-sm text-gray-700">التقييم</p>
                     <div className="flex justify-end gap-1">
-                      {Array.from(
+                      {lawyer.feedback.length == 0 ?<div></div>: Array.from(
                         { length: lawyer.feedback[0].rating },
                         (_, i) => i + 1
                       ).map((s, starIdx) => (

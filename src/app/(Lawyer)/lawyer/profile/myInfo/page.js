@@ -105,7 +105,12 @@ export default function MyInfoProfile() {
       </div>
     );
 
-  if (!lawyer) return <p className="text-center mt-8 text-sm text-gray-600">تعذر تحميل البيانات</p>;
+  if (!lawyer)
+    return (
+      <p className="text-center mt-8 text-sm text-gray-600">
+        تعذر تحميل البيانات
+      </p>
+    );
 
   return (
     <main dir="rtl" className="min-h-screen py-6">
@@ -138,7 +143,19 @@ export default function MyInfoProfile() {
                 value={lawyer.phoneNumber || "غير متوفر"}
               />
               <InfoItem label="المدينة" value={lawyer.city || "غير متوفر"} />
-              <InfoItem label="السعر" value={lawyer.price || 0.0} />
+              <InfoItem
+                label="السعر"
+                value={
+                  lawyer.price == null ? (
+                    0
+                  ) : (
+                    <div className="flex justify-between">
+                      <p>${lawyer.price} </p>
+                      صافي الربح : ${lawyer.netPrice}
+                    </div>
+                  )
+                }
+              />
             </div>
 
             <div className="mt-4 grid grid-cols-1 gap-3">
@@ -152,14 +169,21 @@ export default function MyInfoProfile() {
                 onAddClick={openSpecialtyModal}
               />
               <FieldList
-                title="سعر الخدمة"
+                title=" اجمالي الربح"
                 items={
-                  lawyer.prices?.length > 0
-                    ? lawyer.prices.map((p) => `${p} جنيه`)
-                    : ["100 جنيه"]
+                  // [lawyer.price - lawyer.price * 0.10]
+                  lawyer.balance == null ? 0 : [lawyer.balance]
                 }
               />
             </div>
+            {/* <FieldList
+                title="  اجمالي الربح"
+                items={
+                  [lawyer.price - lawyer.price * 0.10]
+
+                }
+              />
+            </div> */}
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <ImageCard
@@ -215,16 +239,20 @@ export default function MyInfoProfile() {
             </div>
             <h3 className="text-lg font-semibold text-gray-800">التقييمات</h3>
           </div>
-          {lawyer.feedback == null ? <div>لا توجد تقييمات حتي الان</div>: lawyer.feedback.map((feedback, i) => {
-            return (
-              <FeedBack
-                rating={feedback.rating}
-                name={feedback.nameClient}
-                description={feedback.description}
-                key={i}
-              />
-            );
-          })}
+          {lawyer.feedback == null ? (
+            <div>لا توجد تقييمات حتي الان</div>
+          ) : (
+            lawyer.feedback.map((feedback, i) => {
+              return (
+                <FeedBack
+                  rating={feedback.rating}
+                  name={feedback.nameClient}
+                  description={feedback.description}
+                  key={i}
+                />
+              );
+            })
+          )}
         </div>
 
         {/* Modals */}

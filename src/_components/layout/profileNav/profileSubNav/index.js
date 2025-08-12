@@ -44,12 +44,12 @@ export function ProfileSubNav() {
   ];
 
   return (
-    <ul className="space-y-6 text-center text-2xl font-medium">
+    <ul className="space-y-6 text-center text-xl font-medium">
       {links.map(({ label, href }) => (
         <li key={href}>
           <Link
             href={href}
-            className={`block py-2 rounded-md cursor-pointer transition-colors ${
+            className={`block py-2 bg-gray-50 rounded-md cursor-pointer transition-colors ${
               pathname === href
                 ? "bg-[#C9B38C] text-white"
                 : "hover:bg-[#e0d4b7] text-[#1C202E]"
@@ -65,7 +65,7 @@ export function ProfileSubNav() {
       <li key="">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#262b3e] to-[#6a7899] hover:from-[#687693] hover:to-[#1c202e] text-white px-6 py-3 rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#262b3e] to-[#6a7899] hover:from-[#687693] hover:to-[#1c202e] text-white px-4 py-2 rounded-2xl font-regular transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           <ArrowLeftEndOnRectangleIcon className="h-5 w-5" />
           تسجيل الخروج
@@ -74,7 +74,7 @@ export function ProfileSubNav() {
       <li key="">
         <button
           onClick={handleDeleteAccount}
-          className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-6 py-3 rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-4 py-2 rounded-2xl font-regular transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           <TrashIcon className="h-5 w-5" />
           حذف الحساب

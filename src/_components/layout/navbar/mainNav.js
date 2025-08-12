@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import RegisPopup from "@/_components/layout/RegisPopup";
 import { getClientData } from "@/utils/getClientData";
-import { usePathname } from "next/navigation"; // ✅ لإحضار المسار الحالي
+import { usePathname } from "next/navigation"; //  لإحضار المسار الحالي
 
 export default function MainNav() {
   const [showPopup, setShowPopup] = useState(false);
   const [isLogin, setLogin] = useState(false);
   const [client, setClient] = useState([]);
-  const pathname = usePathname(); // ✅ المسار الحالي
+  const pathname = usePathname(); //  المسار الحالي
 
   useEffect(() => {
     const fetchData = async () => {
