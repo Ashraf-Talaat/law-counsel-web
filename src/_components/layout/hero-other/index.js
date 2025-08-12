@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
 import MainNav from "@/_components/layout/navbar/mainNav";
+import LawyerNav from "../navbar/lawyerNav";
+
 
 export default function index({
   title,
@@ -7,11 +10,13 @@ export default function index({
   showInput = false,
   onSearchChange,
 }) {
+  let userType = localStorage.getItem("userType");
+  
   return (
     <div className="">
       <div className="hero h-[55vh] w-full relative  bg-[url('/images/hero-bg.png')] bg-cover bg-center">
         <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
-          <MainNav />
+          {userType === "lawyer" ? <LawyerNav/> :<MainNav />}
         </div>
         <div className="hero-overlay  bg-[url('/images/Rectangle.png')]"></div>
 

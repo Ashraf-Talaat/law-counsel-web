@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +25,9 @@ const [lawyer, setLawyer] = useState();
     }
   }, []);
   return (
+    
     <div className="text-center">
+      
       <div className="navbar w-full ">
         {/* Start Navbar */}
         <div className="navbar-start">
@@ -63,7 +66,7 @@ const [lawyer, setLawyer] = useState();
                 <Link href="/lawyer/aboutus">من نحن</Link>
               </li>
               <li>
-                <Link href="#">تواصل معنا</Link>
+                <Link href="/lawyer/contactUs">تواصل معنا</Link>
               </li>
             </ul>
           </div>
@@ -90,10 +93,10 @@ const [lawyer, setLawyer] = useState();
               <Link href="/lawyer/consultations/myConsultation">الدردشات</Link>
             </li>
             <li>
-              <Link href="/aboutUs">من نحن</Link>
+              <Link href="/lawyer/aboutus">من نحن</Link>
             </li>
             <li>
-              <Link href="/#aboutUs">تواصل معنا</Link>
+              <Link href="/lawyer/contactUs">تواصل معنا</Link>
             </li>
           </ul>
         </div>
