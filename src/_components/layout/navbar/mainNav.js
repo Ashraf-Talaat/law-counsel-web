@@ -1,14 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import RegisPopup from "@/_components/layout/RegisPopup";
-import { useEffect } from "react";
 import { getClientData } from "@/utils/getClientData";
+import { usePathname } from "next/navigation"; // ✅ لإحضار المسار الحالي
+
 export default function MainNav() {
   const [showPopup, setShowPopup] = useState(false);
   const [isLogin, setLogin] = useState(false);
   const [client, setClient] = useState([]);
+  const pathname = usePathname(); // ✅ المسار الحالي
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,101 +33,79 @@ export default function MainNav() {
       fetchData();
     }
   }, []);
+
+  // ✅ دالة لترجيع الكلاس إذا اللينك نشط
+  const linkClass = (href) =>
+    pathname === href
+      ? "text-[#C9B38C] font-bold"
+      : "";
+
   return (
     <div className="text-center">
-      <div className="navbar w-full ">
+      <div className="navbar w-full">
         {/* Start Navbar */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
               </svg>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-[#262b3e] rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
+            <ul tabIndex={0} className="menu menu-sm dropdown-content bg-[#262b3e] rounded-box z-1 mt-3 w-52 p-2 shadow">
               <li>
-                <Link href="/">الرئيسية</Link>
+                <Link href="/" className={linkClass("/")}>الرئيسية</Link>
               </li>
-              {isLogin ? (
+              {isLogin && (
                 <li>
-                  <Link href="/client/userArticle">المقالات</Link>
+                  <Link href="/client/userArticle" className={linkClass("/client/userArticle")}>المقالات</Link>
                 </li>
-              ) : (
-                ""
               )}
-              {isLogin ? (
+              {isLogin && (
                 <li>
-                  <Link href="/client/consultations/myConsultation">
-                    الدردشات
-                  </Link>
+                  <Link href="/client/consultations/myConsultation" className={linkClass("/client/consultations/myConsultation")}>الدردشات</Link>
                 </li>
-              ) : (
-                ""
               )}
               <li>
-                <Link href="/aboutUs">من نحن</Link>
+                <Link href="/aboutUs" className={linkClass("/aboutUs")}>من نحن</Link>
               </li>
               <li>
-                <Link href="#">تواصل معنا</Link>
+                <Link href="/#aboutUs" className={linkClass("/#aboutUs")}>تواصل معنا</Link>
               </li>
             </ul>
           </div>
           <Link href="/" className="">
-            <Image
-              src="/images/logo-dark.png"
-              alt="logo"
-              width={100}
-              height={100}
-            />
+            <Image src="/images/logo-dark.png" alt="logo" width={100} height={100} />
           </Link>
         </div>
+
+        {/* Navbar center */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link href="/">الرئيسية</Link>
+              <Link href="/" className={linkClass("/")}>الرئيسية</Link>
             </li>
-            {isLogin ? (
+            {isLogin && (
               <li>
-                <Link href="/client/userArticle">المقالات</Link>
+                <Link href="/client/userArticle" className={linkClass("/client/userArticle")}>المقالات</Link>
               </li>
-            ) : (
-              ""
             )}
-            {isLogin ? (
+            {isLogin && (
               <li>
-                <Link href="/client/consultations/myConsultation">
-                  الدردشات
-                </Link>
+                <Link href="/client/consultations/myConsultation" className={linkClass("/client/consultations/myConsultation")}>الدردشات</Link>
               </li>
-            ) : (
-              ""
             )}
             <li>
-              <Link href="/aboutUs">من نحن</Link>
+              <Link href="/aboutUs" className={linkClass("/aboutUs")}>من نحن</Link>
             </li>
             <li>
-              <Link href="/#aboutUs">تواصل معنا</Link>
+              <Link href="/#aboutUs" className={linkClass("/#aboutUs")}>تواصل معنا</Link>
             </li>
           </ul>
         </div>
 
+        {/* Navbar end */}
         {isLogin ? (
-          <div className="navbar-end ">
+          <div className="navbar-end">
             <Link href="/client/Profile/myInfo">
               <Image
                 src={client.imageUrl || "/images/logo-dark.png"}
@@ -145,14 +125,12 @@ export default function MainNav() {
               انشاء حساب
             </button>
             {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />}
-            <Link href="/login" className="btn ">
+            <Link href="/login" className="btn">
               تسجيل دخول
             </Link>
           </div>
-
         )}
       </div>
-      {/* {showPopup && <RegisPopup onClose={() => setShowPopup(false)} />} */}
     </div>
   );
 }

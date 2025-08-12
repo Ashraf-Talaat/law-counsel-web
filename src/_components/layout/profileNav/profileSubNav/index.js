@@ -30,9 +30,9 @@ export function ProfileSubNav() {
 
       <hr className="my-6 border-t" />
 
-      <li key="/logout">
+      <li key="/login">
         <Link
-          href="/logout"
+          href="/login"
           className="flex items-center justify-center gap-2 hover:bg-[#e0d4b7] text-[#1C202E] py-2 rounded-md cursor-pointer transition-colors"
         >
           <ArrowLeftEndOnRectangleIcon className="h-8 w-8" />

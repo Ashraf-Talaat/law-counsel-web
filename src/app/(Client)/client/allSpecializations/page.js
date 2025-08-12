@@ -200,7 +200,7 @@ export default function Page() {
           {filteredData.map((lawyer) => (
             <div
               key={lawyer.id}
-              className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  min-h-[350px]"
+              className="relative mx-auto rounded-xl mb-10 overflow-hidden shadow-xl  min-h-[350px]   "
             >
               <Link href={`/client/Profile/${lawyer.id}`}>
                 <Image
@@ -212,7 +212,7 @@ export default function Page() {
                   alt={lawyer.name}
                   width={300}
                   height={0}
-                  className=" object-cover h-full rounded"
+                  className=" object-cover h-full rounded transition-all duration-500  animate-fade-in hover:scale-110 hover:shadow-2xl animate-fade-in"
                 />
               </Link>
 
@@ -241,26 +241,32 @@ export default function Page() {
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="text-md font-semibold mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {lawyer.name.length > 10 ? lawyer.name.slice(0, 9) + "..." : lawyer.name}
+                    {lawyer.name.length > 10
+                      ? lawyer.name.slice(0, 9) + "..."
+                      : lawyer.name}
                   </h4>
                   <p className="text-sm mb-2">{lawyer.specializations[0]}</p>
                   <p className="text-sm">
-                    السعر: <span className="font-bold">500</span> جنية
+                    السعر: <span className="font-bold">{lawyer.price}</span>{" "}
+                    جنية
                   </p>
                 </div>
                 <div className=" text-end">
                   <p className="mb-2 ">التقييم</p>
                   <div className="flex justify-end">
-                    {[1, 2, 3].map((s, starIdx) => (
-                      <Image
-                        key={starIdx}
-                        src="/images/Star.png"
-                        alt="star"
-                        width={20}
-                        height={20}
-                        className=" "
-                      />
-                    ))}
+                   {Array.from(
+                        { length: lawyer.feedback[0].rating },
+                        (_, i) => i + 1
+                      ).map((s, starIdx) => (
+                        <svg
+                          key={starIdx}
+                          className={`w-5 h-5 fill-current text-yellow-400 `}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.12 3.436a1 1 0 00.95.69h3.614c.969 0 1.371 1.24.588 1.81l-2.923 2.12a1 1 0 00-.364 1.118l1.12 3.436c.3.921-.755 1.688-1.54 1.118l-2.923-2.12a1 1 0 00-1.176 0l-2.923 2.12c-.784.57-1.838-.197-1.539-1.118l1.12-3.436a1 1 0 00-.364-1.118L2.777 8.863c-.783-.57-.38-1.81.588-1.81h3.614a1 1 0 00.95-.69l1.12-3.436z" />
+                        </svg>
+                      ))}
                   </div>
 
                   {/* ////////////////////////////////////////////////// */}
@@ -269,7 +275,6 @@ export default function Page() {
                     className="mt-3 "
                     onClick={() => setSelectedLawyerId(lawyer.id)}
                   >
-
                     <label
                       className="whitespace-nowrap text-white px-2.5  cursor-pointer bgPrimary rounded-lg hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
                       htmlFor="create-post-modal"
@@ -277,16 +282,10 @@ export default function Page() {
                       طلب استشارة
                     </label>
                   </button>
-
                 </div>
               </div>
               {/* </Link> */}
-              <div
-                className="tooltip tooltip-right"
-                data-tip=" طلب استشارة"
-              >
-
-
+              <div className="tooltip tooltip-right" data-tip=" طلب استشارة">
                 <input
                   type="checkbox"
                   id="create-post-modal"

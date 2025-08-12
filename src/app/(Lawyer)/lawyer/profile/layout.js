@@ -30,9 +30,9 @@ export default function LawyerProfile({ children }) {
       <ProfileNav />
 
       {/* Header stripe */}
-      <div className="h-32 bg-gradient-to-l from-[#C9B38C] to-[#b69d75]" />
+      <div className="h-32 " />
 
-      <div className="relative z-10 -mt-14 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10  max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
           {/* Sidebar card */}
           <aside className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 h-fit sticky top-24">

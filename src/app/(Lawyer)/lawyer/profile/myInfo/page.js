@@ -8,6 +8,7 @@ import SelectSpecialtiesModal from "@/_components/profileEdit/SelectSpecialtiesM
 import EditImageModal from "@/_components/profileEdit/EditImageModal";
 import EditAchievementsModal from "@/_components/profileEdit/EditAchievementsModal";
 import { updateLawyerProfile } from "@/utils/handleEditLawyerInfo";
+import FeedBack from "@/_components/FeedBack";
 
 export default function MyInfoProfile() {
   const [lawyer, setLawyer] = useState(null);
@@ -51,7 +52,10 @@ export default function MyInfoProfile() {
       await updateLawyerProfile(lawyerId, updatedData);
       setLawyer((prev) => ({ ...prev, ...updatedData }));
     } catch (error) {
-      console.error("\u062e\u0637\u0623 \u0623\u062b\u0646\u0627\u0621 \u062d\u0641\u0638 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a:", error);
+      console.error(
+        "\u062e\u0637\u0623 \u0623\u062b\u0646\u0627\u0621 \u062d\u0641\u0638 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a:",
+        error
+      );
     }
   };
 
@@ -90,46 +94,53 @@ export default function MyInfoProfile() {
       await updateLawyerProfile(lawyerId, { achievements: newAchievements });
       setLawyer((prev) => ({ ...prev, achievements: newAchievements }));
     } catch (error) {
-      console.error( error);
+      console.error(error);
     }
   };
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-[50vh] bg-gray-50">
-        <div className="w-12 h-12 border-4 border-[#C9B38C] border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex justify-center items-center min-h-[40vh] bg-gray-50">
+        <div className="w-8 h-8 border-3 border-[#C9B38C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
 
-  if (!lawyer) return <p className="text-center mt-10">تعذر تحميل البيانات</p>;
+  if (!lawyer) return <p className="text-center mt-8 text-sm text-gray-600">تعذر تحميل البيانات</p>;
 
   return (
-    <main dir="rtl" className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main dir="rtl" className="min-h-screen py-6">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Card */}
-        <div className="relative bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 overflow-hidden mb-8">
-          <div className="h-28 bg-gradient-to-l from-[#C9B38C] to-[#b69d75]" />
-          <div className="px-6 -mt-10 flex items-end justify-between flex-row-reverse">
-            <Avatar src={lawyer.profileImageUrl} name={lawyer.name} />
+        <div className="relative rounded-xl  mb-6">
+          <div className="px-4 -mt-8 flex items-end justify-between flex-row-reverse">
             <button
               onClick={openModal}
-              className="bgPrimary text-white px-5 py-2 rounded-full flex items-center gap-2 shadow-sm hover:shadow transition"
+              className="bg-[#C9B38C] text-white px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
             >
-              <PencilIcon className="h-5 w-5" />
+              <PencilIcon className="h-4 w-4" />
               تعديل
             </button>
           </div>
 
-          <div className="px-6 pb-6 pt-4 text-right">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="px-4 pb-4 pt-2 text-right">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <InfoItem label="الإسم" value={lawyer.name || "غير متوفر"} />
-              <InfoItem label="البريد الإلكترونى" value={lawyer.email || "غير متوفر"} />
-              <InfoItem label="نبذة عنى" value={lawyer.aboutMe || "غير متوفر"} />
-              <InfoItem label="الهاتف" value={lawyer.phoneNumber || "غير متوفر"} />
+              <InfoItem
+                label="البريد الإلكترونى"
+                value={lawyer.email || "غير متوفر"}
+              />
+              <InfoItem
+                label="نبذة عنى"
+                value={lawyer.aboutMe || "غير متوفر"}
+              />
+              <InfoItem
+                label="الهاتف"
+                value={lawyer.phoneNumber || "غير متوفر"}
+              />
               <InfoItem label="المدينة" value={lawyer.city || "غير متوفر"} />
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-4">
+            <div className="mt-4 grid grid-cols-1 gap-3">
               <FieldList
                 title="مجال التخصص"
                 items={
@@ -149,7 +160,7 @@ export default function MyInfoProfile() {
               />
             </div>
 
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <ImageCard
                 title="البطاقة الشخصية"
                 src={lawyer.idImageUrl}
@@ -165,29 +176,54 @@ export default function MyInfoProfile() {
         </div>
 
         {/* Achievements Card */}
-        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 text-right">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold">إنجازاتي</h1>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-right mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-lg font-semibold text-gray-800">إنجازاتي</h2>
             <button
-              className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-full cursor-pointer shadow-sm"
+              className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-lg text-sm cursor-pointer shadow-sm transition-colors"
               onClick={() => setIsAchievementsModalOpen(true)}
             >
               أضف إنجازاً
             </button>
           </div>
-          <ul className="mt-4 list-disc marker:text-[#C9B38C] list-inside bg-gray-50 rounded-xl p-5 space-y-3 text-gray-800">
+          <ul className="list-disc marker:text-[#C9B38C] list-inside bg-gray-50 rounded-lg p-3 space-y-2 text-sm text-gray-700">
             {lawyer.achievements && lawyer.achievements.trim() !== "" ? (
-              lawyer.achievements
-                .split("\n")
-                .map((ach, idx) => (
-                  <li key={idx} className="leading-relaxed tracking-wide">
-                    {ach}
-                  </li>
-                ))
+              lawyer.achievements.split("\n").map((ach, idx) => (
+                <li key={idx} className="leading-relaxed">
+                  {ach}
+                </li>
+              ))
             ) : (
               <li className="text-gray-500 italic">لا توجد إنجازات حتى الآن</li>
             )}
           </ul>
+        </div>
+
+        {/* feedback section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 bg-gradient-to-r from-[#C9B38C] to-[#b69d75] rounded-full flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.12 3.436a1 1 0 00.95.69h3.614c.969 0 1.371 1.24.588 1.81l-2.923 2.12a1 1 0 00-.364 1.118l1.12 3.436c.3.921-.755 1.688-1.54 1.118l-2.923-2.12a1 1 0 00-1.176 0l-2.923 2.12c-.784.57-1.838-.197-1.539-1.118l1.12-3.436a1 1 0 00-.364-1.118L2.777 8.863c-.783-.57-.38-1.81.588-1.81h3.614a1 1 0 00.95-.69l1.12-3.436z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800">التقييمات</h3>
+          </div>
+          {lawyer.feedback == null ? <div>لا توجد تقييمات حتي الان</div>: lawyer.feedback.map((feedback, i) => {
+            return (
+              <FeedBack
+                rating={feedback.rating}
+                name={feedback.nameClient}
+                description={feedback.description}
+                key={i}
+              />
+            );
+          })}
         </div>
 
         {/* Modals */}
@@ -240,20 +276,20 @@ export default function MyInfoProfile() {
 }
 
 const InfoItem = ({ label, value }) => (
-  <div className="p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition">
+  <div className="p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
     <div className="text-xs text-gray-500 mb-1">{label}</div>
-    <div className="text-lg font-medium text-gray-900">{value}</div>
+    <div className="text-sm font-medium text-gray-900">{value}</div>
   </div>
 );
 
 const FieldList = ({ title, items, onAddClick }) => (
-  <div className="p-4">
-    <h5 className="mb-3 text-sm text-gray-600">{title}</h5>
-    <div className="flex flex-wrap items-center gap-2">
+  <div className="p-3">
+    <h5 className="mb-2 text-xs text-gray-600 font-medium">{title}</h5>
+    <div className="flex flex-wrap items-center gap-1.5">
       {items.map((item, idx) => (
         <span
           key={idx}
-          className="inline-flex items-center rounded-full border border-[#C9B38C] text-[#C9B38C] bg-[#C9B38C]/10 px-3 py-1 text-sm"
+          className="inline-flex items-center rounded-md border border-[#C9B38C] text-[#C9B38C] bg-[#C9B38C]/10 px-2 py-1 text-xs"
         >
           {item}
         </span>
@@ -261,7 +297,7 @@ const FieldList = ({ title, items, onAddClick }) => (
       {onAddClick && (
         <button
           onClick={onAddClick}
-          className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-3 py-1 rounded-full cursor-pointer text-sm"
+          className="bg-[#C9B38C] hover:bg-[#b69d75] text-white px-2 py-1 rounded-md cursor-pointer text-xs transition-colors"
         >
           +
         </button>
@@ -271,15 +307,15 @@ const FieldList = ({ title, items, onAddClick }) => (
 );
 
 const ImageCard = ({ title, src, onEdit }) => (
-  <div className="m-5 p-4 space-y-2">
+  <div className="p-3 space-y-2">
     <div className="flex items-center justify-between">
-      <h5 className="text-lg font-medium">{title}</h5>
+      <h5 className="text-sm font-medium text-gray-800">{title}</h5>
       <button
         onClick={onEdit}
-        className="inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 text-sm"
+        className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-700 text-xs transition-colors"
         aria-label={`تعديل ${title}`}
       >
-        <PencilIcon className="w-4 h-4" />
+        <PencilIcon className="w-3 h-3" />
         تعديل
       </button>
     </div>
@@ -289,12 +325,12 @@ const ImageCard = ({ title, src, onEdit }) => (
         alt={title}
         width={300}
         height={150}
-        className="rounded-lg border object-cover w-full h-40"
+        className="rounded-lg border border-gray-200 object-cover w-full h-32"
       />
-      <div className="absolute inset-0 rounded-lg bg-black/0 group-hover:bg-black/30 transition" />
+      <div className="absolute inset-0 rounded-lg bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
       <button
         onClick={onEdit}
-        className="absolute inset-0 m-auto h-9 w-24 opacity-0 group-hover:opacity-100 bg-[#C9B38C] text-white rounded-full text-sm transition"
+        className="absolute inset-0 m-auto h-7 w-20 opacity-0 group-hover:opacity-100 bg-[#C9B38C] text-white rounded-md text-xs transition-all duration-200"
       >
         تعديل
       </button>
@@ -303,8 +339,8 @@ const ImageCard = ({ title, src, onEdit }) => (
 );
 
 const Avatar = ({ src, name }) => (
-  <div className="flex items-end gap-4">
-    <div className="relative w-20 h-20 rounded-full ring-4 ring-white shadow -mt-6 overflow-hidden">
+  <div className="flex items-end gap-3">
+    <div className="relative w-16 h-16 rounded-full ring-3 ring-white shadow-sm -mt-6 overflow-hidden">
       <Image
         src={src || "/placeholder.png"}
         alt={name || "Avatar"}
@@ -313,8 +349,10 @@ const Avatar = ({ src, name }) => (
       />
     </div>
     <div className="text-right">
-      <p className="text-lg font-semibold text-gray-800">{name || "مستخدم"}</p>
-      <p className="text-xs text-gray-500">عضو منذ {new Date().getFullYear()}</p>
+      <p className="text-sm font-semibold text-gray-800">{name || "مستخدم"}</p>
+      <p className="text-xs text-gray-500">
+        عضو منذ {new Date().getFullYear()}
+      </p>
     </div>
   </div>
 );
