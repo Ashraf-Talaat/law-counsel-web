@@ -15,12 +15,12 @@ export default function Index() {
        }, [])
   return (
     <div className="">
-      <div className="hero  w-full relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center">
+      <div className="hero  w-full relative min-h-screen bg-[url('/images/hero-bg.png')] bg-cover bg-center animate-zoom">
         <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
           <MainNav />
         </div>
 
-        <div className="hero-overlay bg-[url('/images/Rectangle.png')]"></div>
+        <div className="hero-overlay bg-[url('/images/Rectangle.png')] "></div>
 
         <div className="hero-content flex justify-start items-end text-right text-white z-10 w-full">
           <div className="w-[95%] sm:w-[90%] md:w-[85%] max-w-xl mx-10">

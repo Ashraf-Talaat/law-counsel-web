@@ -112,7 +112,7 @@ export default function MainNav() {
                 width={70}
                 height={70}
                 alt="profile pic"
-                className="w-[70px] h-[70px] rounded-full border-2 border-[#C9B38C] object-cover"
+                className="w-[60px] h-[60px] rounded-full border-2 border-[#C9B38C] object-cover"
               />
             </Link>
           </div>

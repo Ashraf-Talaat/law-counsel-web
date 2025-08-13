@@ -93,7 +93,7 @@ export default function LawyerProfileInfoForUser({ params }) {
               <div className="lg:col-span-1">
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 text-center relative">
                   {/* Accent bar */}
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#262b3e] to-[#687693] rounded-t-3xl" />
+                  {/* <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#262b3e] to-[#687693] rounded-t-3xl" /> */}
 
                   {/* Profile Image */}
                   <div className="relative w-32 h-32 mx-auto mb-6">
@@ -164,7 +164,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                   <div className="space-y-3">
                     <button
                       onClick={() => setSelectedLawyerId(lawyer.id)}
-                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#262b3e] to-[#687693] hover:from-[#262b3e]-700 hover:to-blue-700 text-white px-6 py-3 rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#262b3e] to-[#687693] hover:from-[#687693] hover:to-[#262b3e] text-white px-6 py-3 rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                       <svg
                         className="w-5 h-5"
@@ -221,7 +221,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                   {/* Data Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     {/* Name Field */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-br from-[#262b3e0f] to-blue-50 border border-[#262b3e22]">
+                    <div className="p-6 rounded-2xl bg-blue-50/25 border border-[#262b3e22]">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-[#687693] rounded-full flex items-center justify-center">
                           <svg
@@ -248,7 +248,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                     </div>
 
                     {/* Email Field */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200/50">
+                    <div className="p-6 rounded-2xl bg-green-50/25 border border-green-200/50">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                           <svg
@@ -275,7 +275,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                     </div>
 
                     {/* Phone Field */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/50">
+                    <div className="p-6 rounded-2xl bg-purple-50/25 border border-purple-200/50">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <svg
@@ -302,7 +302,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                     </div>
 
                     {/* City Field */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200/50">
+                    <div className="p-6 rounded-2xl bg-orange-50/25 border border-orange-200/50">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
                           <svg
@@ -335,7 +335,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                     </div>
 
                     {/* Specialization Field */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200/50 md:col-span-2">
+                    <div className="p-6 rounded-2xl bg-cyan-50/25 border border-cyan-200/50 md:col-span-2">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-cyan-100 rounded-full flex items-center justify-center">
                           <svg

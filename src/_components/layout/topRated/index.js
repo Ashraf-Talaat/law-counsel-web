@@ -23,14 +23,14 @@ export default function Index() {
         <h2 className="font-bold text-xl text-[#c9b38c]">الاعلي تقييما</h2>
         <div className=" mt-5   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {lawyers.slice(0, 4).map((lawyer) => (
-            <div key={lawyer.id} className="relative w-fit mx-auto">
+            <div key={lawyer.id} className="relative w-fit mx-auto overflow-hidden rounded-xl  ">
               <Link href={`/client/Profile/${lawyer.id}`}>
                 <Image
                   src={lawyer.profileImageUrl || "/images/lawer-pic.png"}
                   alt="topRated"
                   width={280}
                   height={300}
-                  className="rounded-xl w-[280px] h-[300px] object-cover"
+                  className="rounded-xl w-[280px] h-[300px] object-cover transition-transform duration-500 hover:scale-110"
                 />
                 <div className="w-[90%] bg-white p-4 rounded-xl shadow-md absolute left-1/2 -translate-x-1/2 -bottom-[-20px] flex justify-between items-start gap-4">
                   <div>

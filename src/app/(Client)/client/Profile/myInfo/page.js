@@ -202,7 +202,7 @@ export default function UserProfileInfo() {
                 </button>
 
                 {/* Accent bar */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#262b3e] to-[#687693] rounded-t-3xl" />
+                {/* <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#262b3e] to-[#687693] rounded-t-3xl" /> */}
 
                 {/* Profile Image */}
                 <div className="relative w-32 h-32 mx-auto mb-6">
@@ -276,7 +276,7 @@ export default function UserProfileInfo() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Name Field */}
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200/50">
+                  <div className="p-6 rounded-2xl bg-indigo-50/25 border border-indigo-200/50">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
                         <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -289,7 +289,7 @@ export default function UserProfileInfo() {
                   </div>
 
                   {/* Email Field */}
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200/50">
+                  <div className="p-6 rounded-2xl bg-green-50/25 border border-green-200/50">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                         <EnvelopeIcon className="w-5 h-5 text-green-600" />
@@ -300,7 +300,7 @@ export default function UserProfileInfo() {
                   </div>
 
                   {/* Phone Field */}
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/50 md:col-span-2">
+                  <div className="p-6 rounded-2xl bg-purplre/25 border border-purple-200/50 md:col-span-2">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                         <PhoneIcon className="w-5 h-5 text-purple-600" />

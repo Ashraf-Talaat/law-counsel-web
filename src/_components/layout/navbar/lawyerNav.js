@@ -3,9 +3,15 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getLawyerData } from "@/utils/getLawyerdate";
+import { usePathname } from "next/navigation";
 
 export default function LawyerNav() {
 const [lawyer, setLawyer] = useState();
+let pathname = usePathname();
+
+const activeLink =(href)=>{
+return pathname === href ? "text-[#C9B38C] font-bold" : "";
+}
   useEffect(() => {
     const fetchData = async () => {
       const lawyerId = localStorage.getItem("uid");
@@ -25,9 +31,7 @@ const [lawyer, setLawyer] = useState();
     }
   }, []);
   return (
-    
     <div className="text-center">
-      
       <div className="navbar w-full ">
         {/* Start Navbar */}
         <div className="navbar-start">
@@ -58,15 +62,28 @@ const [lawyer, setLawyer] = useState();
                 <Link href="/lawyer/home/articles">الرئيسية</Link>
               </li>
               <li>
-                <Link href="/lawyer/consultations/myConsultation">
+                <Link
+                  href="/lawyer/consultations/myConsultation"
+                  className={activeLink("/lawyer/consultations/myConsultation")}
+                >
                   الدردشات
                 </Link>
               </li>
               <li>
-                <Link href="/lawyer/aboutus">من نحن</Link>
+                <Link
+                  href="/lawyer/aboutus"
+                  className={activeLink("/lawyer/aboutus")}
+                >
+                  من نحن
+                </Link>
               </li>
               <li>
-                <Link href="/lawyer/contactUs">تواصل معنا</Link>
+                <Link
+                  href="/lawyer/contactUs"
+                  className={activeLink("/lawyer/contactUs")}
+                >
+                  تواصل معنا
+                </Link>
               </li>
             </ul>
           </div>
@@ -87,16 +104,36 @@ const [lawyer, setLawyer] = useState();
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link href="/lawyer/home/articles">الرئيسية</Link>
+              <Link
+                href="/lawyer/home/articles"
+                className={activeLink("/lawyer/home/articles")}
+              >
+                الرئيسية
+              </Link>
             </li>
             <li>
-              <Link href="/lawyer/consultations/myConsultation">الدردشات</Link>
+              <Link
+                href="/lawyer/consultations/myConsultation"
+                className={activeLink("/lawyer/consultations/myConsultation")}
+              >
+                الدردشات
+              </Link>
             </li>
             <li>
-              <Link href="/lawyer/aboutus">من نحن</Link>
+              <Link
+                href="/lawyer/aboutus"
+                className={activeLink("/lawyer/aboutus")}
+              >
+                من نحن
+              </Link>
             </li>
             <li>
-              <Link href="/lawyer/contactUs">تواصل معنا</Link>
+              <Link
+                href="/lawyer/contactUs"
+                className={activeLink("/lawyer/contactUs")}
+              >
+                تواصل معنا
+              </Link>
             </li>
           </ul>
         </div>
