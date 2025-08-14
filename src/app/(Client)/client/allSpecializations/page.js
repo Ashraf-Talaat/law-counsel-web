@@ -254,7 +254,7 @@ export default function Page() {
                 <div className=" text-end">
                   <p className="mb-2 ">التقييم</p>
                   <div className="flex justify-end">
-                   {lawyer.feedback.length==0? "": Array.from(
+                   {lawyer.feedback == null || lawyer.feedback.length == 0? "": Array.from(
                         { length: lawyer.feedback[0].rating },
                         (_, i) => i + 1
                       ).map((s, starIdx) => (

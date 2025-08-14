@@ -404,7 +404,7 @@ export default function LawyerProfileInfoForUser({ params }) {
                       </h3>
                     </div>
                   </div>
-                  {lawyer.feedback.map((feedback, i) => {
+                  {lawyer.feedback == null || lawyer.feedback.length == 0?"لا توجد تقييمات":lawyer.feedback.map((feedback, i) => {
                     return (
                       <FeedBack
                         rating={feedback.rating}
