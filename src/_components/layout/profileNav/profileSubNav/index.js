@@ -62,7 +62,7 @@ export function ProfileSubNav() {
 
       <hr className="my-6 border-t" />
 
-      <li key="">
+      <li key="logoutLawyer">
         <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#262b3e] to-[#6a7899] hover:from-[#687693] hover:to-[#1c202e] text-white px-4 py-2 rounded-2xl font-regular transition-all duration-200 shadow-lg hover:shadow-xl"
@@ -71,7 +71,7 @@ export function ProfileSubNav() {
           تسجيل الخروج
         </button>
       </li>
-      <li key="">
+      <li key="delete">
         <button
           onClick={handleDeleteAccount}
           className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-4 py-2 rounded-2xl font-regular transition-all duration-200 shadow-lg hover:shadow-xl"

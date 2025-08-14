@@ -100,7 +100,7 @@ export default function HomeArticles() {
     }
   };
 
-//UI
+  //UI
   if (isLoading) {
     return <LoadingLogo />;
   } else {
@@ -217,7 +217,7 @@ export default function HomeArticles() {
                         </span>
                       </label>
 
-                      {/* Modal */}
+                      {/* comment Modal */}
                       <input
                         type="checkbox"
                         id={`modal-${article.id}`}

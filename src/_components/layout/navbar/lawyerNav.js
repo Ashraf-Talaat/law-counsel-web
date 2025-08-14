@@ -91,7 +91,7 @@ return pathname === href ? "text-[#C9B38C] font-bold" : "";
           {/* profile */}
           <Link href="/lawyer/profile/myInfo">
             <Image
-              src={lawyer?.profileImageUrl}
+              src={lawyer?.profileImageUrl || "/images/download.png"}
               alt="User"
               width={70}
               height={70}
