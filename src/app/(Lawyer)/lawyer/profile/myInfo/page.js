@@ -168,13 +168,16 @@ export default function MyInfoProfile() {
                 }
                 onAddClick={openSpecialtyModal}
               />
-              <FieldList
+              {/* <FieldList
                 title=" اجمالي الربح"
                 items={
                   // [lawyer.price - lawyer.price * 0.10]
                   lawyer.balance == null ? 0 : [lawyer.balance]
                 }
-              />
+              /> */}
+              <h1>
+                اجمالي الربح: ${lawyer.balance || 0}
+              </h1>
             </div>
             {/* <FieldList
                 title="  اجمالي الربح"
