@@ -5,25 +5,15 @@ export default function FeedBack({ rating, name, description }) {
   const r = rating; 
   return (
     <>
-      {/* <div className=" bg-white my-6 p-6 rounded-3xl shadow-xl"> */}
-        {/* heading title for feedback */}
-        
+     
 
         {/* feedback section content iterable content */}
         <div className="p-6 bg-gray-50 border-gray-200/50 rounded-xl">
-          <div className="flex items-center gap-3 mb-4">
-            {/* image for user avatar  */}
-            {/* <Image
-              src=""
-              alt="User Avatar"
-              width={50}
-              height={50}
-              className="w-12 h-12 rounded-full border border-gray-200"
-            /> */}
+          <div className="flex items-center gap-3 mb-4">      
 
             <div className="flex flex-col">
               {/* user name  */}
-              <h5 className="text-lg font-semibold text-gray-700"> {name}</h5>
+              <h6 className="text-sm mb-2 font-semibold text-gray-700"> {name}</h6>
 
               {/* user rating stars */}
               <div className="flex">
@@ -51,7 +41,7 @@ export default function FeedBack({ rating, name, description }) {
             <p className="text-gray-700 leading-relaxed">{description}</p>
           </div>
         </div>
-      {/* </div> */}
+      
     </>
   );
 }

@@ -120,7 +120,7 @@ export default function MyInfoProfile() {
           <div className="px-4 -mt-8 flex items-end justify-between flex-row-reverse">
             <button
               onClick={openModal}
-              className="bg-[#C9B38C] text-white px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
+              className="bg-[#C9B38C] cursor-pointer hover:bg-[#C9B38C]  text-white px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
             >
               <PencilIcon className="h-4 w-4" />
               تعديل

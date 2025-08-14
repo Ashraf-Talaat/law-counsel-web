@@ -35,9 +35,9 @@ export default function LawyerProfile({ children }) {
       <div className="relative z-10  max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
           {/* Sidebar card */}
-          <aside className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 h-fit sticky top-24">
+          <aside className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 h-fit ">
             <div className="flex flex-col items-center text-center">
-              <div className="relative w-28 h-28 rounded-full ring-4 ring-white shadow overflow-hidden -mt-10 border-2 border-[#C9B38C]">
+              <div className="relative w-28 h-28 rounded-full ring-4 ring-white shadow overflow-hidden  border-2 border-[#C9B38C]">
                 <Image
                   src={lawyer?.profileImageUrl || "/images/lawyer.jpg"}
                   alt="User"
