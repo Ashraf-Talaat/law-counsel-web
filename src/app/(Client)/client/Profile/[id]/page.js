@@ -1,27 +1,54 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 import Image from "next/image";
+
+//logic, services, utils
+import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 import newRequest, {
   createRequest,
 } from "@/logic/consultations/client/createRequest";
+import { getClientData } from "@/utils/getClientData";
+
+//component
 import LoadingLogo from "@/_components/Loading";
-import toast, { Toaster } from "react-hot-toast";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from "@/firebase/firebase";
 import FeedBack from "@/_components/FeedBack";
 
+//alert
+import toast, { Toaster } from "react-hot-toast";
+
+//fire store
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
+
 export default function LawyerProfileInfoForUser({ params }) {
-  // get lawer id from url
-  let { id } = React.use(params);
   const [lawyer, setLawyer] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [nameClient, setNameClient] = useState("");
+  const [client, setClient] = useState(null);
+  const [selectedLawyerId, setSelectedLawyerId] = useState("");
+  // request consultations
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+
+  //get client id
   const uid = localStorage.getItem("uid");
+
+  // get lawyer id from url
+  let { id } = React.use(params);
+
+  //get data of lawyer, client
   useEffect(() => {
+    //get lawyer data
     const getlawyer = async () => {
       const data = await fetchLawyerById(id);
       setLawyer(data);
+    };
+    // get client data
+    const getClient = async () => {
+      const getdata = await getClientData(uid);
+      setClient(getdata);
     };
     const getNames = async () => {
       const clientDoc = await getDoc(doc(db, "clients", uid));
@@ -33,17 +60,11 @@ export default function LawyerProfileInfoForUser({ params }) {
     };
     getNames();
     getlawyer();
+    getClient();
     setLoading(false);
   }, []);
 
-  //////////////////////////////////////////////////////////////////////////////////
-  // request consultations
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-  });
-
-  const [selectedLawyerId, setSelectedLawyerId] = useState("");
+  // handle request form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.title == "" && formData.description == "") {
@@ -69,7 +90,8 @@ export default function LawyerProfileInfoForUser({ params }) {
       });
     setFormData({ title: "", description: "" });
   };
-  /////////////////////////////////////////////////////////////////////////////////////
+
+  //***************************************** ***********************/
   if (isLoading || !lawyer) return <LoadingLogo />;
   else {
     return (
@@ -99,7 +121,9 @@ export default function LawyerProfileInfoForUser({ params }) {
                   <div className="relative w-32 h-32 mx-auto mb-6">
                     <div className="w-full h-full rounded-full ring-4 ring-[#262b3e]/20 overflow-hidden">
                       <Image
-                        src={lawyer.profileImageUrl}
+                        src={
+                          lawyer.profileImageUrl || "/images/lawyerAvatar.png"
+                        }
                         alt="صورة المحامي"
                         fill
                         className="object-cover rounded-full"
@@ -404,16 +428,18 @@ export default function LawyerProfileInfoForUser({ params }) {
                       </h3>
                     </div>
                   </div>
-                  {lawyer.feedback == null || lawyer.feedback.length == 0?"لا توجد تقييمات":lawyer.feedback.map((feedback, i) => {
-                    return (
-                      <FeedBack
-                        rating={feedback.rating}
-                        name={feedback.nameClient}
-                        description={feedback.description}
-                        key={i}
-                      />
-                    );
-                  })}
+                  {lawyer.feedback == null || lawyer.feedback.length == 0
+                    ? "لا توجد تقييمات"
+                    : lawyer.feedback.map((feedback, i) => {
+                        return (
+                          <FeedBack
+                            rating={feedback.rating}
+                            name={client.name}
+                            description={feedback.description}
+                            key={i}
+                          />
+                        );
+                      })}
                 </div>
               </div>
             </div>

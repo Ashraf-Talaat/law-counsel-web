@@ -5,15 +5,16 @@ import Image from "next/image";
 
 //components
 import LoadingLogo from "@/_components/Loading";
+import FeedbackForm from "@/_components/FeedbackForm";
 
 //logic
 import { getAllChatsRealtime } from "@/logic/consultations/lawyer/getAllChats";
 import { sendMessage } from "@/logic/consultations/lawyer/sendMessage";
+import getAllChats from "@/logic/consultations/client/getAllChats";
+import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import getAllChats from "@/logic/consultations/client/getAllChats";
-import FeedbackForm from "@/_components/FeedbackForm";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
@@ -26,16 +27,25 @@ export default function Page() {
 
   const chatContainerRef = useRef(null);
 
-
-
-  //get all chats
+  //get all chats with lawyer names and images
   useEffect(() => {
-    const unsubscribe = getAllChats(clientId, (chat) => {
-
-      setChats(chat);
-      setMessages(chat[index].messages);
+    const unsubscribe = getAllChats(clientId, async (chat) => {
+      const chatsWithLawyerNames = await Promise.all(
+        chat.map(async (item) => {
+          const lawyerData = await fetchLawyerById(item.lawyerId);
+          return {
+            ...item,
+            lawyerName: lawyerData?.name || "",
+            lawyerImg:
+              lawyerData?.profileImageUrl || "/images/lawyerAvatar.png",
+          };
+        })
+      );
+      setChats(chatsWithLawyerNames);
+      setMessages(chatsWithLawyerNames[index].messages);
+      setLoading(false);
     });
-    setLoading(false);
+
     return () => unsubscribe();
   }, []);
 
@@ -53,10 +63,8 @@ export default function Page() {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
-
           <h2 className="text-xl font-bold mb-6 goldTxt">المحامين</h2>
           <div className="space-y-6">
-          
             <p>لا توجد استشارات</p>
           </div>
         </div>
@@ -66,16 +74,14 @@ export default function Page() {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
-          {/* /////////////////////////////// */}
-          
+          {/* feedback form */}
           <FeedbackForm
             clientId={chats[index].clientId}
             lawyerId={chats[index].lawyerId}
             nameClient={chats[index].nameClient}
             nameLawyer={chats[index].nameLawyer}
-            
           />
-          {/* //////////////////////////////////////// */}
+
           <div className="flex justify-around gap-6">
             {/*list of lawyers*/}
             <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
@@ -91,15 +97,15 @@ export default function Page() {
                     className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                   >
                     <Image
-                      src="/images/lawyer.jpg"
+                      src={item.lawyerImg}
                       alt="محامي"
-                      className="w-10 h-10 rounded-full "
+                      className="w-10 h-10 rounded-full object-cover"
                       width={40}
                       height={40}
                     />
 
                     <div>
-                      <p className="font-semibold mb-1">{item.nameLawyer} </p>
+                      <p className="font-semibold mb-1">{item.lawyerName} </p>
                       <p className="text-sm subTxt "> {item.lastMessage}</p>
                     </div>
                   </li>
