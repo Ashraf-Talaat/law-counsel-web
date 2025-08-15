@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {RegisPopup} from "@/_components/layout/RegisPopup";
+import { RegisPopup } from "@/_components/layout/RegisPopup";
 import { getClientData } from "@/utils/getClientData";
 import { usePathname } from "next/navigation"; //  لإحضار المسار الحالي
 

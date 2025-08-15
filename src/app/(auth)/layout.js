@@ -13,7 +13,6 @@ export default function Layout({ children }) {
     <html lang="ar" dir="rtl" data-theme="light">
       <body className={`${cairo.className}  text-base-content font-sans `}>
         {children}
-
       </body>
     </html>
   );

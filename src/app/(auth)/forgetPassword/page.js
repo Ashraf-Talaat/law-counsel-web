@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import RegisPopup from "@/_components/layout/RegisPopup";
+import { RegisPopup } from "@/_components/layout/RegisPopup";
 
 import LoadingLogo from "@/_components/Loading";
 import { handleForgotPasswordSubmit } from "@/utils/handleForgetPassword";
@@ -37,25 +37,24 @@ export default function ForgotPassword() {
     }
 
     try {
-    //   // Here you would typically make an API call to send reset password email
-    //   // For now, we'll just show a success message
-    //   toast.success("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
-      
-    //   // Clear the form
-    // //   setForgotPasswordInputs({ email: "" });
-    // //   setErrors({});
-     await handleForgotPasswordSubmit({
+      //   // Here you would typically make an API call to send reset password email
+      //   // For now, we'll just show a success message
+      //   toast.success("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
+
+      //   // Clear the form
+      // //   setForgotPasswordInputs({ email: "" });
+      // //   setErrors({});
+      await handleForgotPasswordSubmit({
         e,
         forgotPasswordInputs,
         setErrors,
         setLoading,
-        setForgotPasswordInputs
-      })
+        setForgotPasswordInputs,
+      });
       // Optionally redirect to login page after a delay
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-      
     } catch (error) {
       toast.error("حدث خطأ، يرجى المحاولة مرة أخرى", error);
     } finally {
@@ -66,9 +65,15 @@ export default function ForgotPassword() {
   const validateField = async (fieldName) => {
     if (fieldName === "email") {
       if (!forgotPasswordInputs.email) {
-        setErrors((prevErrors) => ({ ...prevErrors, email: "البريد الإلكتروني مطلوب" }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "البريد الإلكتروني مطلوب",
+        }));
       } else if (!/\S+@\S+\.\S+/.test(forgotPasswordInputs.email)) {
-        setErrors((prevErrors) => ({ ...prevErrors, email: "البريد الإلكتروني غير صحيح" }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "البريد الإلكتروني غير صحيح",
+        }));
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, email: "" }));
       }
@@ -80,7 +85,6 @@ export default function ForgotPassword() {
   }
   return (
     <div>
-
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
@@ -123,7 +127,7 @@ export default function ForgotPassword() {
                 </button>
               </div>
             </form>
-            
+
             <div className="flex justify-center mt-2">
               <p className="mr-4 text-md text-gray-700">
                 ليس لديك حساب ؟
@@ -154,4 +158,3 @@ export default function ForgotPassword() {
     </div>
   );
 }
-

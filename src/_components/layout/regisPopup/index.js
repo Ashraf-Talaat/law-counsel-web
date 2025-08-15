@@ -17,7 +17,7 @@ export function RegisPopup({ onClose, isPopup = true }) {
           <>
             <h2 className="mb-4 font-bold">برجاء الاختيار</h2>
             <button
-              onClick={() => {
+              onClick={() => {  
                 console.log("closing popup");
                 onClose?.();
               }}

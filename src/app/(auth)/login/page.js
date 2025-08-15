@@ -141,7 +141,7 @@ try {
               </div>
             </form>
             <div className="flex justify-center mt-2">
-              <p className="mr-4 text-md text-gray-700">
+              <div className="mr-4 text-md text-gray-700">
                 ليس لديك حساب ؟
                 <button
                   onClick={() => setShowPopup(true)}
@@ -152,7 +152,7 @@ try {
                 {showPopup && (
                   <RegisPopup onClose={() => setShowPopup(false)} />
                 )}
-              </p>
+              </div>
             </div>
           </div>
           <div className="hidden md:flex text-center">
