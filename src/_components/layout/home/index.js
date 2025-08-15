@@ -12,6 +12,7 @@ import ContactUs from "@/_components/layout/contactUs";
 import RegisPopup from "@/_components/layout/RegisPopup";
 
 import LoadingLogo from "@/_components/Loading";
+import Cookies from "js-cookie";
 
 export default function Index() {
   const [isLogin, setLogin] = useState(false);
@@ -24,7 +25,7 @@ export default function Index() {
       localStorage.getItem("userType") == "client"
     ) {
       setLogin(true);
-    } else if (localStorage.getItem("userType") == "lawyer") {
+    } else if (Cookies.get("userType") == "lawyer") {
       router.push("/lawyer/home/articles");
     }
 
