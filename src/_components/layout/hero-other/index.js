@@ -2,21 +2,27 @@
 import React from "react";
 import MainNav from "@/_components/layout/navbar/mainNav";
 import LawyerNav from "../navbar/lawyerNav";
+import { useEffect, useState } from "react";
 
-
-export default function index({
+export default function Index({
   title,
   description,
   showInput = false,
   onSearchChange,
 }) {
-  let userType = localStorage.getItem("userType");
-  
+  // let userType = localStorage.getItem("userType");
+  const [userType, setUserType] = useState(null);
+
+  useEffect(() => {
+    const type = localStorage.getItem("userType");
+    setUserType(type);
+  }, []);
+
   return (
     <div className="">
       <div className="hero h-[55vh] w-full relative  bg-[url('/images/hero-bg.png')] bg-cover bg-center">
         <div className="absolute top-0 left-[5%] bg-transparent text-white z-50 w-[90%]">
-          {userType === "lawyer" ? <LawyerNav/> :<MainNav />}
+          {userType === "lawyer" ? <LawyerNav /> : <MainNav />}
         </div>
         <div className="hero-overlay  bg-[url('/images/Rectangle.png')]"></div>
 

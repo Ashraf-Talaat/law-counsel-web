@@ -159,7 +159,7 @@ export default function MainNav() {
           <div className="navbar-end">
             <Link href="/client/Profile/myInfo">
               <Image
-                src={client.imageUrl || "/images/clinetAvatar.jpg"}
+                src={client.imageUrl || "/images/clientAvatar.jpg"}
                 width={70}
                 height={70}
                 alt="profile pic"
