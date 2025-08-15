@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { RegisPopup } from "@/_components/layout/RegisPopup";
+import { RegisPopup } from "@/_components/layout/RegisPopup/index";
 
 import LoadingLogo from "@/_components/Loading";
 import { handleForgotPasswordSubmit } from "@/utils/handleForgetPassword";

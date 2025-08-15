@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from "react-hot-toast";
-import {RegisPopup} from "@/_components/layout/RegisPopup";
+import { RegisPopup } from "@/_components/layout/RegisPopup/index";
 
 import LoadingLogo from "@/_components/Loading";
 
@@ -21,26 +21,22 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
-
   const handleSubmit = async (e) => {
     setLoading(true);
-try {
-
-    await handleLoginSubmit({
-      e,
-      loginInputs,
-      setErrors,
-      router,
-      setLoading,
-
-    });
-  } catch (error) {
+    try {
+      await handleLoginSubmit({
+        e,
+        loginInputs,
+        setErrors,
+        router,
+        setLoading,
+      });
+    } catch (error) {
       // console.error("Login submission error:", error);
       // setLoading(false);
       // toast.error("حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى.");
     }
   };
-  
 
   const validateField = async (fieldName) => {
     try {
@@ -56,13 +52,11 @@ try {
     }
   };
 
-
   if (loading) {
     return <LoadingLogo />;
   }
   return (
     <div>
-
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
@@ -122,14 +116,12 @@ try {
               </div>
 
               <div className="flex justify-end">
-                <Link href= '/forgetPassword'> 
-                <button
-                  className="text-[#1C202E] hover:underline hover:text-[#C9B38C] "
-                >
-                  نسيت كلمة المرور ؟
-                </button>
+                <Link href="/forgetPassword">
+                  <button className="text-[#1C202E] hover:underline hover:text-[#C9B38C] ">
+                    نسيت كلمة المرور ؟
+                  </button>
                 </Link>
-            </div>
+              </div>
 
               <div className="flex justify-center ">
                 <button
@@ -167,7 +159,6 @@ try {
         </div>
       </div>
       <Toaster />
-
     </div>
   );
 }
