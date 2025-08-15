@@ -2,7 +2,7 @@ import React from "react";
 import { ScaleIcon, UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
-export default function RegisPopup({ onClose, isPopup = true }) {
+export function RegisPopup({ onClose, isPopup = true }) {
   return (
     <div
       className={`${

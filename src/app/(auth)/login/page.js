@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { handleLoginSubmit, validationSchema } from "@/utils/handleLoginSubmit";
 import toast, { Toaster } from "react-hot-toast";
-import RegisPopup from "@/_components/layout/RegisPopup";
+import {RegisPopup} from "@/_components/layout/RegisPopup";
 
 import LoadingLogo from "@/_components/Loading";
 

@@ -10,7 +10,7 @@ import About from "@/_components/layout/aboutus";
 import Specializations from "@/_components/layout/home_specializations";
 import TopRated from "@/_components/layout/topRated";
 import ContactUs from "@/_components/layout/contactUs";
-import RegisPopup from "@/_components/layout/RegisPopup";
+import {RegisPopup} from "@/_components/layout/RegisPopup";
 
 import LoadingLogo from "@/_components/Loading";
 import Cookies from "js-cookie";
