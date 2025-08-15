@@ -47,7 +47,7 @@ export default function Page() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [clientId, index]);
 
   //scroll bottom of chat
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function Page() {
                       setIndex(i);
                       setMessages(item.messages);
                     }}
-                    key={item.clientId}
+                    key={i}
                     className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                   >
                     <Image

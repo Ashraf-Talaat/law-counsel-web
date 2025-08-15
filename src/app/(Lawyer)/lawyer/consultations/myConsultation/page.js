@@ -32,7 +32,7 @@ export default function Page() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [lawyerId, index]);
 
   //scroll bottom of chat
   useEffect(() => {

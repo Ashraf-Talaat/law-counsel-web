@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 //logic, services, utils
 import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
@@ -15,6 +16,9 @@ import FeedBack from "@/_components/FeedBack";
 
 //alert
 import toast, { Toaster } from "react-hot-toast";
+
+//icons
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 
 //fire store
 import { getDoc, doc } from "firebase/firestore";
@@ -100,15 +104,7 @@ export default function LawyerProfileInfoForUser({ params }) {
         <div className="min-h-screen  p-6">
           <Toaster />
           <div className="max-w-7xl mx-auto">
-            {/* Page Header */}
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-[#262b3e] to-[#687693] bg-clip-text text-transparent mb-2">
-                ملف المحامي
-              </h1>
-              <p className="text-gray-600">
-                تفاصيل المحامي وطلب الاستشارة القانونية
-              </p>
-            </div>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Lawyer Info Card - Small */}

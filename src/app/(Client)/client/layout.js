@@ -1,4 +1,3 @@
-
 "use client";
 
 import Footer from "@/_components/layout/footer/page";
@@ -36,10 +35,7 @@ export default function LayoutClient({ children }) {
     }
   }, [router]);
 
-
-
   return (
-
     <html lang="ar" dir="rtl" data-theme="light">
       <body className={`${cairo.className}  text-base-content font-sans `}>
 
