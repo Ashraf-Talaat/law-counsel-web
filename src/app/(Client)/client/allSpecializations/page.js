@@ -10,15 +10,13 @@ import { ScaleIcon } from "@heroicons/react/24/outline";
 import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {  doc, getDoc} from "firebase/firestore";
 import { db } from "@/firebase/firebase";
-import { getAuth } from "firebase/auth";
 //Firebase
-import newRequest, { createRequest, } from "@/logic/consultations/client/createRequest";
+import newRequest from "@/logic/consultations/client/createRequest";
 import { fetchLawyers } from "@/services/lawyer/getAllLawyersData";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
-import { Description } from "@headlessui/react";
 import LoadingLogo from "@/_components/Loading";
 
 
@@ -54,7 +52,7 @@ export default function Page() {
     getNames();
     allLawyers();
     setLoading(false);
-  }, []);
+  }, [uid]);
 
   //handle filterd data
   const [searchValue, setSearchValue] = useState("");
