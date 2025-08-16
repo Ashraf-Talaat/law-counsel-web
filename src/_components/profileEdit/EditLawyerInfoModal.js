@@ -6,8 +6,8 @@ import { uploadImage } from "@/utils/handleUrlImg";
 
 
 
-const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) => {
- 
+const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) => {
+
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     email: initialData?.email || "",
@@ -18,7 +18,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) =>
     profileImageUrl: initialData?.profileImageUrl || "",
   });
 
-   
+
 
   const handleImageChange = async (e) => {
     const file = e.target.files && e.target.files[0];
@@ -27,7 +27,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) =>
     handleChange({
       target: { name: "profileImageUrl", value: url },
     })
-    
+
   };
 
   useEffect(() => {
@@ -47,23 +47,33 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) =>
   // };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     setFormData({
       ...formData,
       [name]: name === "price" ? parseFloat(value) || 0 : value,
-      ["netPrice"]: name === "price" ? parseFloat(value) * 0.90 || 0 : formData.netPrice,
+      netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) : formData.netPrice || 0,
       // netPrice: (formData.price * 0.90) ,
 
     });
   };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   const parsedValue = name === "price" ? parseFloat(value) || 0 : value;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: parsedValue,
+  //     netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) :( prev.netPrice??0),
+  //   }));
+  // };
 
   const handleSubmit = () => {
-    
+
     onSave(formData);
-     onClose();
+    onClose();
     router.refresh();
-  
-    
+
+
   };
 
   return (
