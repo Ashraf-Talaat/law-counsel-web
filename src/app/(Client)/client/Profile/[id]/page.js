@@ -85,6 +85,7 @@ export default function LawyerProfileInfoForUser({ params }) {
       deletedByClient: false,
       nameClient: nameClient,
       nameLawyer: lawyer.name,
+      amount: lawyer.price == null || lawyer.price == 0 ? 500 : lawyer.price,
     })
       .then(() => {
         toast.success("تم إرسال الطلب بنجاح!");
@@ -427,15 +428,15 @@ export default function LawyerProfileInfoForUser({ params }) {
                   {lawyer.feedback == null || lawyer.feedback.length == 0
                     ? "لا توجد تقييمات"
                     : lawyer.feedback.map((feedback, i) => {
-                        return (
-                          <FeedBack
-                            rating={feedback.rating}
-                            name={client.name}
-                            description={feedback.description}
-                            key={i}
-                          />
-                        );
-                      })}
+                      return (
+                        <FeedBack
+                          rating={feedback.rating}
+                          name={client.name}
+                          description={feedback.description}
+                          key={i}
+                        />
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -499,12 +500,17 @@ export default function LawyerProfileInfoForUser({ params }) {
             </div>
 
             <div className="modal-action gap-4 mt-8">
-              <button
-                onClick={handleSubmit}
-                className="btn bgBtn text-white px-8 py-3 rounded-xl hover:bgBtnHover transform hover:scale-105 transition-all duration-200"
-              >
-                ارسال الطلب
-              </button>
+              <div className="flex items-center gap-4">
+                <span className="text-gray-700 font-medium">
+                  سعر الاستشارة = {lawyer.price==null||lawyer.price ==0? "500":lawyer.price} جنية
+                </span>
+                <button
+                  onClick={handleSubmit}
+                  className="btn bgBtn text-white px-8 py-3 rounded-xl hover:bgBtnHover transform hover:scale-105 transition-all duration-200"
+                >
+                  ارسال الطلب
+                </button>
+              </div>
               <label
                 htmlFor="create-post-modal"
                 className="btn btn-outline px-8 py-3 rounded-xl"

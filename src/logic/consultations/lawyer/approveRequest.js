@@ -21,6 +21,7 @@ export default async function approveRequest(requestId, userId, lawyerId, nameCl
       nameClient: nameClient,
       nameLawyer: nameLawyer,
       lastMessage: "مرحبا بك، يمكنك البدء في المحادثة الآن.",
+      status: "ongoing", // pending, ongoing, completed, disputed
       lastMessageTime: serverTimestamp(),
       createdAt: serverTimestamp(),
     });

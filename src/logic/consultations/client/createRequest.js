@@ -1,5 +1,7 @@
 import { db } from "@/firebase/firebase.js";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import handlePayment from "./handelPayment";
+
 
 // export async function createRequest(requestData) {
 //   try {
@@ -17,7 +19,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //   }
 // }
 
-const newRequest = async ({ title, description, userId, lawyerId ,nameClient,nameLawyer}) => {
+const newRequest = async ({ title, description, userId, lawyerId ,nameClient,nameLawyer,amount}) => {
   try {
     const docRef = await addDoc(collection(db, "consultations"), {
       title,
@@ -30,6 +32,14 @@ const newRequest = async ({ title, description, userId, lawyerId ,nameClient,nam
       nameClient,
       nameLawyer,
     });
+    
+   await handlePayment({
+      clientId: userId,
+      lawyerId,
+      consultationId: docRef.id,
+      amount, 
+    });
+
     console.log("Consultation added with ID:", docRef.id);
     return { valid: true };
   } catch (error) {

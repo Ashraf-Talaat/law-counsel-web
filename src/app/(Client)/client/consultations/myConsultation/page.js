@@ -15,6 +15,9 @@ import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
 //Icons
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
+import StatusChatRenderer from "@/_components/renderStatusChat/StatusChatRenderer";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
@@ -22,7 +25,8 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
   const [isLoading, setLoading] = useState(true);
-
+  const [showEndConsultationModal, setShowEndConsultationModal] = useState(false);
+  const [status, setStatus] = useState("ongoing"); // ongoing, completed, disputed
   const clientId = localStorage.getItem("uid");
 
   const chatContainerRef = useRef(null);
@@ -42,14 +46,15 @@ export default function Page() {
         })
       );
       if (chatsWithLawyerNames && chatsWithLawyerNames.length > 0) {
-      setChats(chatsWithLawyerNames);
-      setMessages(chatsWithLawyerNames[index]?.messages || []);
-      setLoading(false);
+        setChats(chatsWithLawyerNames);
+        setMessages(chatsWithLawyerNames[index]?.messages || []);
+        setStatus(chat[index]?.status || "ongoing");
+        setLoading(false);
       }
-      else{
+      else {
         setChats([]);
-      setMessages([]);
-      setLoading(false);
+        setMessages([]);
+        setLoading(false);
       }
     });
 
@@ -64,6 +69,16 @@ export default function Page() {
     }
   }, [messages]);
 
+  const handleEndConsultation = async () => {
+      const chatDocRef = doc(db, "chats", chats[index].chatId);
+      await updateDoc(chatDocRef, {
+        status: "pending",
+        endRequestBy: "client",
+      });
+  
+      console.log("Consultation ended");
+      setShowEndConsultationModal(false);
+    };
   if (isLoading) {
     return <LoadingLogo />;
   } else if (chats.length === 0) {
@@ -151,7 +166,19 @@ export default function Page() {
               </div>
 
               {/* write message form  */}
-              <div className="mt-6 flex">
+              <StatusChatRenderer
+                userType={"client"}
+                status={status}
+                input={input}
+                setInput={setInput}
+                setShowEndConsultationModal={setShowEndConsultationModal}
+                sendMessage={sendMessage}
+                chats={chats}
+                index={index}
+                lawyerId={chats[index]?.lawyerId}
+                clientId={chats[index]?.clientId}
+              />
+              {/* <div className="mt-6 flex">
                 <input
                   value={input}
                   onChange={(e) => {
@@ -173,10 +200,38 @@ export default function Page() {
                 >
                   <PaperAirplaneIcon className="w-9 h-9" />
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
+
+        {/* End Consultation Confirmation Modal */}
+        {showEndConsultationModal && (
+          <div className="fixed inset-0  bg-opacity-20 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">
+                تأكيد إنهاء الاستشارة
+              </h3>
+              <p className="text-gray-600 mb-6 text-center">
+                هل أنت متأكد من إنهاء الاستشارة؟
+              </p>
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={handleEndConsultation}
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                >
+                  نعم، إنهاء الاستشارة
+                </button>
+                <button
+                  onClick={() => setShowEndConsultationModal(false)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors"
+                >
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   }
