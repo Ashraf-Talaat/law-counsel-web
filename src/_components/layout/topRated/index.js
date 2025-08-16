@@ -24,7 +24,7 @@ export default function Index() {
       });
 
       setLawyers(filtered);
-      setLawyers(data);
+      // setLawyers(data);
     };
 
     allLawyers();
