@@ -7,6 +7,7 @@ export default async function createArticle({
   userId,
   userName,
   userImage,
+  likes
 }) {
   try {
     const docRef = await addDoc(collection(db, "articles"), {
@@ -16,6 +17,7 @@ export default async function createArticle({
       userName,
       userImage,
       createdAt: new Date().toISOString(),
+      likes,
     });
 
     console.log("DocRef: ", docRef);
