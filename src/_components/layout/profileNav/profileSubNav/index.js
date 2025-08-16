@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 export function ProfileSubNav() {
   const handleLogout = () => {
     localStorage.removeItem("uid");
-    Cookies.remove("userType")
+    Cookies.remove("userType");
     toast.success("تم تسجيل الخروج");
     window.location.href = "/login";
   };
@@ -27,7 +27,7 @@ export function ProfileSubNav() {
     if (!confirm.isConfirmed) return;
 
     try {
-      await deleteDoc(doc(db, "clients", userId)); 
+      await deleteDoc(doc(db, "clients", userId));
       localStorage.removeItem("uid");
       localStorage.removeItem("userType");
       toast.success("تم حذف الحساب");
@@ -45,14 +45,16 @@ export function ProfileSubNav() {
 
   return (
     <ul className="space-y-6 text-center text-xl font-medium">
+      <hr className="my-6 border-t border-gray-300" />
+
       {links.map(({ label, href }) => (
         <li key={href}>
           <Link
             href={href}
-            className={`block py-2 bg-gray-50 rounded-md cursor-pointer transition-colors ${
-              pathname === href
-                ? "bg-[#C9B38C] text-white"
-                : "hover:bg-[#e0d4b7] text-[#1C202E]"
+            className={`block py-2 rounded-md cursor-pointer transition-colors ${
+              pathname.includes(href)
+                ? "bg-gradient-to-r from-[#c9b38c] to-[#ebe3d7] text-white"
+                : "hover:bg-[#e0d4b753] text-[#1C202E]"
             }`}
           >
             {label}
@@ -60,7 +62,7 @@ export function ProfileSubNav() {
         </li>
       ))}
 
-      <hr className="my-6 border-t" />
+      <hr className="my-6 border-t border-gray-300" />
 
       <li key="logoutLawyer">
         <button

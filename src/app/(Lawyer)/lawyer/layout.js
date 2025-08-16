@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+
+//alerts
 import { Toaster } from "react-hot-toast";
+
+//contexts
+import { LawyerProvider } from "@/context/LawyerContext";
 
 //components
 import Footer from "@/_components/layout/footer/page";
@@ -38,8 +43,10 @@ export default function LayoutLawyer({ children }) {
     <html lang="ar" dir="rtl" data-theme="light">
       <body className={`${cairo.className}  text-base-content font-sans `}>
         <Toaster position="top-center" reverseOrder={false} />
+        <LawyerProvider>
+          {isLoading ? <LoadingLogo /> : children}
+        </LawyerProvider>
 
-        {isLoading ? <LoadingLogo /> : children}
         <Footer></Footer>
       </body>
     </html>

@@ -1,45 +1,44 @@
-"use client"
+"use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import ProfileNav from '@/_components/layout/profileNav/index';
-import { ProfileSubNav } from '@/_components/layout/profileNav/profileSubNav/index';
-import { getLawyerData } from "@/utils/getLawyerdate";
+import React from "react";
+
+//components
+import ProfileNav from "@/_components/layout/profileNav/index";
+import { ProfileSubNav } from "@/_components/layout/profileNav/profileSubNav/index";
+
+//context
+import { useLawyer } from "@/context/LawyerContext";
 
 export default function LawyerProfile({ children }) {
-  const [lawyer, setLawyer] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const lawyerId = localStorage.getItem("uid");
-      if (!lawyerId) return;
+  const { lawyer, loading } = useLawyer();
 
-      try {
-        const data = await getLawyerData(lawyerId);
-        setLawyer(data);
-      } catch (err) {
-        console.error(err);
-     
-      }
-    };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>جاري التحميل ...</p>
+      </div>
+    );
+  }
 
-    if (typeof window !== "undefined") {
-      fetchData();
-    }
-  }, []);
+  if (!lawyer) {
+    return (
+      <p className="text-center mt-8 text-sm text-gray-600">لا يوجد بيانات</p>
+    );
+  }
+
   return (
     <div dir="rtl" className="relative bg-gray-50 min-h-screen">
+      {/* navbar */}
       <ProfileNav />
 
-      {/* Header stripe */}
-      <div className="h-32 " />
-
-      <div className="relative z-10  max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
-          {/* Sidebar card */}
-          <aside className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 h-fit ">
+          {/* Sidebar */}
+          <aside className="bg-white rounded-2xl shadow-md ring-1 ring-gray-100 p-6 h-fit">
             <div className="flex flex-col items-center text-center">
-              <div className="relative w-28 h-28 rounded-full ring-4 ring-white shadow overflow-hidden  border-2 border-[#C9B38C]">
+              <div className="relative w-28 h-28 rounded-full ring-4 ring-white shadow overflow-hidden border-3 border-[#C9B38C]">
                 <Image
-                  src={lawyer?.profileImageUrl || "/images/lawyer.jpg"}
+                  src={lawyer?.profileImageUrl || "/images/lawyerAvatar.png"}
                   alt="User"
                   fill
                   className="object-cover"
@@ -52,15 +51,15 @@ export default function LawyerProfile({ children }) {
                 <p className="text-sm text-gray-500">{lawyer.city}</p>
               )}
             </div>
-
             <div className="mt-6">
               <ProfileSubNav />
             </div>
           </aside>
 
-          {/* Main content card */}
+          {/* Main content */}
+
           <main className="w-full">
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6">
+            <div className="bg-white rounded-2xl shadow-md ring-1 ring-gray-100 p-6 mb-10">
               {children}
             </div>
           </main>

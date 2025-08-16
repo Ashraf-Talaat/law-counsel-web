@@ -1,8 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { getLawyerData } from "@/utils/getLawyerdate";
 import EditLawyerInfoModal from "@/_components/profileEdit/EditLawyerInfoModal";
 import SelectSpecialtiesModal from "@/_components/profileEdit/SelectSpecialtiesModal";
 import EditImageModal from "@/_components/profileEdit/EditImageModal";
@@ -10,38 +9,16 @@ import EditAchievementsModal from "@/_components/profileEdit/EditAchievementsMod
 import { updateLawyerProfile } from "@/utils/handleEditLawyerInfo";
 import FeedBack from "@/_components/FeedBack";
 import { useRouter } from "next/navigation";
-
+import { useLawyer } from "@/context/LawyerContext"; // استخدم الكونتكست
 
 export default function MyInfoProfile() {
-  const [lawyer, setLawyer] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { lawyer, setLawyer, loading } = useLawyer(); // ناخد القيم من الكونتكست
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSpecialtyModalOpen, setIsSpecialtyModalOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isAchievementsModalOpen, setIsAchievementsModalOpen] = useState(false);
   const [editingImageType, setEditingImageType] = useState(null);
   const router = useRouter();
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const lawyerId = localStorage.getItem("uid");
-      if (!lawyerId) return;
-
-      try {
-        const data = await getLawyerData(lawyerId);
-        setLawyer(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (typeof window !== "undefined") {
-      fetchData();
-    }
-  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const openSpecialtyModal = () => setIsSpecialtyModalOpen(true);
@@ -54,12 +31,9 @@ export default function MyInfoProfile() {
     try {
       const lawyerId = localStorage.getItem("uid");
       await updateLawyerProfile(lawyerId, updatedData);
-      setLawyer((prev) => ({ ...prev, ...updatedData }));
+      setLawyer((prev) => ({ ...prev, ...updatedData })); // تحديث الكونتكست
     } catch (error) {
-      console.error(
-        "\u062e\u0637\u0623 \u0623\u062b\u0646\u0627\u0621 \u062d\u0641\u0638 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a:",
-        error
-      );
+      console.error("خطأ أثناء حفظ البيانات:", error);
     }
   };
 
@@ -179,18 +153,8 @@ export default function MyInfoProfile() {
                   lawyer.balance == null ? 0 : [lawyer.balance]
                 }
               /> */}
-              <h1>
-                اجمالي الربح: ${lawyer.balance || 0}
-              </h1>
+              <h1>اجمالي الربح: ${lawyer.balance || 0}</h1>
             </div>
-            {/* <FieldList
-                title="  اجمالي الربح"
-                items={
-                  [lawyer.price - lawyer.price * 0.10]
-
-                }
-              />
-            </div> */}
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <ImageCard
@@ -246,19 +210,17 @@ export default function MyInfoProfile() {
             </div>
             <h3 className="text-lg font-semibold text-gray-800">التقييمات</h3>
           </div>
-          {lawyer.feedback == null ? (
-            <div>لا توجد تقييمات حتي الان</div>
+          {lawyer.feedback && lawyer.feedback.length > 0 ? (
+            lawyer.feedback.map((feedback, i) => (
+              <FeedBack
+                rating={feedback.rating}
+                name={feedback.nameClient}
+                description={feedback.description}
+                key={i}
+              />
+            ))
           ) : (
-            lawyer.feedback.map((feedback, i) => {
-              return (
-                <FeedBack
-                  rating={feedback.rating}
-                  name={feedback.nameClient}
-                  description={feedback.description}
-                  key={i}
-                />
-              );
-            })
+            <div>لا توجد تقييمات حتي الان</div>
           )}
         </div>
 
@@ -268,7 +230,7 @@ export default function MyInfoProfile() {
           onClose={() => setIsModalOpen(false)}
           initialData={lawyer}
           onSave={handleSave}
-          router={router}  // Pass the router to handle refresh
+          router={router} // Pass the router to handle refresh
         />
 
         <SelectSpecialtiesModal
