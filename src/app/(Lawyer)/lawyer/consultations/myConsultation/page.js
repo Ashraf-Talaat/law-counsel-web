@@ -26,9 +26,15 @@ export default function Page() {
   //get all chats
   useEffect(() => {
     const unsubscribe = getAllChatsRealtime(lawyerId, (chat) => {
-      setChats(chat);
-      setMessages(chat[index].messages);
-      setLoading(false);
+      if (chat && chat.length > 0) {
+        setChats(chat);
+        setMessages(chat[index]?.messages || []);
+        setLoading(false);
+      } else {
+        setChats([]);
+        setMessages([]);
+        setLoading(false);
+      }
     });
 
     return () => unsubscribe();
@@ -44,7 +50,7 @@ export default function Page() {
 
   if (isLoading) {
     return <LoadingLogo />;
-  } else if (chats.length === 0) {
+  } else if (chats.length === 0 || chats === null) {
     return (
       <>
         <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">

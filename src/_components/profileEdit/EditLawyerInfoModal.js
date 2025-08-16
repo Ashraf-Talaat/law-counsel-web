@@ -1,8 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
+import { uploadImage } from "@/utils/handleUrlImg";
 
-const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
+
+
+
+const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) => {
+ 
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     email: initialData?.email || "",
@@ -10,7 +15,20 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
     phoneNumber: initialData?.phoneNumber || "",
     city: initialData?.city || "",
     price: initialData?.price || 0.0,
+    profileImageUrl: initialData?.profileImageUrl || "",
   });
+
+   
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const url = await uploadImage(file);
+    handleChange({
+      target: { name: "profileImageUrl", value: url },
+    })
+    
+  };
 
   useEffect(() => {
     setFormData({
@@ -20,6 +38,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
       phoneNumber: initialData?.phoneNumber || "",
       city: initialData?.city || "",
       price: initialData?.price || 0.0,
+      profileImageUrl: initialData?.profileImageUrl || "",
     });
   }, [initialData]);
 
@@ -28,17 +47,22 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
   // };
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData({
       ...formData,
       [name]: name === "price" ? parseFloat(value) || 0 : value,
-      netPrice: (formData.price * 0.90)*10 ,
-      
+      netPrice: (formData.price * 0.90) * 10,
+
     });
   };
 
   const handleSubmit = () => {
+    
     onSave(formData);
-    onClose();
+     onClose();
+    router.refresh();
+  
+    
   };
 
   return (
@@ -51,11 +75,21 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave }) => {
           </Dialog.Title>
 
           <div className="space-y-3">
+
             <InputField
               label="الإسم"
               name="name"
               value={formData.name}
               onChange={handleChange}
+            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              صورة الملف الشخصى
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full mb-3 p-2 border border-gray-300 rounded file:mr-4 file:py-2 file:px-4"
+              onChange={handleImageChange}
             />
             <InputField
               label="البريد الإلكترونى"

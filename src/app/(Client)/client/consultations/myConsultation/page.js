@@ -41,9 +41,16 @@ export default function Page() {
           };
         })
       );
+      if (chatsWithLawyerNames && chatsWithLawyerNames.length > 0) {
       setChats(chatsWithLawyerNames);
-      setMessages(chatsWithLawyerNames[index].messages);
+      setMessages(chatsWithLawyerNames[index]?.messages || []);
       setLoading(false);
+      }
+      else{
+        setChats([]);
+      setMessages([]);
+      setLoading(false);
+      }
     });
 
     return () => unsubscribe();

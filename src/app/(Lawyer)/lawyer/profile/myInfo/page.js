@@ -9,6 +9,8 @@ import EditImageModal from "@/_components/profileEdit/EditImageModal";
 import EditAchievementsModal from "@/_components/profileEdit/EditAchievementsModal";
 import { updateLawyerProfile } from "@/utils/handleEditLawyerInfo";
 import FeedBack from "@/_components/FeedBack";
+import { useRouter } from "next/navigation";
+
 
 export default function MyInfoProfile() {
   const [lawyer, setLawyer] = useState(null);
@@ -18,6 +20,8 @@ export default function MyInfoProfile() {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isAchievementsModalOpen, setIsAchievementsModalOpen] = useState(false);
   const [editingImageType, setEditingImageType] = useState(null);
+  const router = useRouter();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -264,6 +268,7 @@ export default function MyInfoProfile() {
           onClose={() => setIsModalOpen(false)}
           initialData={lawyer}
           onSave={handleSave}
+          router={router}  // Pass the router to handle refresh
         />
 
         <SelectSpecialtiesModal
