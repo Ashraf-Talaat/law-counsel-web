@@ -184,6 +184,7 @@ export default function HomeArticles() {
                       {/* Like Button */}
                       <button
                         onClick={() => {
+                          
                           handleLike(article.id, article.likes);
                         }}
                         aria-pressed={Boolean(isLiked)}

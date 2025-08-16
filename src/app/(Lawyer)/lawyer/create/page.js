@@ -57,6 +57,7 @@ export default function CreateArticlePage() {
         userId: lawyerId,
         userName: lawyerInfo.name,
         userImage: lawyerInfo.idImageUrl,
+        likes:[],
       });
 
       if (response.success) {
