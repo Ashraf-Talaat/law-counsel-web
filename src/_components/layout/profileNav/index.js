@@ -10,7 +10,7 @@ export default function ProfileNav() {
       </h1>
 
       <Link href={`/lawyer/home/articles`}>
-        <ChevronLeftIcon className="w-8 h-8 text-[#1c202e] cursor-pointer" />
+        <ChevronLeftIcon className="w-12 h-12 text-[#1c202e] hover:text-[#687693] cursor-pointer" />
       </Link>
     </nav>
   );

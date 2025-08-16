@@ -153,6 +153,7 @@ export default function ProfileArticles() {
     setEditModalOpen(true);
   };
 
+  // save edit method
   const handleSaveEdit = async (updatedArticle) => {
     try {
       setLoading(true);
@@ -180,9 +181,9 @@ export default function ProfileArticles() {
   } else {
     return (
       <>
-        <div className="max-w-4xl mx-auto mt-10">
-          <h2 className="text-3xl font-bold mb-8 goldTxt">كل المقالات</h2>
-
+        <div className="max-w-4xl mx-auto ">
+          <h2 className="text-3xl font-bold mb-10 goldTxt">كل المقالات</h2>
+          
           {articles.map((article) => {
             const isLiked =
               lawyerId &&
@@ -191,7 +192,7 @@ export default function ProfileArticles() {
             return (
               <div
                 key={article.id}
-                className="max-w-xl bg-white border border-gray-200 rounded-lg shadow-lg mb-10"
+                className="max-w-xl mx-auto bg-white border border-gray-200 rounded-lg shadow-lg mb-10"
               >
                 {article.imageUrl && (
                   <Image
