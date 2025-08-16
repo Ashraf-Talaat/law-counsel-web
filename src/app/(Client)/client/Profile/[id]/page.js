@@ -1,14 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 //logic, services, utils
 import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
-import newRequest, {
-  createRequest,
-} from "@/logic/consultations/client/createRequest";
-import { getClientData } from "@/utils/getClientData";
+import newRequest from "@/logic/consultations/client/createRequest";
 
 //component
 import LoadingLogo from "@/_components/Loading";
@@ -28,8 +24,10 @@ export default function LawyerProfileInfoForUser({ params }) {
   const [lawyer, setLawyer] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [nameClient, setNameClient] = useState("");
-  const [client, setClient] = useState(null);
   const [selectedLawyerId, setSelectedLawyerId] = useState("");
+  const [clientNames, setClientNames] = useState([]);
+
+  
   // request consultations
   const [formData, setFormData] = useState({
     title: "",
@@ -42,19 +40,13 @@ export default function LawyerProfileInfoForUser({ params }) {
   // get lawyer id from url
   let { id } = React.use(params);
 
-  //get data of lawyer, client
-  useEffect(() => {
-    //get lawyer data
+  //get data of lawyer
+ useEffect(() => {
     const getlawyer = async () => {
       const data = await fetchLawyerById(id);
       setLawyer(data);
     };
-    // get client data
-    const getClient = async () => {
-      const getdata = await getClientData(uid);
-      setClient(getdata);
-    };
-    const getNames = async () => {
+const getNames = async () => {
       const clientDoc = await getDoc(doc(db, "clients", uid));
       const nClient = clientDoc.exists() ? clientDoc.data().name : "عميل";
       setNameClient(nClient);
@@ -62,11 +54,32 @@ export default function LawyerProfileInfoForUser({ params }) {
       // const lawyerDoc = await getDoc(doc(db, 'lawyers', lawyer));
       // const nLawyer = lawyerDoc.exists() ? lawyerDoc.data().name : 'محامي';
     };
-    getNames();
     getlawyer();
-    getClient();
+    getNames();
     setLoading(false);
-  }, []);
+  }, [id]);
+
+  //get data of client
+  useEffect(() => {
+    const getClientNames = async () => {
+      if (!lawyer || !lawyer.feedback || lawyer.feedback.length === 0) return;
+
+      try {
+        const names = await Promise.all(
+          lawyer.feedback.map(async (fb) => {
+            const clientRef = doc(db, "clients", fb.clientId);
+            const clientSnap = await getDoc(clientRef);
+            return clientSnap.exists() ? clientSnap.data().name : "Client not found";
+          })
+        );
+        setClientNames(names);
+      } catch (error) {
+        console.error("Error fetching client names:", error);
+      }
+    };
+
+    getClientNames();
+  }, [lawyer]);
 
   // handle request form submission
   const handleSubmit = (e) => {
@@ -105,8 +118,6 @@ export default function LawyerProfileInfoForUser({ params }) {
         <div className="min-h-screen  p-6">
           <Toaster />
           <div className="max-w-7xl mx-auto">
-
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Lawyer Info Card - Small */}
               <div className="lg:col-span-1">
@@ -425,18 +436,16 @@ export default function LawyerProfileInfoForUser({ params }) {
                       </h3>
                     </div>
                   </div>
-                  {lawyer.feedback == null || lawyer.feedback.length == 0
+                  {lawyer.feedback == null || lawyer.feedback.length === 0
                     ? "لا توجد تقييمات"
-                    : lawyer.feedback.map((feedback, i) => {
-                      return (
+                    : lawyer.feedback.map((feedback, i) => (
                         <FeedBack
                           rating={feedback.rating}
-                          name={client.name}
+                          name={clientNames[i] || "عميل"}
                           description={feedback.description}
                           key={i}
                         />
-                      );
-                    })}
+                      ))}
                 </div>
               </div>
             </div>
@@ -502,7 +511,11 @@ export default function LawyerProfileInfoForUser({ params }) {
             <div className="modal-action gap-4 mt-8">
               <div className="flex items-center gap-4">
                 <span className="text-gray-700 font-medium">
-                  سعر الاستشارة = {lawyer.price==null||lawyer.price ==0? "500":lawyer.price} جنية
+                  سعر الاستشارة ={" "}
+                  {lawyer.price == null || lawyer.price == 0
+                    ? "500"
+                    : lawyer.price}{" "}
+                  جنية
                 </span>
                 <button
                   onClick={handleSubmit}
