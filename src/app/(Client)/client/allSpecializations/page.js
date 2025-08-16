@@ -10,7 +10,7 @@ import { ScaleIcon } from "@heroicons/react/24/outline";
 import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
-import {  doc, getDoc} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 //Firebase
 import newRequest from "@/logic/consultations/client/createRequest";
@@ -28,6 +28,7 @@ export default function Page() {
   const [isLoading, setLoading] = useState(true);
   const [nameClient, setNameClient] = useState('');
   // const [nameLawyer, setNameLawyer] = useState('');
+  const [price, setPrice] = useState(0);
   const uid = localStorage.getItem("uid");
 
   // fetch data to get all lawers from firebase 
@@ -41,7 +42,7 @@ export default function Page() {
       setLawyers(data);
     };
 
-    const getNames= async ()=>{
+    const getNames = async () => {
       const clientDoc = await getDoc(doc(db, 'clients', uid));
       const nClient = clientDoc.exists() ? clientDoc.data().name : 'عميل';
       setNameClient(nClient);
@@ -115,8 +116,8 @@ export default function Page() {
 
   };
   if (isLoading) {
-    return(
-    <LoadingLogo/>
+    return (
+      <LoadingLogo />
     );
   } else {
 
@@ -139,7 +140,7 @@ export default function Page() {
             icon={<ShieldCheckIcon className="w-6 h-6 text-white" />}
             title=" القانون الجنائي"
             onClick={() => {
-              setSelectedCategory("القانون الجنائى");
+              setSelectedCategory("جنائى");
               console.log("Specializations: ", lawyers.specialization);
             }}
           />
@@ -154,14 +155,14 @@ export default function Page() {
             icon={<DocumentTextIcon className="w-6 h-6 text-white" />}
             title=" القانون التجاري"
             onClick={() => {
-              setSelectedCategory("القانون التجارى");
+              setSelectedCategory("التجارى");
             }}
           />
           <CategoryBtn
             icon={<ScaleIcon className="w-6 h-6 text-white" />}
             title="القانون المدنى"
             onClick={() => {
-              setSelectedCategory("مدني");
+              setSelectedCategory("مدنى");
               // console.log("Specializations: ", lawyers.specializations);
             }}
           />
@@ -169,28 +170,28 @@ export default function Page() {
             icon={<CalculatorIcon className="w-6 h-6 text-white" />}
             title="قانون الضرائب"
             onClick={() => {
-              setSelectedCategory("قانون الضرائب");
+              setSelectedCategory("الضرائب");
             }}
           />
           <CategoryBtn
             icon={<UserGroupIcon className="w-6 h-6 text-white" />}
             title="قانون الأحوال الشخصية"
             onClick={() => {
-              setSelectedCategory("قانون الأحوال الشخصية");
+              setSelectedCategory("الأحوال الشخصية");
             }}
           />
           <CategoryBtn
             icon={<BuildingOfficeIcon className="w-6 h-6 text-white" />}
             title="القانون الإداري"
             onClick={() => {
-              setSelectedCategory("القانون الإدارى");
+              setSelectedCategory("الإدارى");
             }}
           />
           <CategoryBtn
             icon={<CurrencyDollarIcon className="w-6 h-6 text-white" />}
             title=" قانون التأمينات والمعاشات"
             onClick={() => {
-              setSelectedCategory("قانون التأمينات والمعاشات");
+              setSelectedCategory("التأمينات والمعاشات");
             }}
           />
         </div>
@@ -252,26 +253,28 @@ export default function Page() {
                 <div className=" text-end">
                   <p className="mb-2 ">التقييم</p>
                   <div className="flex justify-end">
-                   {lawyer.feedback == null || lawyer.feedback.length == 0? "": Array.from(
-                        { length: lawyer.feedback[0].rating },
-                        (_, i) => i + 1
-                      ).map((s, starIdx) => (
-                        <svg
-                          key={starIdx}
-                          className={`w-5 h-5 fill-current text-yellow-400 `}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.12 3.436a1 1 0 00.95.69h3.614c.969 0 1.371 1.24.588 1.81l-2.923 2.12a1 1 0 00-.364 1.118l1.12 3.436c.3.921-.755 1.688-1.54 1.118l-2.923-2.12a1 1 0 00-1.176 0l-2.923 2.12c-.784.57-1.838-.197-1.539-1.118l1.12-3.436a1 1 0 00-.364-1.118L2.777 8.863c-.783-.57-.38-1.81.588-1.81h3.614a1 1 0 00.95-.69l1.12-3.436z" />
-                        </svg>
-                      ))}
+                    {lawyer.feedback == null || lawyer.feedback.length == 0 ? "" : Array.from(
+                      { length: lawyer.feedback[0].rating },
+                      (_, i) => i + 1
+                    ).map((s, starIdx) => (
+                      <svg
+                        key={starIdx}
+                        className={`w-5 h-5 fill-current text-yellow-400 `}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.12 3.436a1 1 0 00.95.69h3.614c.969 0 1.371 1.24.588 1.81l-2.923 2.12a1 1 0 00-.364 1.118l1.12 3.436c.3.921-.755 1.688-1.54 1.118l-2.923-2.12a1 1 0 00-1.176 0l-2.923 2.12c-.784.57-1.838-.197-1.539-1.118l1.12-3.436a1 1 0 00-.364-1.118L2.777 8.863c-.783-.57-.38-1.81.588-1.81h3.614a1 1 0 00.95-.69l1.12-3.436z" />
+                      </svg>
+                    ))}
                   </div>
 
                   {/* ////////////////////////////////////////////////// */}
 
                   <button
                     className="mt-3 "
-                    onClick={() => setSelectedLawyerId(lawyer.id)}
+                    onClick={() => {
+                      setPrice(lawyer.price);
+                      setSelectedLawyerId(lawyer.id)}}
                   >
                     <label
                       className="whitespace-nowrap text-white px-2.5  cursor-pointer bgPrimary rounded-lg hover:bgBtnHover focus:ring-4 focus:outline-none focus:bgBtnHover"
@@ -323,14 +326,22 @@ export default function Page() {
                       ></textarea>
                     </div>
 
-                    <div className="modal-action gap-8">
-                      <button
-                        onClick={handleSubmit}
-                        className="btn bgBtn text-white px-6"
+                    <div className="modal-action gap-4 mt-8">
+                      <div className="flex items-center gap-4">
+                        <span className="text-gray-700 font-medium">
+                          سعر الاستشارة = {price == null || price == 0 ? "500" : price} جنية
+                        </span>
+                        <button
+                          onClick={handleSubmit}
+                          className="btn bgBtn text-white px-8 py-3 rounded-xl hover:bgBtnHover transform hover:scale-105 transition-all duration-200"
+                        >
+                          ارسال الطلب
+                        </button>
+                      </div>
+                      <label
+                        htmlFor="create-post-modal"
+                        className="btn btn-outline px-8 py-3 rounded-xl"
                       >
-                        ارسال
-                      </button>
-                      <label htmlFor="create-post-modal" className="btn">
                         إغلاق
                       </label>
                     </div>
