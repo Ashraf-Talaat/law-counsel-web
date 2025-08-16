@@ -21,13 +21,13 @@ export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
-    if (
+    if (Cookies.get("userType") == "lawyer") {
+      router.push("/lawyer/home/articles");
+    } else if (
       localStorage.getItem("uid") !== null &&
       localStorage.getItem("userType") == "client"
     ) {
       setLogin(true);
-    } else if (Cookies.get("userType") == "lawyer") {
-      router.push("/lawyer/home/articles");
     }
 
     setLoading(false);
