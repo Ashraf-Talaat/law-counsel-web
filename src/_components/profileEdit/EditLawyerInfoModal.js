@@ -51,7 +51,8 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave ,router}) =>
     setFormData({
       ...formData,
       [name]: name === "price" ? parseFloat(value) || 0 : value,
-      netPrice: (formData.price * 0.90) * 10,
+      ["netPrice"]: name === "price" ? parseFloat(value) * 0.90 || 0 : formData.netPrice,
+      // netPrice: (formData.price * 0.90) ,
 
     });
   };

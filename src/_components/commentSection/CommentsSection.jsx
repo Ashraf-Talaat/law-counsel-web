@@ -6,6 +6,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  and,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -13,6 +14,8 @@ import { getAuth } from "firebase/auth";
 //alert
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { set } from "react-hook-form";
+import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
 export default function CommentsSection({ articleId }) {
   const [comments, setComments] = useState([]);
@@ -21,6 +24,7 @@ export default function CommentsSection({ articleId }) {
   const user = auth.currentUser;
 
   useEffect(() => {
+     
     const q = query(
       collection(db, "articles", articleId, "comments"),
       orderBy("createdAt", "desc")
@@ -39,7 +43,9 @@ export default function CommentsSection({ articleId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) {
+    const lawyer  = await fetchLawyerById(user.uid);
+  
+    if (!user && !dataLawyer) {
       Swal.fire({
         title: "يجب تسجيل الدخول أولاً لكتابه تعليق",
         icon: "warning",
@@ -53,7 +59,7 @@ export default function CommentsSection({ articleId }) {
 
     await addDoc(collection(db, "articles", articleId, "comments"), {
       userId: user.uid,
-      userName: user.displayName || "مستخدم",
+      userName: lawyer.name || "مستخدم",
       content: newComment.trim(),
       createdAt: new Date(),
     });
