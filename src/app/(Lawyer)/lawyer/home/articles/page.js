@@ -63,6 +63,7 @@ export default function HomeArticles() {
       }
       setCommentsCount(counts);
       setLoading(false);
+      
     }, (error) => {
       console.error("Error fetching articles:", error);
       toast.error("حدث خطأ أثناء جلب المقالات");

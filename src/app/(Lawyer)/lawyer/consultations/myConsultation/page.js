@@ -22,7 +22,8 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
   const [isLoading, setLoading] = useState(true);
-  const [showEndConsultationModal, setShowEndConsultationModal] = useState(false);
+  const [showEndConsultationModal, setShowEndConsultationModal] =
+    useState(false);
   const [status, setStatus] = useState("ongoing"); // ongoing, completed, disputed
 
   const lawyerId = localStorage.getItem("uid");
@@ -65,7 +66,6 @@ export default function Page() {
     setShowEndConsultationModal(false);
   };
 
-
   if (isLoading) {
     return <LoadingLogo />;
   } else if (chats.length === 0 || chats === null) {
@@ -82,12 +82,12 @@ export default function Page() {
   } else {
     return (
       <>
-        <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto ">
+        <div className="bg-white rounded-md shadow-md p-6 w-[85%] mx-auto mb-4">
           <div className="flex justify-around gap-6">
             {/*list of lawyers*/}
-            <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md ">
+            <div className="w-1/2 p-5 rounded-md bg-gray-100 shadow-md space-y-2 h-[500px]">
               <h2 className="text-xl font-bold mb-4 goldTxt">العملاء</h2>
-              <ul className="space-y-4">
+              <ul className="space-y-4 overflow-y-auto scroll-hidden h-[400px]">
                 {chats.map((item, i) => (
                   <li
                     onClick={() => {
@@ -158,16 +158,13 @@ export default function Page() {
                 index={index}
                 lawyerId={lawyerId}
                 clientId={chats[index]?.userId}
-            
               />
-
-
             </div>
           </div>
         </div>
         {/* End Consultation Confirmation Modal */}
         {showEndConsultationModal && (
-          <div className="fixed inset-0  bg-opacity-20 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
               <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">
                 تأكيد إنهاء الاستشارة

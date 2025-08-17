@@ -57,15 +57,6 @@ export default function ProfileArticles() {
 
         setArticles(articlesData);
         setIsLoading(false);
-
-        // Fetch comments count for each article
-        const counts = {};
-        for (const article of articlesData) {
-          const count = await getCommentsCount(article.id);
-          counts[article.id] = count;
-        }
-        setCommentsCount(counts);
-        setLoading(false);
       } else {
         console.error("Failed to fetch articles:", response.error);
         setIsLoading(false);
@@ -75,6 +66,27 @@ export default function ProfileArticles() {
 
     fetchArticles();
   }, []);
+
+  // Fetch comments count for each article
+  useEffect(() => {
+    if (articles.length === 0) return;
+    const unsubscribes = [];
+    articles.forEach((article) => {
+      const unsubscribe = getCommentsCount(article.id, (count) => {
+        setCommentsCount((prev) => ({
+          ...prev,
+          [article.id]: count,
+        }));
+      });
+
+      unsubscribes.push(unsubscribe);
+    });
+
+    // cleanup
+    return () => {
+      unsubscribes.forEach((unsub) => unsub());
+    };
+  }, [articles]);
 
   // Handle like button click
   const handleLike = async (articleId, currentLikes = []) => {
@@ -183,7 +195,7 @@ export default function ProfileArticles() {
       <>
         <div className="max-w-4xl mx-auto ">
           <h2 className="text-3xl font-bold mb-10 goldTxt">كل المقالات</h2>
-          
+
           {articles.map((article) => {
             const isLiked =
               lawyerId &&

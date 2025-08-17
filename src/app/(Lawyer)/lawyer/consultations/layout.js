@@ -5,8 +5,10 @@ import React from "react";
 export default function LawyerLayout({ children }) {
   return (
     <>
-      <LawyerNav />
-      <div className="bgLayout p-4 text-right mb-4">
+      <div className="w-[85%] mx-auto">
+        <LawyerNav />
+      </div>
+      <div className="bgLayout p-4 text-right min-h-[50vh]">
         <SubNav userType={"lawyer"} />
 
         {children}

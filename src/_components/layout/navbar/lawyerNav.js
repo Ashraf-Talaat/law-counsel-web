@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +6,12 @@ import { getLawyerData } from "@/utils/getLawyerdate";
 import { usePathname } from "next/navigation";
 
 export default function LawyerNav() {
-const [lawyer, setLawyer] = useState();
-let pathname = usePathname();
+  const [lawyer, setLawyer] = useState();
+  let pathname = usePathname();
 
-const activeLink =(href)=>{
-return pathname === href ? "text-[#C9B38C] font-bold" : "";
-}
+  const activeLink = (href) => {
+    return pathname === href ? "text-[#C9B38C] font-bold" : "";
+  };
   useEffect(() => {
     const fetchData = async () => {
       const lawyerId = localStorage.getItem("uid");
@@ -22,7 +22,6 @@ return pathname === href ? "text-[#C9B38C] font-bold" : "";
         setLawyer(data);
       } catch (err) {
         console.error(err);
-     
       }
     };
 
@@ -101,7 +100,7 @@ return pathname === href ? "text-[#C9B38C] font-bold" : "";
         </div>
 
         {/* navbar center */}
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex ">
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link
