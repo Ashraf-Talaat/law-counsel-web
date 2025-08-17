@@ -36,7 +36,7 @@ export default function LawyerProfile({ children }) {
   }
 
   return (
-    <div dir="rtl" className="relative bg-gray-50 max-h-screen">
+    <div dir="rtl" className="relative bg-gray-50 min-h-screen">
       {/* navbar */}
       <ProfileNav />
 

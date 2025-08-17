@@ -45,7 +45,7 @@ export default function Page() {
           نموذج الاتصال
         </h1>
         <div className="flex items-center justify-around">
-          <form className="w-full max-w-lg p-8 " onSubmit={handleSubmit}>
+          <form className="w-full max-w-lg p-8 text-black" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 className="block text-gray-700 mb-2 goldTxt"
@@ -56,7 +56,7 @@ export default function Page() {
               <input
                 type="text"
                 id="name"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-900"
                 placeholder="أدخل اسمك"
                 value={contactData.name}
                 name="name"
@@ -70,7 +70,7 @@ export default function Page() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 mb-2 goldTxt"
+                className="block text-black mb-2 goldTxt"
                 htmlFor="email"
               >
                 البريد الإلكتروني
@@ -78,7 +78,7 @@ export default function Page() {
               <input
                 type="email"
                 id="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-900"
                 placeholder="أدخل بريدك الإلكتروني"
                 value={contactData.email}
                 name="email"
@@ -92,7 +92,7 @@ export default function Page() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 mb-2 goldTxt"
+                className="block text-black mb-2 goldTxt"
                 htmlFor="message"
               >
                 الرسالة
@@ -100,7 +100,7 @@ export default function Page() {
               <textarea
                 id="message"
                 rows="4"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-primary text-gray-900"
                 placeholder="اكتب رسالتك هنا..."
                 value={contactData.description}
                 name="description"

@@ -6,7 +6,7 @@ import {
   onSnapshot,
   query,
   orderBy,
-  and,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -14,7 +14,6 @@ import { getAuth } from "firebase/auth";
 //alert
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { set } from "react-hook-form";
 import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
 export default function CommentsSection({ articleId, setCommentsCount }) {
@@ -35,20 +34,23 @@ export default function CommentsSection({ articleId, setCommentsCount }) {
         ...doc.data(),
       }));
       setComments(data);
-      setCommentsCount((prevCounts) => ({
-        ...prevCounts,
-        [articleId]: data.length,
-      }));
+
+      // 👇 check قبل ما نستخدمها
+      if (typeof setCommentsCount === "function") {
+        setCommentsCount((prevCounts) => ({
+          ...prevCounts,
+          [articleId]: data.length,
+        }));
+      }
     });
 
     return () => unsubscribe();
-  }, [articleId]);
+  }, [articleId, setCommentsCount]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const lawyer = await fetchLawyerById(user.uid);
 
-    if (!user && !dataLawyer) {
+    if (!user) {
       Swal.fire({
         title: "يجب تسجيل الدخول أولاً لكتابه تعليق",
         icon: "warning",
@@ -58,21 +60,40 @@ export default function CommentsSection({ articleId, setCommentsCount }) {
       });
       return;
     }
+
+    const lawyer = await fetchLawyerById(user.uid);
+
+    if (!lawyer) {
+      Swal.fire({
+        title: "لا يمكن العثور على بيانات المحامي",
+        icon: "error",
+        showConfirmButton: true,
+        position: "center",
+      });
+      return;
+    }
+
     if (!newComment.trim()) return;
 
-    await addDoc(collection(db, "articles", articleId, "comments"), {
-      userId: user.uid,
-      userName: lawyer.name || "مستخدم",
-      content: newComment.trim(),
-      createdAt: new Date(),
-    });
+    try {
+      await addDoc(collection(db, "articles", articleId, "comments"), {
+        userId: user.uid,
+        userName: lawyer.name || "مستخدم",
+        content: newComment.trim(),
+        createdAt: serverTimestamp(),
+      });
 
-    setNewComment("");
+      setNewComment("");
+      toast.success("تم إضافة التعليق بنجاح 🎉");
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      toast.error("حدث خطأ أثناء إضافة التعليق");
+    }
   };
 
   return (
     <>
-      {/*  comments list */}
+      {/* comments list */}
       <div className="max-h-60 overflow-y-auto mb-4 space-y-3">
         {comments.map((comment) => (
           <div
@@ -84,7 +105,7 @@ export default function CommentsSection({ articleId, setCommentsCount }) {
         ))}
       </div>
 
-      {/*  add comment form */}
+      {/* add comment form */}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"

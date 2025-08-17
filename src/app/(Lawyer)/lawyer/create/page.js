@@ -56,7 +56,7 @@ export default function CreateArticlePage() {
         imageUrl,
         userId: lawyerId,
         userName: lawyerInfo.name,
-        userImage: lawyerInfo.idImageUrl,
+        userImage: lawyerInfo.profileImageUrl || "/images/lawyerAvatar.png",
         likes:[],
       });
 
