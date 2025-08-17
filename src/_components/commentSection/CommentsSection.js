@@ -84,7 +84,7 @@ export default function CommentsSection({ articleId, setCommentsCount }) {
       });
 
       setNewComment("");
-      toast.success("تم إضافة التعليق بنجاح 🎉");
+      toast.success("تم إضافة التعليق بنجاح");
     } catch (error) {
       console.error("Error adding comment:", error);
       toast.error("حدث خطأ أثناء إضافة التعليق");
