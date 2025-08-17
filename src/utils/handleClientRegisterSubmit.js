@@ -50,6 +50,8 @@ export const handleClientRegisterSubmit = async (
       name: clientInputs.name,
       email: clientInputs.email,
       phone: clientInputs.phoneNumber,
+      isDelete: false,
+
     });
     Swal.fire({
       icon: 'success',
