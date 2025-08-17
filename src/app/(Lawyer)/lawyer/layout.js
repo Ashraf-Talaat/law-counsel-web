@@ -41,7 +41,9 @@ export default function LayoutLawyer({ children }) {
 
   return (
     <html lang="ar" dir="rtl" data-theme="light">
-      <body className={`${cairo.className}  text-base-content font-sans `}>
+      <body
+        className={`${cairo.className}  text-base-content font-sans`}
+      >
         <Toaster position="top-center" reverseOrder={false} />
         <LawyerProvider>
           {isLoading ? <LoadingLogo /> : children}
