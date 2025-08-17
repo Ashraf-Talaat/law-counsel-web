@@ -24,13 +24,6 @@ export default function LawyerProfile({ children }) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
         <div className="bg-white shadow-lg rounded-2xl p-8 text-center border border-gray-100">
-          {/* <Image
-          src="/images/empty.png" // صورة افتراضية أو أيقونة فارغة
-          alt="No Data"
-          width={120}
-          height={120}
-          className="mx-auto mb-4 opacity-80"
-        /> */}
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             لا يوجد بيانات
           </h2>
@@ -47,7 +40,7 @@ export default function LawyerProfile({ children }) {
       {/* navbar */}
       <ProfileNav />
 
-      <div className="relative z-10 max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 min-h-[100vh]">
+      <div className="relative z-10 max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 min-h-[50vh]">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
           {/* Sidebar */}
           <aside className="bg-white rounded-2xl shadow-md ring-1 ring-gray-100 p-6 h-fit">
