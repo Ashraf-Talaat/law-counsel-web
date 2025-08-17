@@ -15,6 +15,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
     phoneNumber: initialData?.phoneNumber || "",
     city: initialData?.city || "",
     price: initialData?.price || 0.0,
+    netPrice: initialData?.price ? (initialData.price * 0.9) : 0,
     profileImageUrl: initialData?.profileImageUrl || "",
   });
 
@@ -38,42 +39,26 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
       phoneNumber: initialData?.phoneNumber || "",
       city: initialData?.city || "",
       price: initialData?.price || 0.0,
+      netPrice: initialData?.price ? (initialData.price * 0.9) : 0,
       profileImageUrl: initialData?.profileImageUrl || "",
     });
   }, [initialData]);
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const parsedValue = name === "price" ? parseFloat(value) || 0 : value;
 
-    setFormData({
-      ...formData,
-      [name]: name === "price" ? parseFloat(value) || 0 : value,
-      netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) : formData.netPrice || 0,
-      // netPrice: (formData.price * 0.90) ,
-
-    });
+    setFormData(prev => ({
+      ...prev,
+      [name]: parsedValue,
+      netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) : prev.netPrice,
+    }));
   };
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   const parsedValue = name === "price" ? parseFloat(value) || 0 : value;
-
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: parsedValue,
-  //     netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) :( prev.netPrice??0),
-  //   }));
-  // };
 
   const handleSubmit = () => {
-
     onSave(formData);
     onClose();
     router.refresh();
-
-
   };
 
   return (
@@ -133,6 +118,14 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
               value={formData.price}
               onChange={handleChange}
             />
+            <div className="p-3 bg-gray-50 rounded-md">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                صافي الربح (90% من السعر)
+              </label>
+              <div className="text-lg font-semibold text-[#C9B38C]">
+                ${formData.netPrice?.toFixed(2) || "0.00"}
+              </div>
+            </div>
           </div>
 
           <div className="flex justify-end gap-2">
@@ -155,12 +148,13 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
   );
 };
 
-const InputField = ({ label, name, value, onChange }) => (
+const InputField = ({ label, name, value, onChange, type = "text" }) => (
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">
       {label}
     </label>
     <input
+      type={type}
       name={name}
       value={value}
       onChange={onChange}

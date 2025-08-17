@@ -4,7 +4,7 @@ import Image from "next/image";
 
 // Firebase
 import { db } from "@/firebase/firebase";
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 //Icons
 import {
@@ -18,7 +18,6 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
 //logic
-import getAllArticles from "@/logic/articles/getAllArticles";
 import getCommentsCount from "@/logic/comments/getCommentsCount";
 
 // Components
@@ -39,24 +38,39 @@ export default function HomeArticles() {
     setLawyerId(id);
   }, []);
 
-  // Fetch articles and comments count on component mount
+  // Fetch articles using onSnapshot for real-time updates
   useEffect(() => {
-    // Fetch articles
-    const fetchArticles = async () => {
-      const data = await getAllArticles();
-      setArticles(data);
+    // Create query with orderBy to sort from newest to oldest
+    const articlesQuery = query(
+      collection(db, "articles"),
+      orderBy("createdAt", "desc")
+    );
+
+    // Set up real-time listener
+    const unsubscribe = onSnapshot(articlesQuery, async (snapshot) => {
+      const articlesData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      setArticles(articlesData);
 
       // Fetch comments count for each article
       const counts = {};
-      for (const article of data) {
+      for (const article of articlesData) {
         const count = await getCommentsCount(article.id);
         counts[article.id] = count;
       }
       setCommentsCount(counts);
       setLoading(false);
-    };
+    }, (error) => {
+      console.error("Error fetching articles:", error);
+      toast.error("حدث خطأ أثناء جلب المقالات");
+      setLoading(false);
+    });
 
-    fetchArticles();
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, []);
 
   // Handle like button click
@@ -82,18 +96,18 @@ export default function HomeArticles() {
       });
 
       // Update local state manually to reflect UI change
-      setArticles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.id === articleId
-            ? {
-                ...article,
-                likes: isLiked
-                  ? article.likes.filter((id) => id !== lawyerId)
-                  : [...article.likes, lawyerId],
-              }
-            : article
-        )
-      );
+      // setArticles((prevArticles) =>
+      //   prevArticles.map((article) =>
+      //     article.id === articleId
+      //       ? {
+      //           ...article,
+      //           likes: isLiked
+      //             ? article.likes.filter((id) => id !== lawyerId)
+      //             : [...article.likes, lawyerId],
+      //         }
+      //       : article
+      //   )
+      // );
     } catch (e) {
       console.log("Error Updates likes: " + e);
       toast.error("حدث خطأ أثناء تحديث المقالات");
@@ -235,7 +249,7 @@ export default function HomeArticles() {
 
                           <h3 className="font-bold text-lg mb-4">التعليقات</h3>
 
-                          <CommentsSection articleId={article.id} />
+                          <CommentsSection articleId={article.id} setCommentsCount={setCommentsCount}  />
                         </div>
                       </div>
                     </div>

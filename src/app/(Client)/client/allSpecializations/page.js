@@ -148,14 +148,14 @@ export default function Page() {
             icon={<UserGroupIcon className="w-6 h-6 text-white" />}
             title="القانون العمالي"
             onClick={() => {
-              setSelectedCategory(" العمالى");
+              setSelectedCategory("العمل");
             }}
           />
           <CategoryBtn
             icon={<DocumentTextIcon className="w-6 h-6 text-white" />}
             title=" القانون التجاري"
             onClick={() => {
-              setSelectedCategory("التجارى");
+              setSelectedCategory("تجارى");
             }}
           />
           <CategoryBtn
@@ -184,7 +184,7 @@ export default function Page() {
             icon={<BuildingOfficeIcon className="w-6 h-6 text-white" />}
             title="القانون الإداري"
             onClick={() => {
-              setSelectedCategory("الإدارى");
+              setSelectedCategory("إدارى");
             }}
           />
           <CategoryBtn

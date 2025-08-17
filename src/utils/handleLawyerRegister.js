@@ -89,6 +89,11 @@ export const handleLawyerRegister = async ({
             rating:0,
             aboutMe:null,
             achievements:null,
+            balance: 0,
+            feedback : [],
+            price: 500,
+            netPrice:450,
+
         });
 
         Swal.fire({

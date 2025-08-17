@@ -236,6 +236,8 @@ export default function LawyerRegisterForm() {
                 <option value="إدارى">القانون الإدارى</option>
                 <option value="تجارى">القانون التجارى</option>
                 <option value="العمل">قانون العمل</option>
+                <option value="الضرائب">القانون الضرائب</option>
+                <option value="التأمينات والمعاشات">قانون التأمينات</option>
                 <option value="الأحوال الشخصية">
                   قانون الأحوال الشخصية
                 </option>

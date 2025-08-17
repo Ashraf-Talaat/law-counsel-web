@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import { set } from "react-hook-form";
 import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
-export default function CommentsSection({ articleId }) {
+export default function CommentsSection({ articleId ,setCommentsCount}) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const auth = getAuth();
@@ -36,6 +36,10 @@ export default function CommentsSection({ articleId }) {
         ...doc.data(),
       }));
       setComments(data);
+      setCommentsCount((prevCounts) => ({
+        ...prevCounts,
+        [articleId]: data.length,
+      }));
     });
 
     return () => unsubscribe();

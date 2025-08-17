@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import EditLawyerInfoModal from "@/_components/profileEdit/EditLawyerInfoModal";
@@ -11,6 +11,10 @@ import FeedBack from "@/_components/FeedBack";
 import { useRouter } from "next/navigation";
 import { useLawyer } from "@/context/LawyerContext"; // استخدم الكونتكست
 
+// Firebase imports
+import { db } from "@/firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
+
 export default function MyInfoProfile() {
   const { lawyer, setLawyer, loading } = useLawyer(); // ناخد القيم من الكونتكست
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +23,68 @@ export default function MyInfoProfile() {
   const [isAchievementsModalOpen, setIsAchievementsModalOpen] = useState(false);
   const [editingImageType, setEditingImageType] = useState(null);
   const router = useRouter();
+
+  // جلب بيانات المحامي عند فتح الصفحة
+  useEffect(() => {
+    const fetchLawyerData = async () => {
+      try {
+        const lawyerId = localStorage.getItem("uid");
+        if (!lawyerId) {
+          console.error("لم يتم العثور على معرف المحامي");
+          return;
+        }
+
+        const lawyerDocRef = doc(db, "lawyers", lawyerId);
+        const lawyerDoc = await getDoc(lawyerDocRef);
+
+        if (lawyerDoc.exists()) {
+          const lawyerData = {
+            id: lawyerDoc.id,
+            ...lawyerDoc.data()
+          };
+          setLawyer(lawyerData);
+        } else {
+          console.error("لم يتم العثور على بيانات المحامي");
+        }
+      } catch (error) {
+        console.error("خطأ في جلب بيانات المحامي:", error);
+      }
+    };
+
+    fetchLawyerData();
+
+    // إعادة جلب البيانات عند العودة للصفحة
+    const handleFocus = () => {
+      fetchLawyerData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [setLawyer]);
+
+  // دالة لإعادة جلب البيانات يدوياً
+  const refreshLawyerData = async () => {
+    try {
+      const lawyerId = localStorage.getItem("uid");
+      if (!lawyerId) return;
+
+      const lawyerDocRef = doc(db, "lawyers", lawyerId);
+      const lawyerDoc = await getDoc(lawyerDocRef);
+
+      if (lawyerDoc.exists()) {
+        const lawyerData = {
+          id: lawyerDoc.id,
+          ...lawyerDoc.data()
+        };
+        setLawyer(lawyerData);
+      }
+    } catch (error) {
+      console.error("خطأ في إعادة جلب بيانات المحامي:", error);
+    }
+  };
 
   const openModal = () => setIsModalOpen(true);
   const openSpecialtyModal = () => setIsSpecialtyModalOpen(true);
@@ -32,6 +98,7 @@ export default function MyInfoProfile() {
       const lawyerId = localStorage.getItem("uid");
       await updateLawyerProfile(lawyerId, updatedData);
       setLawyer((prev) => ({ ...prev, ...updatedData })); // تحديث الكونتكست
+      router.refresh(); // إعادة تحميل الصفحة
     } catch (error) {
       console.error("خطأ أثناء حفظ البيانات:", error);
     }
@@ -48,6 +115,7 @@ export default function MyInfoProfile() {
         specializations: selectedSpecializations,
       }));
       setIsSpecialtyModalOpen(false);
+      router.refresh(); // إعادة تحميل الصفحة
     } catch (err) {
       console.error(err);
     }
@@ -61,6 +129,7 @@ export default function MyInfoProfile() {
       await updateLawyerProfile(lawyerId, { [fieldToUpdate]: url });
       setLawyer((prev) => ({ ...prev, [fieldToUpdate]: url }));
       setIsImageModalOpen(false);
+      router.refresh(); // إعادة تحميل الصفحة
     } catch (err) {
       console.error(err);
     }
@@ -71,6 +140,7 @@ export default function MyInfoProfile() {
       const lawyerId = localStorage.getItem("uid");
       await updateLawyerProfile(lawyerId, { achievements: newAchievements });
       setLawyer((prev) => ({ ...prev, achievements: newAchievements }));
+      router.refresh(); // إعادة تحميل الصفحة
     } catch (error) {
       console.error(error);
     }
@@ -96,13 +166,25 @@ export default function MyInfoProfile() {
         {/* Profile Card */}
         <div className="relative rounded-xl  mb-6">
           <div className="px-4 -mt-8 flex items-end justify-between flex-row-reverse">
-            <button
-              onClick={openModal}
-              className="bg-[#C9B38C] cursor-pointer hover:bg-[#C9B38C]  text-white px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
-            >
-              <PencilIcon className="h-4 w-4" />
-              تعديل
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={refreshLawyerData}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
+                title="تحديث البيانات"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                تحديث
+              </button>
+              <button
+                onClick={openModal}
+                className="bg-[#C9B38C] cursor-pointer hover:bg-[#C9B38C]  text-white px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                <PencilIcon className="h-4 w-4" />
+                تعديل
+              </button>
+            </div>
           </div>
 
           <div className="px-4 pb-4 pt-2 text-right">
