@@ -90,7 +90,7 @@ export default function LawyerNav() {
           {/* profile */}
           <Link href="/lawyer/profile/myInfo">
             <Image
-              src={lawyer?.profileImageUrl || "/images/download.png"}
+              src={lawyer?.profileImageUrl || "/images/lawyerAvatar.png"}
               alt="User"
               width={70}
               height={70}

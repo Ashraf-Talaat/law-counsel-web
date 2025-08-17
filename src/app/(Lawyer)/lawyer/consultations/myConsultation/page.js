@@ -123,7 +123,7 @@ export default function Page() {
                 {/* Scrollable container */}
                 <div
                   ref={chatContainerRef}
-                  className="space-y-2 overflow-y-auto h-[350px] bg-gray-100 rounded-lg p-6 scroll-hidden"
+                  className="space-y-2 overflow-y-auto h-[350px] scroll-hidden bg-gray-100 rounded-lg p-6 "
                 >
                   {messages.map((item) =>
                     item.senderId === lawyerId ? (

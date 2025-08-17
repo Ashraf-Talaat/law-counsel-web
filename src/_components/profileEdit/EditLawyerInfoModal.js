@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { uploadImage } from "@/utils/handleUrlImg";
 
-
-
-
-const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) => {
-
+const EditLawyerInfoModal = ({
+  isOpen,
+  onClose,
+  initialData,
+  onSave,
+  router,
+}) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     email: initialData?.email || "",
@@ -15,11 +17,9 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
     phoneNumber: initialData?.phoneNumber || "",
     city: initialData?.city || "",
     price: initialData?.price || 0.0,
-    netPrice: initialData?.price ? (initialData.price * 0.9) : 0,
+    netPrice: initialData?.price ? initialData.price * 0.9 : 0,
     profileImageUrl: initialData?.profileImageUrl || "",
   });
-
-
 
   const handleImageChange = async (e) => {
     const file = e.target.files && e.target.files[0];
@@ -27,8 +27,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
     const url = await uploadImage(file);
     handleChange({
       target: { name: "profileImageUrl", value: url },
-    })
-
+    });
   };
 
   useEffect(() => {
@@ -39,7 +38,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
       phoneNumber: initialData?.phoneNumber || "",
       city: initialData?.city || "",
       price: initialData?.price || 0.0,
-      netPrice: initialData?.price ? (initialData.price * 0.9) : 0,
+      netPrice: initialData?.price ? initialData.price * 0.9 : 0,
       profileImageUrl: initialData?.profileImageUrl || "",
     });
   }, [initialData]);
@@ -48,10 +47,10 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
     const { name, value } = e.target;
     const parsedValue = name === "price" ? parseFloat(value) || 0 : value;
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: parsedValue,
-      netPrice: name === "price" ? (parseFloat(value) * 0.9 || 0) : prev.netPrice,
+      netPrice: name === "price" ? parseFloat(value) * 0.9 || 0 : prev.netPrice,
     }));
   };
 
@@ -62,7 +61,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+    <Dialog open={isOpen} onClose={onClose} className="relative z-50 ">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="w-full max-w-md bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 space-y-4 text-right">
@@ -70,8 +69,7 @@ const EditLawyerInfoModal = ({ isOpen, onClose, initialData, onSave, router }) =
             تعديل البيانات الأساسية
           </Dialog.Title>
 
-          <div className="space-y-3">
-
+          <div className="space-y-2 overflow-y-auto h-[550px] scroll-hidden">
             <InputField
               label="الإسم"
               name="name"
