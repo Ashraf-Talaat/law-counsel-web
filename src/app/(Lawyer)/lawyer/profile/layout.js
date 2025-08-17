@@ -40,7 +40,7 @@ export default function LawyerProfile({ children }) {
       {/* navbar */}
       <ProfileNav />
 
-      <div className="relative z-10 max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 min-h-[50vh]">
+      <div className="relative z-10 max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6">
           {/* Sidebar */}
           <aside className="bg-white rounded-2xl shadow-md ring-1 ring-gray-100 p-6 h-fit">
