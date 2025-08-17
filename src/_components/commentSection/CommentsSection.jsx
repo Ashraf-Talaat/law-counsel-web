@@ -17,14 +17,13 @@ import toast from "react-hot-toast";
 import { set } from "react-hook-form";
 import { fetchLawyerById } from "@/services/lawyer/FetchLawyerById";
 
-export default function CommentsSection({ articleId ,setCommentsCount}) {
+export default function CommentsSection({ articleId, setCommentsCount }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const auth = getAuth();
   const user = auth.currentUser;
 
   useEffect(() => {
-     
     const q = query(
       collection(db, "articles", articleId, "comments"),
       orderBy("createdAt", "desc")
@@ -47,8 +46,8 @@ export default function CommentsSection({ articleId ,setCommentsCount}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const lawyer  = await fetchLawyerById(user.uid);
-  
+    const lawyer = await fetchLawyerById(user.uid);
+
     if (!user && !dataLawyer) {
       Swal.fire({
         title: "يجب تسجيل الدخول أولاً لكتابه تعليق",

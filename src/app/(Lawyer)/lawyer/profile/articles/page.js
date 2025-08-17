@@ -13,8 +13,8 @@ import toast from "react-hot-toast";
 //logic
 import deleteArticle from "@/logic/articles/deleteArticle";
 import updateArticle from "@/logic/articles/updateArticle";
-import getCommentsCount from "@/logic/comments/getCommentsCount";
 import getLawyerArticles from "@/logic/articles/getLawyerArticles";
+import { getCommentsCount } from "@/logic/comments/getCommentsCount";
 
 //edit page
 import EditArticleModal from "./EditArticleModal";
@@ -299,7 +299,10 @@ export default function ProfileArticles() {
 
                           <h3 className="font-bold text-lg mb-4">التعليقات</h3>
 
-                          <CommentsSection articleId={article.id} />
+                          <CommentsSection
+                            articleId={article.id}
+                            setCommentsCount={setCommentsCount}
+                          />
                         </div>
                       </div>
                     </div>
