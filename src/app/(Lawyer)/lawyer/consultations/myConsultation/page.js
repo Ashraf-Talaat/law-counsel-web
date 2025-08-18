@@ -15,6 +15,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import StatusChatRenderer from "@/_components/renderStatusChat/StatusChatRenderer";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import { fetchClientById } from "@/services/lawyer/FetchClientById";
 
 export default function Page() {
   const [chats, setChats] = useState([]);
@@ -31,8 +32,20 @@ export default function Page() {
 
   //get all chats
   useEffect(() => {
-    const unsubscribe = getAllChatsRealtime(lawyerId, (chat) => {
-      if (chat && chat.length > 0) {
+    const unsubscribe = getAllChatsRealtime(lawyerId, async(chat) => {
+      const chatsWithClientNames = await Promise.all(
+        chat.map(async (item) => {
+          const clientData = await fetchClientById(item.clientId);
+          return {
+            ...item,
+            clientName: clientData?.name || "",
+            clientImg:
+             clientData?.profileImageUrl ||  "/images/lawyerAvatar.png",
+          };
+        })
+      );
+
+      if (chatsWithClientNames&& chat && chat.length > 0) {
         setChats(chat);
         setMessages(chat[index]?.messages || []);
         setStatus(chat[index]?.status || "ongoing");
@@ -99,7 +112,7 @@ export default function Page() {
                     className="flex items-center gap-3 p-3 bg-white rounded-md cursor-pointer hover:bg-gray-200 "
                   >
                     <Image
-                      src="/images/lawyer.jpg"
+                      src={item.clientImg || "/images/clientAvatar.jpg"}
                       alt="محامي"
                       className="w-10 h-10 rounded-full "
                       width={40}
